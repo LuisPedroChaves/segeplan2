@@ -49,9 +49,17 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.json",
+              "src/favicon-36.png",
+              "src/favicon-48.png",
+              "src/favicon-72.png",
+              "src/favicon-96.png",
+              "src/favicon-144-precomposed.png",
+              "src/favicon-192.png"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/pink-bluegrey.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -112,9 +120,17 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.json",
+              "src/favicon-36.png",
+              "src/favicon-48.png",
+              "src/favicon-72.png",
+              "src/favicon-96.png",
+              "src/favicon-144-precomposed.png",
+              "src/favicon-192.png"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/pink-bluegrey.css",
               "src/styles.scss"
             ],
             "scripts": []
