@@ -1,4 +1,191 @@
+@use "@angular/material" as mat;
+// Plus imports for other components in your app.
+
+@include mat.core();
+
+// Paletas de colores
+$dark-primary: (
+  50 : #eef7ff,
+  100 : #d4ebff,
+  200 : #b8deff,
+  300 : #9bd0ff,
+  400 : #85c6ff,
+  500 : #70bcff,
+  600 : #68b6ff,
+  700 : #5dadff,
+  800 : #53a5ff,
+  900 : #4197ff,
+  A100 : #ffffff,
+  A200 : #ffffff,
+  A400 : #e9f2ff,
+  A700 : #cfe4ff,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #000000,
+      500 : #000000,
+      600 : #000000,
+      700 : #000000,
+      800 : #000000,
+      900 : #000000,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+
+$light-primary: (
+  50 : #e5edf4,
+  100 : #bed2e3,
+  200 : #93b4d0,
+  300 : #6895bd,
+  400 : #477faf,
+  500 : #2768a1,
+  600 : #236099,
+  700 : #1d558f,
+  800 : #174b85,
+  900 : #0e3a74,
+  A100 : #a7c9ff,
+  A200 : #74a9ff,
+  A400 : #418aff,
+  A700 : #277aff,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #ffffff,
+      500 : #ffffff,
+      600 : #ffffff,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #ffffff,
+  )
+);
+
+$accent: (
+  50 : #fdf6ea,
+  100 : #fae8cb,
+  200 : #f6d8a8,
+  300 : #f2c885,
+  400 : #f0bd6b,
+  500 : #edb151,
+  600 : #ebaa4a,
+  700 : #e8a140,
+  800 : #e59837,
+  900 : #e08827,
+  A100 : #ffffff,
+  A200 : #fff4ea,
+  A400 : #ffdbb7,
+  A700 : #ffce9d,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #000000,
+      500 : #000000,
+      600 : #000000,
+      700 : #000000,
+      800 : #000000,
+      900 : #000000,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+
+$warn: (
+  50: #f7e6ec,
+  100: #eac1cf,
+  200: #dc98b0,
+  300: #ce6f90,
+  400: #c45078,
+  500: #b93160,
+  600: #b22c58,
+  700: #aa254e,
+  800: #a21f44,
+  900: #931333,
+  A100: #ffc6d2,
+  A200: #ff93aa,
+  A400: #ff6082,
+  A700: #ff476e,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+
+$light-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: mat.define-palette($light-primary),
+      accent: mat.define-palette($accent),
+      warn: mat.define-palette($warn),
+    ),
+  )
+);
+
+$dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: mat.define-palette($dark-primary),
+      accent: mat.define-palette($accent),
+      warn: mat.define-palette($warn),
+    ),
+  )
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($light-theme);
+
+.dark-theme {
+  @include mat.all-component-colors($dark-theme);
+}
+
+.active-elevation {
+  @include mat.elevation-transition();
+  @include mat.elevation(2);
+
+  &:active {
+    @include mat.elevation(6, #70BCFF);
+  }
+
+  &:hover {
+    @include mat.elevation(6, #70BCFF);
+  }
+}
+
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

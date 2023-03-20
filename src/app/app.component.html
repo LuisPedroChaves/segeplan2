@@ -1,0 +1,31 @@
+<ngx-loading-bar color="#edb151" [includeSpinner]="false" height="3px"></ngx-loading-bar>
+<!-- drawer 1 -->
+<mat-drawer-container class="body" (backdropClick)="closeDrawer1()">
+
+  <mat-drawer #drawer1 position="end" [style.width]="widthDrawer1" (keydown.escape)="closeDrawer1()" disableClose>
+
+    <!-- drawer 2 -->
+    <mat-drawer-container (backdropClick)="closeDrawer2()">
+
+      <mat-drawer #drawer2 position="end" [style.width]="widthDrawer2" (keydown.escape)="closeDrawer2()" disableClose>
+
+
+      </mat-drawer>
+
+      <mat-drawer-content>
+
+
+      </mat-drawer-content>
+
+    </mat-drawer-container>
+    <!-- ----- drawer 2 ----- -->
+
+  </mat-drawer>
+
+  <mat-drawer-content>
+
+    <router-outlet></router-outlet>
+
+  </mat-drawer-content>
+</mat-drawer-container>
+<!-- ----- drawer 1 ----- -->
