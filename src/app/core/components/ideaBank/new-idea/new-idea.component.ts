@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/forms';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Store, StoreConfig } from '@ngrx/store';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { IProduct, User } from 'src/app/core/models/adicionales';
@@ -69,6 +70,17 @@ export class NewIdeaComponent {
     ) { }
 
   closeDrawer1(): void { this.appStore.dispatch(CLOSE_DRAWER1()) }
+
+  changeDescription(event: MatSlideToggleChange): void {
+    const description = this.generalInformation.get('description');
+
+    if (event.checked) {
+      description!.enable();
+      return
+    }
+
+    description!.disable();
+  }
 
   onSubmit():void {}
 

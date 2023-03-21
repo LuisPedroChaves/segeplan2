@@ -14,6 +14,10 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatListModule} from '@angular/material/list';
 import {MatTableModule} from '@angular/material/table';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatSelectModule} from '@angular/material/select';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 // npm modules
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -24,6 +28,28 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+/* #region  Configuración de fechas */
+import {
+  DateAdapter,
+  MatNativeDateModule,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import 'moment/locale/es';
+// Tambien hay que instalar MOMENT JS
+export const MY_DATE_FORMATS = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
+/* #endregion */
 
 
 // FullCalendarModule.registerPlugins([ // register FullCalendar plugins
@@ -53,6 +79,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatMenuModule,
     MatListModule,
     MatTableModule,
+    MatStepperModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatSlideToggleModule,
     // npm modules
     FullCalendarModule,
     SimplebarAngularModule,
@@ -79,6 +109,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatMenuModule,
     MatListModule,
     MatTableModule,
+    MatStepperModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatSlideToggleModule,
     // npm modules
     FullCalendarModule,
     SimplebarAngularModule,
@@ -86,6 +120,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     LoadingBarRouterModule,
     LoadingBarModule,
     FlexLayoutModule
+  ],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'es' },
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
   ]
 })
 export class SharedModule { }
