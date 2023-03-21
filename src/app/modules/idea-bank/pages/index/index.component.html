@@ -1,0 +1,57 @@
+<mat-drawer-container>
+
+  <mat-drawer #menuDrawer fxHide.lt-md mode="side" class="menu-drawer" opened>
+    <ngx-simplebar class="menu-sidebar">
+
+      <app-logo></app-logo>
+
+      <button mat-flat-button (click)="openDrawer1('80%', 'NEW_IDEA', null)"  color="accent" class="menu-button-add active-elevation" matTooltip="Crear nueva" matTooltipPosition="right">
+        <mat-icon>add</mat-icon>
+        Crear idea
+      </button>
+
+      <mat-nav-list>
+
+        <mat-list-item routerLink="/ideasBank" [activated]="router.url === '/ideasBank'" class="menu-option">
+          <mat-icon matListItemIcon fontIcon="dashboard"></mat-icon>
+          <span matListItemTitle>Dashboard</span>
+        </mat-list-item>
+
+        <mat-list-item routerLink="newIdeas" [activated]="router.url === '/ideasBank/newIdeas'" class="menu-option">
+          <mat-icon matListItemIcon fontIcon="tips_and_updates"></mat-icon>
+          <span matListItemTitle>Registro de ideas</span>
+        </mat-list-item>
+
+        <mat-list-item routerLink="/ideasBank/sendIdeas" [activated]="router.url === '/ideasBank/sendIdeas'" class="menu-option">
+          <mat-icon matListItemIcon fontIcon="send"></mat-icon>
+          <span matListItemTitle>Ideas enviadas</span>
+        </mat-list-item>
+
+        <mat-list-item routerLink="/ideasBank/revelanceMatrix" [activated]="router.url === '/ideasBank/revelanceMatrix'" class="menu-option" matTooltip="Solicitudes de análisis" matTooltipPosition="right">
+          <mat-icon matListItemIcon fontIcon="timeline"></mat-icon>
+          <span matListItemTitle>Solicitudes de análisis</span>
+        </mat-list-item>
+
+        <mat-list-item routerLink="/ideasBank/doneIdeas" [activated]="router.url === '/ideasBank/doneIdeas'" class="menu-option">
+          <mat-icon matListItemIcon fontIcon="rate_review"></mat-icon>
+          <span matListItemTitle>Ideas analizadas</span>
+        </mat-list-item>
+
+      </mat-nav-list>
+
+    </ngx-simplebar>
+
+    <div fxLayout="row" fxLayoutAlign="center center">
+
+      <!-- <app-list-company></app-list-company> -->
+
+    </div>
+
+  </mat-drawer>
+
+  <mat-drawer-content>
+
+    <router-outlet></router-outlet>
+
+  </mat-drawer-content>
+</mat-drawer-container>

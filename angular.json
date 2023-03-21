@@ -60,7 +60,10 @@
             ],
             "styles": [
               "@angular/material/prebuilt-themes/pink-bluegrey.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/assets/styles/app.scss",
+              "src/assets/styles/menu.scss",
+              "src/assets/styles/table.scss"
             ],
             "scripts": []
           },

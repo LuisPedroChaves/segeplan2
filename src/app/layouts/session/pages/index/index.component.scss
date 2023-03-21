@@ -1,0 +1,31 @@
+.login-content-desktop {
+  background-image: url('../../../../../assets/img/ejemplo.png');
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.login-content-mobile {
+  background-image: url('../../../../../assets/img/ejemplo.png');
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.light-blur {
+  background: rgba(255, 255, 255, 0.8); // Make sure this color has an opacity of less than 1
+  backdrop-filter: blur(18px); // This be the blur
+  height: 100%;
+	width: 100%;
+}
+
+.dark-blur {
+  background: rgba(0, 0, 0, 0.8); // Make sure this color has an opacity of less than 1
+  backdrop-filter: blur(18px); // This be the blur
+  height: 100%;
+	width: 100%;
+}

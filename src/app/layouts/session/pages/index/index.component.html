@@ -1,0 +1,7 @@
+<div ngClass.gt-sm="login-content-desktop" ngClass.lt-md="login-content-mobile">
+  <div fxLayout="row wrap" fxLayoutAlign="center center" [ngClass]="theme === 'light-theme' ? 'light-blur' : 'dark-blur'">
+    <div fxFlex.xs="100" fxFlex.sm="80" fxFlex.md="40" fxFlex.gt-md="40">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

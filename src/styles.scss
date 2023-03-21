@@ -5,20 +5,20 @@
 
 // Paletas de colores
 $dark-primary: (
-  50 : #eef7ff,
-  100 : #d4ebff,
-  200 : #b8deff,
-  300 : #9bd0ff,
-  400 : #85c6ff,
-  500 : #70bcff,
-  600 : #68b6ff,
-  700 : #5dadff,
-  800 : #53a5ff,
-  900 : #4197ff,
-  A100 : #ffffff,
-  A200 : #ffffff,
-  A400 : #e9f2ff,
-  A700 : #cfe4ff,
+  50 : #eaf3fa,
+  100 : #cbe0f4,
+  200 : #a8ccec,
+  300 : #85b8e4,
+  400 : #6aa8df,
+  500 : #5099d9,
+  600 : #4991d5,
+  700 : #4086cf,
+  800 : #377cca,
+  900 : #276bc0,
+  A100 : #fefeff,
+  A200 : #cbe1ff,
+  A400 : #98c3ff,
+  A700 : #7fb4ff,
   contrast: (
       50 : #000000,
       100 : #000000,
@@ -27,9 +27,9 @@ $dark-primary: (
       400 : #000000,
       500 : #000000,
       600 : #000000,
-      700 : #000000,
-      800 : #000000,
-      900 : #000000,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
       A100 : #000000,
       A200 : #000000,
       A400 : #000000,
@@ -70,7 +70,7 @@ $light-primary: (
   )
 );
 
-$accent: (
+$light-accent: (
   50 : #fdf6ea,
   100 : #fae8cb,
   200 : #f6d8a8,
@@ -96,6 +96,39 @@ $accent: (
       700 : #000000,
       800 : #000000,
       900 : #000000,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+
+$dark-accent: (
+  50 : #f1ece3,
+  100 : #ddcfba,
+  200 : #c6af8c,
+  300 : #af8f5d,
+  400 : #9d773b,
+  500 : #8c5f18,
+  600 : #845715,
+  700 : #794d11,
+  800 : #6f430e,
+  900 : #5c3208,
+  A100 : #ffc18f,
+  A200 : #ffa55c,
+  A400 : #ff8829,
+  A700 : #ff7a0f,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #ffffff,
+      500 : #ffffff,
+      600 : #ffffff,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
       A100 : #000000,
       A200 : #000000,
       A400 : #000000,
@@ -141,7 +174,7 @@ $light-theme: mat.define-light-theme(
   (
     color: (
       primary: mat.define-palette($light-primary),
-      accent: mat.define-palette($accent),
+      accent: mat.define-palette($light-accent),
       warn: mat.define-palette($warn),
     ),
   )
@@ -151,7 +184,7 @@ $dark-theme: mat.define-dark-theme(
   (
     color: (
       primary: mat.define-palette($dark-primary),
-      accent: mat.define-palette($accent),
+      accent: mat.define-palette($light-accent),
       warn: mat.define-palette($warn),
     ),
   )

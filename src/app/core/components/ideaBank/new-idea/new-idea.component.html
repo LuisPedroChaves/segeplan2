@@ -1,0 +1,66 @@
+<!-- <form (ngSubmit)="onSubmit()" [formGroup]="generalInformation" autocomplete="off">
+
+  <ngx-simplebar ngClass.gt-sm="content" ngClass.lt-md="content">
+
+    <mat-toolbar fxLayoutGap="8px" class="active-elevation">
+
+      <button mat-icon-button (click)="closeDrawer1()" matTooltip="Cancelar" type="button">
+        <mat-icon>close</mat-icon>
+      </button>
+
+      <span *ngIf="warehouse">{{ 'editBranch' | translate }}</span>
+      <span *ngIf="!warehouse">{{ 'newBranch' | translate }}</span>
+
+      <span fxFlex></span>
+
+      <button mat-icon-button *ngIf="warehouse" (click)="deleteWarehouse()" color="warn" [matTooltip]="'delete' | translate" type="button">
+        <mat-icon>delete_outline</mat-icon>
+      </button>
+
+      <button mat-raised-button color="primary" type="submit" class="radius">
+        <mat-icon fontIcon="save"></mat-icon>
+        {{ 'save' | translate }}
+      </button>
+
+    </mat-toolbar>
+
+    <div fxLayout="row" fxLayoutAlign="center center" class="form">
+
+      <mat-card fxFlex="90" (click)="editCard1 = true" (clickOutside)="outCard1()" [ngClass]="elevationCard1"
+        (mouseover)="card1Style($event)" (mouseout)="card1Style($event)" class="radius">
+
+        <mat-card-content fxLayout="column" fxLayoutGap="12px">
+
+          <mat-form-field fxFill appearance="outline">
+            <mat-label>{{ 'name' | translate }}</mat-label>
+            <input matInput formControlName="name" type="text" [placeholder]="'enterAName' | translate">
+            <mat-icon matSuffix>warehouse</mat-icon>
+            <mat-error *ngIf="newWarehouse.get('name')?.hasError('required')">
+              {{ 'requiredField' | translate }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field fxFill appearance="outline">
+            <mat-label>{{ 'branchType' | translate }}</mat-label>
+            <mat-select formControlName="type">
+              <mat-option value="cellar">{{ 'cellar' | translate }}</mat-option>
+              <mat-option value="store">{{ 'store' | translate }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </mat-card-content>
+
+        <mat-card-actions>
+
+          <button mat-button (click)="resetNewWarehouse()" type="button" class="radius">{{ 'clearForm' | translate
+            }}</button>
+
+        </mat-card-actions>
+
+      </mat-card>
+
+    </div>
+
+  </ngx-simplebar>
+
+</form> -->

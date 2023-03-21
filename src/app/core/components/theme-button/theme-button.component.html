@@ -1,0 +1,8 @@
+<button mat-icon-button *ngIf="theme === 'dark-theme'" (click)="changeTheme()" color="accent" matTooltip="Modo oscuro"
+  matTooltipPosition="below">
+  <mat-icon>light_mode</mat-icon>
+</button>
+<button mat-icon-button *ngIf="theme === 'light-theme'" (click)="changeTheme()" color="accent" matTooltip="Modo claro"
+  matTooltipPosition="below">
+  <mat-icon>dark_mode</mat-icon>
+</button>

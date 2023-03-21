@@ -1,0 +1,27 @@
+@use "@angular/material" as mat;
+
+.table {
+  border-radius: 4px !important;
+  height: 100vh;
+  width: 100% !important;
+  overflow: auto;
+  margin-bottom: 16px;
+}
+
+.mat-mdc-table .mdc-data-table__header-row {
+  /* Blur effect */
+  background: transparent !important;
+  backdrop-filter: blur(18px); // This be the blur
+
+  /* Position */
+  position: sticky;
+  position: -webkit-sticky; /* For macOS/iOS Safari */
+  top: 0px; /* Sets the sticky toolbar to be on top */
+  z-index: 1000; /* Ensure that your app's content doesn't overlap the toolbar */
+
+  @include mat.elevation(2, #70BCFF);
+}
+
+tr.mat-mdc-row:hover {
+  background: #efefef !important;
+}

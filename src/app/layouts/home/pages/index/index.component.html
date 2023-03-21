@@ -1,0 +1,50 @@
+<div class="content-desktop">
+
+  <mat-toolbar class="active-elevation" color="primary" fxLayoutGap="8px">
+
+    <!-- (click)="changeMenu()" -->
+    <button mat-icon-button color="accent" matTooltip="Menú">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <nav mat-tab-nav-bar backgroundColor="primary" [tabPanel]="tabPanel">
+      <a mat-tab-link routerLink="" [active]="router.url === '/'">Inicio</a>
+      <a mat-tab-link routerLink="ideasBank" [active]="router.url === '/ideasBank'"> Banco de ideas </a>
+      <a mat-tab-link routerLink="sinafip" [active]="router.url === '/sinafip'"> Sinafip </a>
+      <a mat-tab-link routerLink="checkProjects" [active]="router.url === '/checkProjects'"> Seguimiento de la
+        preinversión </a>
+
+    </nav>
+    <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item routerLink="reports">
+        <mat-icon>summarize</mat-icon>
+        <span>Reportes</span>
+      </button>
+      <button mat-menu-item routerLink="configs">
+        <mat-icon>category</mat-icon>
+        <span>Parametrización</span>
+      </button>
+    </mat-menu>
+
+
+    <span fxFlex></span>
+
+    <!-- <div fxHide.lt-md *ngIf="session">{{ session.usuario.username }}</div> -->
+
+    <app-theme-button></app-theme-button>
+
+    <!-- <button mat-mini-fab *ngIf="session" (click)="logout()" color="accent" matTooltip="Cerrar Sesión"> -->
+    <button mat-icon-button color="accent" matTooltip="Cerrar Sesión">
+      <mat-icon>logout</mat-icon>
+    </button>
+
+  </mat-toolbar>
+
+  <router-outlet></router-outlet>
+
+</div>

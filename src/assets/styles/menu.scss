@@ -1,0 +1,27 @@
+@use "@angular/material" as mat;
+
+.menu-drawer {
+  width: 250px;
+  height: 100%;
+  background: rgba(120, 192, 255, 0.2);
+  border-right: 0px !important;
+  border-radius: 0 4px 4px 0;
+  padding-top: 24px;
+}
+
+.menu-sidebar {
+  height: calc(100vh - 104px) !important;
+}
+
+.menu-toolbar {
+  background-color: transparent !important;
+}
+
+.menu-option {
+  border-radius: 8px !important;
+}
+
+.menu-button-add {
+  margin: 16px 0 16px 8px;
+  @include mat.elevation(0);
+}

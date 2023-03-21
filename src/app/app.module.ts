@@ -10,14 +10,18 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { appReducers } from './core/store/app.reducer';
 import { effectsArray } from './core/store/effects';
+import { AppRoutingModule } from './app-routing.module';
+import { NewIdeaComponent } from './core/components/ideaBank/new-idea/new-idea.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NewIdeaComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    AppRoutingModule,
     SharedModule,
     // @ngrx
     StoreModule.forRoot(appReducers),
