@@ -1,14 +1,19 @@
-<mat-drawer-container>
+<mat-drawer-container class="menu-drawer-container">
 
   <mat-drawer #menuDrawer fxHide.lt-md mode="side" class="menu-drawer" opened>
     <ngx-simplebar class="menu-sidebar">
 
-      <app-logo></app-logo>
+      <div fxLayout="column" fxLayoutAlign="center center">
 
-      <button mat-flat-button (click)="openDrawer1('80%', 'NEW_IDEA', null)"  color="accent" class="menu-button-add active-elevation" matTooltip="Crear nueva" matTooltipPosition="right">
-        <mat-icon>add</mat-icon>
-        Crear idea
-      </button>
+        <app-logo></app-logo>
+
+        <button mat-flat-button (click)="openDrawer1('80%', 'NEW_IDEA', null)" color="accent"
+          class="menu-button-add active-elevation" matTooltip="Crear nueva" matTooltipPosition="right">
+          <mat-icon>add</mat-icon>
+          Crear idea
+        </button>
+
+      </div>
 
       <mat-nav-list>
 
@@ -22,22 +27,26 @@
           <span matListItemTitle>Registro de ideas</span>
         </mat-list-item>
 
-        <mat-list-item routerLink="/ideasBank/sendIdeas" [activated]="router.url === '/ideasBank/sendIdeas'" class="menu-option">
+        <mat-list-item routerLink="sendIdeas" [activated]="router.url === '/ideasBank/sendIdeas'"
+          class="menu-option">
           <mat-icon matListItemIcon fontIcon="send"></mat-icon>
           <span matListItemTitle>Ideas enviadas</span>
         </mat-list-item>
 
-        <mat-list-item routerLink="/ideasBank/revelanceMatrix" [activated]="router.url === '/ideasBank/revelanceMatrix'" class="menu-option" matTooltip="Solicitudes de análisis" matTooltipPosition="right">
+        <mat-list-item routerLink="revelanceMatrix" [activated]="router.url === '/ideasBank/revelanceMatrix'"
+          class="menu-option" matTooltip="Solicitudes de análisis" matTooltipPosition="right">
           <mat-icon matListItemIcon fontIcon="timeline"></mat-icon>
           <span matListItemTitle>Solicitudes</span>
         </mat-list-item>
 
-        <mat-list-item routerLink="/ideasBank/doneIdeas" [activated]="router.url === '/ideasBank/doneIdeas'" class="menu-option">
+        <mat-list-item routerLink="doneIdeas" [activated]="router.url === '/ideasBank/doneIdeas'"
+          class="menu-option">
           <mat-icon matListItemIcon fontIcon="rate_review"></mat-icon>
           <span matListItemTitle>Ideas analizadas</span>
         </mat-list-item>
 
-        <mat-list-item routerLink="/ideasBank/doneIdeas" [activated]="router.url === '/ideasBank/doneIdeas'" class="menu-option">
+        <mat-list-item routerLink="doneIdeas" [activated]="router.url === '/ideasBank/doneIdeas'"
+          class="menu-option">
           <mat-icon matListItemIcon fontIcon="rate_review"></mat-icon>
           <span matListItemTitle>Resultados</span>
         </mat-list-item>

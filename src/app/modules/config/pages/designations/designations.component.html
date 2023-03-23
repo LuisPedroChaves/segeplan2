@@ -1,0 +1,48 @@
+<div ngClass.gt-sm="content-index" ngClass.lt-md="content-index">
+
+  <header fxLayout="row" fxLayoutGap="12px" fxLayoutAlign="start center" class="active-elevation">
+
+    <button mat-flat-button (click)="openDrawer1('30%', 'NEW_DESIGNATION', null)" color="accent" class="menu-button-add"
+      matTooltip="Crear nueva">
+      <mat-icon>add</mat-icon>
+      Crear denominación
+    </button>
+
+    <p class="mat-headline-6">Parametrización / Denominaciones</p>
+  </header>
+
+  <ngx-simplebar class="table active-elevation">
+    <!-- <app-not-found *ngIf="dataSource.data.length === 0"
+      text="Por favor suba el reporte del banco para poder cargar pagos..."></app-not-found> -->
+    <table mat-table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="image">
+        <th mat-header-cell *matHeaderCellDef> </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon fontIcon="diversity_3"></mat-icon>
+          <!-- <img width="24" -->
+            <!-- src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAExElEQVR4nO2Yy08bRxjAfYJUytpgL32IqjxiHsWAwZXaY685Yy9QDF47kaIeSs699R9oAEMTQoFAjN+UFAIYg6G9pXByItpK9NBWDgbjx9LKltoTXzW7+LGA7GEWK0j1J/0ulkf6fTPzfTszMlkpSlGKy8egr5yyeO7LWdc2xTpScpM9pRh4ul1hnBmU3baWy65zvGXyVlNmz0u52QVy1gEKkx0UAzao6J+FCuMTqDROBZWm8WrZtZ15cz75aajsmwRl7+PgtVwJCm2bQvKfTYCydxyUPeNfyK5bUGbXDo68qucR0MzYT2fHq31Q/tEP3P2OALet3eBSbWuJVKsvtt26Eh9U+34r/opRrD2JJd/9DagYazJ3rHYzXq3bPH7ZGeBAu8FBuz8Bbb44tK7GQbMcg+alaLBhOV7c2pGb5pI48jQzClX6kb9zZz6f/IdLUWhejELTQiRY1JVQ9Nt2sOQNVqD1w5kthLZNQflnR9C4EIEG72Hxagf1eRz5Kv0wVHU9yIh0bnA7WPLzEaj3HJyrnauL29Zy1OcLyb/d9XWwhfmqLD1Mu84lceRveQ6hzhUW1c6VB/pIoT6fT17JPBAVY/taIokjX+8+gFpnOFM7xQvGW4b6PGqVqNvQ+pEk3TX0Am2b3JlPR+tqbAdHvs55ALWOcBG3EGGgPo8pDx/YwtfvA4haI+rzheVfB1u8P59bwasNduaG/I7bSFnc7psWz95Niyd1yh76TW529aH/nB2GPlKoz+eTf382VNwPGWVxmyiLJ0RZPCDgFjCncQE6K1GsM0SxroGz49Hsoj6PWiXqNrWOcLLWHn6Btk1xZ57xllFm99RFsmKcAmyGSTRW9qaDMjsnMGT5U+o5THMzb1RewbruYcuydh7+wJdhDhT9truf/vjHDV2AM+q2OLdui9vTbR2nBLg93Sbn7ghwfeg/VyqvNM7J5azz6FKy57BBpdn+V4c/+lq3dQy6zWPozMABOiOl6Qhwoc4N7lztEIeCddy7rCw6rYp5yqMef3VWVmBDjHadA60/PtniBem1oxiwr5DIVoiY5Y/f733pv1h2PSHGn+APfe3+hPTakZtsf5LIipnhoT/35JMFnrUsbWtx0Pjid6WtQL/tXxLZLE/4uwOPaTavbBvCJ0azGo80LcYo4gSIZfk7w+m9IYd8sq2rF7ASA81KlHwVpMgKTEFlX5bCsrEsywIty9HnEhIglxWYFFFIVsMLn/I8TfR34gSkyAq3tm9FYMgCAh27MyxG/5GQALmswISIgrJLGWn+3pCGPAEJsspexGMROLLN3x9laDpFQgLksgLjoMoBR7bpmZjGBQkJSJFV9QiX/lxwZBt5Ilm+i0hIQIKsquehmO6HWLINucwLSEiAXFaF3kfRk0sOOLIN8xFQ8xyC2itAnIAUWbp7TAwzhiWrTuM55O/NCAkJkMuix66z4MjeSuNGHPAXf/IEJMjSjDUD/2pnsGLJ1iNcYogToLtHT0hlqwwjYpgRLNk6hDMHx/4JeQKG0V+JZHmGs+iH4V3LdGFZZxjqHGH+nSjL/i/ECSj1w5/QBusuzYycXEZWYEjAMATv3JmGmke7GLJhqLUL1Mztn9TY93frHKGPiRMoRSn+B/EfBTFH1UuhCcUAAAAASUVORK5CYII="> -->
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button>
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+  </ngx-simplebar>
+
+</div>
