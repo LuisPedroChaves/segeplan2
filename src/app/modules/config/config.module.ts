@@ -9,6 +9,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { DesignationsComponent } from './pages/designations/designations.component';
 import { ReferencePopulationsComponent } from './pages/reference-populations/reference-populations.component';
 import { FinancingsComponent } from './pages/financings/financings.component';
+import { ProjectTypesComponent } from './pages/project-types/project-types.component';
 
 
 
@@ -19,6 +20,7 @@ import { FinancingsComponent } from './pages/financings/financings.component';
     DesignationsComponent,
     ReferencePopulationsComponent,
     FinancingsComponent,
+    ProjectTypesComponent,
   ],
   imports: [
     CommonModule,

@@ -15,6 +15,7 @@ import { NewIdeaComponent } from './core/components/ideaBank/new-idea/new-idea.c
 import { NewDesignationComponent } from './core/components/configs/new-designation/new-designation.component';
 import { NewPopulationComponent } from './core/components/configs/new-population/new-population.component';
 import { NewFinancingComponent } from './core/components/configs/new-financing/new-financing.component';
+import { NewProjectTypeComponent } from './core/components/configs/new-project-type/new-project-type.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { NewFinancingComponent } from './core/components/configs/new-financing/n
     NewDesignationComponent,
     NewPopulationComponent,
     NewFinancingComponent,
+    NewProjectTypeComponent,
   ],
   imports: [
     BrowserModule,
