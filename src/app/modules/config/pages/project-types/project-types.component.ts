@@ -4,11 +4,11 @@ import { Store } from '@ngrx/store';
 import { OPEN_DRAWER1 } from 'src/app/core/store/actions';
 import { AppState } from 'src/app/core/store/app.reducer';
 @Component({
-  selector: 'app-reference-populations',
-  templateUrl: './reference-populations.component.html',
-  styleUrls: ['./reference-populations.component.scss']
+  selector: 'app-project-types',
+  templateUrl: './project-types.component.html',
+  styleUrls: ['./project-types.component.scss']
 })
-export class ReferencePopulationsComponent {
+export class ProjectTypesComponent {
   displayedColumns: string[] = ['image', 'name', 'actions'];
   dataSource = new MatTableDataSource<any>([
     {

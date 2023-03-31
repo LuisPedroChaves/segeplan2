@@ -3,11 +3,11 @@ import { Store } from '@ngrx/store';
 import { CLOSE_DRAWER1 } from 'src/app/core/store/actions';
 import { AppState } from 'src/app/core/store/app.reducer';
 @Component({
-  selector: 'app-new-population',
-  templateUrl: './new-population.component.html',
-  styleUrls: ['./new-population.component.scss']
+  selector: 'app-new-project-type',
+  templateUrl: './new-project-type.component.html',
+  styleUrls: ['./new-project-type.component.scss']
 })
-export class NewPopulationComponent {
+export class NewProjectTypeComponent {
   editCard1 = false
   elevationCard1 = 'elevation2'
 

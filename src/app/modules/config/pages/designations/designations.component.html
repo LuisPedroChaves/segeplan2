@@ -2,13 +2,20 @@
 
   <header fxLayout="row" fxLayoutGap="12px" fxLayoutAlign="start center" class="active-elevation">
 
-    <button mat-flat-button (click)="openDrawer1('30%', 'NEW_DESIGNATION', null)" color="accent" class="menu-button-add"
-      matTooltip="Crear nueva">
+    <button mat-mini-fab color="accent" (click)="openDrawer1('50%', 'NEW_DESIGNATION', null)" color="accent" class="menu-button-add"
+      matTooltip="Crear Denominación">
       <mat-icon>add</mat-icon>
-      Crear denominación
     </button>
 
     <p class="mat-headline-6">Parametrización / Denominaciones</p>
+    <span fxFlex></span>
+
+    <mat-form-field appearance="outline" class="barrabusqueda">
+      <mat-label>Busqueda</mat-label>
+      <input matInput formControlName="name" type="text" placeholder="Buscar denominación..." />
+      <mat-icon matSuffix>search</mat-icon>
+      <mat-error> </mat-error>
+    </mat-form-field>
   </header>
 
   <ngx-simplebar class="table active-elevation">

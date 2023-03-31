@@ -1,53 +1,64 @@
 <mat-drawer-container class="menu-drawer-container">
-
   <mat-drawer #menuDrawer fxHide.lt-md mode="side" class="menu-drawer" opened>
     <ngx-simplebar class="menu-sidebar">
-
       <div fxLayout="column" fxLayoutAlign="center center">
-
         <app-logo></app-logo>
-
       </div>
 
       <mat-nav-list>
-
-        <mat-list-item routerLink="/configs" [activated]="router.url === '/configs'" class="menu-option">
+        <mat-list-item
+          routerLink="/configs"
+          [activated]="router.url === '/configs'"
+          class="menu-option"
+        >
           <mat-icon matListItemIcon fontIcon="dashboard"></mat-icon>
           <span matListItemTitle>Dashboard</span>
         </mat-list-item>
 
-        <mat-list-item routerLink="designations" [activated]="router.url === '/configs/designations'" class="menu-option">
+        <mat-list-item
+          routerLink="projectTypes"
+          [activated]="router.url === '/configs/projectTypes'"
+          class="menu-option"
+        >
+          <mat-icon matListItemIcon fontIcon="category"></mat-icon>
+          <span matListItemTitle>Tipos de proyecto</span>
+        </mat-list-item>
+
+        <mat-list-item
+          routerLink="designations"
+          [activated]="router.url === '/configs/designations'"
+          class="menu-option"
+        >
           <mat-icon matListItemIcon fontIcon="diversity_3"></mat-icon>
           <span matListItemTitle>Denominaciones</span>
         </mat-list-item>
 
-        <mat-list-item routerLink="referencePopulations" [activated]="router.url === '/configs/referencePopulations'"
-          class="menu-option">
+        <mat-list-item
+          routerLink="referencePopulations"
+          [activated]="router.url === '/configs/referencePopulations'"
+          class="menu-option"
+        >
           <mat-icon matListItemIcon fontIcon="groups"></mat-icon>
           <span matListItemTitle>Poblaciones</span>
         </mat-list-item>
 
-        <mat-list-item routerLink="financings" [activated]="router.url === '/configs/financings'"
-          class="menu-option" matTooltip="Solicitudes de análisis" matTooltipPosition="right">
+        <mat-list-item
+          routerLink="financings"
+          [activated]="router.url === '/configs/financings'"
+          class="menu-option"
+        >
           <mat-icon matListItemIcon fontIcon="account_balance"></mat-icon>
           <span matListItemTitle>Financiamientos</span>
         </mat-list-item>
-
       </mat-nav-list>
-
     </ngx-simplebar>
 
     <div fxLayout="row" fxLayoutAlign="center center">
-
       <!-- <app-list-company></app-list-company> -->
-
     </div>
-
   </mat-drawer>
 
   <mat-drawer-content>
-
     <router-outlet></router-outlet>
-
   </mat-drawer-content>
 </mat-drawer-container>
