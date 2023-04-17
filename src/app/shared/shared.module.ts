@@ -18,14 +18,12 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 // npm modules
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { SimplebarAngularModule } from 'simplebar-angular';
-import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
-import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
-import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 /* #region  Configuración de fechas */
@@ -57,8 +55,6 @@ export const MY_DATE_FORMATS = {
 //   interactionPlugin
 // ]);
 
-
-
 @NgModule({
   declarations: [],
   imports: [
@@ -83,12 +79,10 @@ export const MY_DATE_FORMATS = {
     MatDatepickerModule,
     MatSelectModule,
     MatSlideToggleModule,
+    MatSnackBarModule,
     // npm modules
     FullCalendarModule,
     SimplebarAngularModule,
-    LoadingBarHttpClientModule,
-    LoadingBarRouterModule,
-    LoadingBarModule,
     FlexLayoutModule,
   ],
   exports: [
@@ -113,12 +107,10 @@ export const MY_DATE_FORMATS = {
     MatDatepickerModule,
     MatSelectModule,
     MatSlideToggleModule,
+    MatSnackBarModule,
     // npm modules
     FullCalendarModule,
     SimplebarAngularModule,
-    LoadingBarHttpClientModule,
-    LoadingBarRouterModule,
-    LoadingBarModule,
     FlexLayoutModule
   ],
   providers: [

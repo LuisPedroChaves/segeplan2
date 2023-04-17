@@ -1,0 +1,8 @@
+<div fxLayoutAlign="start center" fxLayoutGap="8px">
+  <mat-icon *ngIf="type === 'SUCCESS'" fontIcon="done" color="accent"></mat-icon>
+  <mat-icon *ngIf="type === 'WARNING'" fontIcon="warning_amber" color="accent"></mat-icon>
+  <mat-icon *ngIf="type === 'DANGER'" fontIcon="error_outline" color="warn"></mat-icon>
+  <span>
+    {{ message }}
+  </span>
+</div>

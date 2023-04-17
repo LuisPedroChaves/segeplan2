@@ -2,9 +2,12 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { CLOSE_DRAWER1 } from 'src/app/core/store/actions';
 import { AppState } from 'src/app/core/store/app.reducer';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
   selector: 'app-new-designation',
+  standalone: true,
+  imports: [SharedModule],
   templateUrl: './new-designation.component.html',
   styleUrls: ['./new-designation.component.scss']
 })
@@ -15,7 +18,7 @@ export class NewDesignationComponent {
 
   constructor(
     private appStore: Store<AppState>,
-  ) {}
+  ) { }
 
   closeDrawer1(): void { this.appStore.dispatch(CLOSE_DRAWER1()) }
 

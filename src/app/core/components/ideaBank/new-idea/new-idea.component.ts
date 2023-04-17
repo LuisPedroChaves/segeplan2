@@ -7,9 +7,12 @@ import { IProduct, User } from 'src/app/core/models/adicionales';
 import { GeneralInformation, PossibleAlternative, PossibleCause, PossibleEffect } from 'src/app/core/models/informationGeneral';
 import { CLOSE_DRAWER1, OPEN_DRAWER1 } from 'src/app/core/store/actions';
 import { AppState } from 'src/app/core/store/app.reducer';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
   selector: 'app-new-idea',
+  standalone: true,
+  imports: [SharedModule],
   templateUrl: './new-idea.component.html',
   styleUrls: ['./new-idea.component.scss']
 })
@@ -66,8 +69,8 @@ export class NewIdeaComponent {
 
   constructor(
     private FormBuilder: FormBuilder,
-    private appStore:  Store<AppState>
-    ) { }
+    private appStore: Store<AppState>
+  ) { }
 
   closeDrawer1(): void { this.appStore.dispatch(CLOSE_DRAWER1()) }
 
@@ -82,6 +85,6 @@ export class NewIdeaComponent {
     description!.disable();
   }
 
-  onSubmit():void {}
+  onSubmit(): void { }
 
 }

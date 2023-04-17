@@ -2,8 +2,11 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { CLOSE_DRAWER1 } from 'src/app/core/store/actions';
 import { AppState } from 'src/app/core/store/app.reducer';
+import { SharedModule } from 'src/app/shared/shared.module';
 @Component({
   selector: 'app-new-population',
+  standalone: true,
+  imports: [SharedModule],
   templateUrl: './new-population.component.html',
   styleUrls: ['./new-population.component.scss']
 })

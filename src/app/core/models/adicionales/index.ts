@@ -1,5 +1,4 @@
 export * from './Product';
-export * from './denomination';
 export * from './department';
 export * from './filtro-check-projects';
 export * from './filtroIdeas';
