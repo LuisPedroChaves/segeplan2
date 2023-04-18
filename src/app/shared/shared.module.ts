@@ -18,14 +18,14 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatExpansionModule} from '@angular/material/expansion';
 // npm modules
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { SimplebarAngularModule } from 'simplebar-angular';
-import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
-import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
-import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 /* #region  Configuración de fechas */
@@ -37,6 +37,9 @@ import {
 } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import 'moment/locale/es';
+import { getSpanishPaginatorIntl } from './spanish-paginator-intl';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { ShowForRolesDirective } from './directives/show-for-roles.directive';
 // Tambien hay que instalar MOMENT JS
 export const MY_DATE_FORMATS = {
   parse: {
@@ -57,10 +60,11 @@ export const MY_DATE_FORMATS = {
 //   interactionPlugin
 // ]);
 
-
-
 @NgModule({
-  declarations: [],
+  declarations: [
+    NotFoundComponent,
+    ShowForRolesDirective
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -83,12 +87,12 @@ export const MY_DATE_FORMATS = {
     MatDatepickerModule,
     MatSelectModule,
     MatSlideToggleModule,
+    MatPaginatorModule,
+    MatDialogModule,
+    MatExpansionModule,
     // npm modules
     FullCalendarModule,
     SimplebarAngularModule,
-    LoadingBarHttpClientModule,
-    LoadingBarRouterModule,
-    LoadingBarModule,
     FlexLayoutModule,
   ],
   exports: [
@@ -113,13 +117,17 @@ export const MY_DATE_FORMATS = {
     MatDatepickerModule,
     MatSelectModule,
     MatSlideToggleModule,
+    MatPaginatorModule,
+    MatDialogModule,
+    MatExpansionModule,
     // npm modules
     FullCalendarModule,
     SimplebarAngularModule,
-    LoadingBarHttpClientModule,
-    LoadingBarRouterModule,
-    LoadingBarModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    // components
+    NotFoundComponent,
+    // directives
+    ShowForRolesDirective
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'es' },
@@ -129,6 +137,7 @@ export const MY_DATE_FORMATS = {
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+    { provide: MatPaginatorIntl, useValue: getSpanishPaginatorIntl() },
   ]
 })
 export class SharedModule { }

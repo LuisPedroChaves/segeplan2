@@ -1,51 +1,154 @@
-
 <div ngClass.gt-sm="content-index" ngClass.lt-md="content-index">
 
   <header fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="start center" class="active-elevation">
     <mat-icon fontIcon="tips_and_updates"></mat-icon>
 
-    <p class="mat-headline-6">Registro de ideas</p>
+    <p class="mat-headline-6">Registro</p>
+
+    <span fxFlex></span>
+
+
+    <mat-form-field appearance="outline" floatLabel="always" class="small-input no-hint">
+      <mat-label>Autor</mat-label>
+      <mat-select [(value)]="author">
+        <mat-option value="Mis Ideas">Mis Ideas</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" floatLabel="always" class="small-input no-hint">
+      <mat-label>Estado</mat-label>
+      <mat-select [(value)]="state">
+        <mat-option value="TODAS">Todas</mat-option>
+        <mat-option value="CREADA">Creadas</mat-option>
+        <mat-option value="ENVIADA">Enviadas</mat-option>
+        <mat-option value="CALIFICADA">Calificadas</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="example-form-field" appearance="outline" floatLabel="always" class="small-input no-hint">
+      <mat-label>Número de Idea</mat-label>
+      <input matInput type="text" [(ngModel)]="number">
+      <button *ngIf="number" matSuffix mat-icon-button aria-label="Clear" (click)="number=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <button mat-mini-fab (click)="sendFilter()" color="accent" class="menu-button-add">
+      <mat-icon>search</mat-icon>
+    </button>
+
   </header>
 
   <ngx-simplebar class="table active-elevation">
-    <!-- <app-not-found *ngIf="dataSource.data.length === 0"
-      text="Por favor suba el reporte del banco para poder cargar pagos..."></app-not-found> -->
-    <table mat-table   [dataSource]="dataSource">
 
-      <ng-container matColumnDef="image">
-        <th mat-header-cell *matHeaderCellDef> </th>
+    <app-not-found *ngIf="dataSource.data.length === 0"
+    text="Ingrese algún filtro para buscar ideas..."></app-not-found>
+
+    <table mat-table *ngIf="dataSource.data.length > 0" [dataSource]="dataSource" multiTemplateDataRows>
+
+      <ng-container matColumnDef="registerCode">
+        <th mat-header-cell *matHeaderCellDef>Código</th>
         <td mat-cell *matCellDef="let element">
+          {{ element.registerCode }}
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef> Fecha </th>
-        <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+      <ng-container matColumnDef="generalObjective">
+        <th mat-header-cell *matHeaderCellDef> Objetivo General </th>
+        <td mat-cell *matCellDef="let element"> {{element.generalObjective}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="code">
-        <th mat-header-cell *matHeaderCellDef> Código </th>
-        <td mat-cell *matCellDef="let element"> {{element.code}} </td>
+      <ng-container matColumnDef="baseLine">
+        <th mat-header-cell *matHeaderCellDef> Linea Base </th>
+        <td mat-cell *matCellDef="let element"> {{element.baseLine}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Nombre </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      <ng-container matColumnDef="nameEntity">
+        <th mat-header-cell *matHeaderCellDef> Entidad </th>
+        <td mat-cell *matCellDef="let element"> {{element.nameEntity}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="chargeNote">
-        <th mat-header-cell *matHeaderCellDef> Nota de cobro </th>
-        <td mat-cell *matCellDef="let element"> {{element.chargeNote}} </td>
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef> Creada </th>
+        <td mat-cell *matCellDef="let element"> {{element.createdAt | date:'dd/MM/yyyy'}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="amount">
-        <th mat-header-cell *matHeaderCellDef> Monto </th>
-        <td mat-cell *matCellDef="let element"> Q{{element.amount | number: '.2'}} </td>
+      <ng-container matColumnDef="result">
+        <th mat-header-cell *matHeaderCellDef> Resultado </th>
+        <td mat-cell *matCellDef="let element">{{element.result}} </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <ng-container matColumnDef="state">
+        <th mat-header-cell *matHeaderCellDef> Estado </th>
+        <td mat-cell *matCellDef="let element">
+          <ul>
+            <li *ngIf="element.state == 'CREADA'" class="status pending">SIN ENVIAR</li>
+            <li *ngIf="element.state == 'ENVIADA'" class="status in-progress">ENVIADA</li>
+            <li *ngIf="element.state == 'CALIFICADA' && element.result == 'PERTINENTE'" class="status open">CALIFICADA</li>
+            <li *ngIf="element.state == 'CALIFICADA' && element.result == 'NO PERTINENTE'" class="status dead">CALIFICADA</li>
+          </ul>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expand">
+        <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button aria-label="expand row" (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">
+            <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+            <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+          <div class="example-element-detail"
+               [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+
+                <h4>
+                  Alternativas:
+                </h4>
+                <div>
+                  <label *ngIf="element?.alternatives?.length">{{element?.alternatives?.length}}</label>
+                  <label *ngIf="!element?.alternatives?.length">Sin Alternativas Registradas</label>
+                </div>
+
+              <div *ngFor="let alternative of element?.alternatives">
+                <mat-divider></mat-divider>
+                <br>
+                <div class="footer-card" fxLayoutGap.gt-sm="10px">
+                  <div>
+                    <p>{{alternative?.preName?.preliminaryName}}</p>
+                    <p *ngIf="alternative?.preInvestment?.etapaResultado"><b>Etapa:
+                      </b>{{alternative?.preInvestment?.etapaResultado}}</p>
+                    <p *ngIf="alternative?.qualification?.result"><b>Resultado:
+                      </b>{{alternative?.qualification?.result }}</p>
+                  </div>
+                  <div *ngIf="element?.state == 'ENVIADA' && alternative?.state == 'CALIFICADA' && usuario.role == 'ADMIN_ROLE'">
+                    <button (click)="printReport(element, alternative)" mat-button><mat-icon>print</mat-icon></button>
+                  </div>
+                  <div *ngIf="element?.state == 'CALIFICADA' && alternative?.state == 'CALIFICADA'">
+                    <button (click)="printReport(element, alternative)" mat-button> <mat-icon>print</mat-icon> </button>
+                  </div>
+
+                </div>
+              </div>
+
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+      <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;"
+          class="example-element-row"
+          [class.example-expanded-row]="expandedElement === element"
+          (click)="expandedElement = expandedElement === element ? null : element">
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
     </table>
+
+    <mat-paginator *ngIf="dataSource.data.length > 0" [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>
 
   </ngx-simplebar>
 

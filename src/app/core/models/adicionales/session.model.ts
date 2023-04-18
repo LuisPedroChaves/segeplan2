@@ -4,4 +4,5 @@ export interface ISession {
   id: string;
   usuario: User;
   token: string;
+  renewingToken: boolean
 }

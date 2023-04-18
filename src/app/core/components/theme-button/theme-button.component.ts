@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ThemingService } from '../../services/config/theming.service';
+import { ThemingService } from '../../services/theming.service';
 
 @Component({
   selector: 'app-theme-button',

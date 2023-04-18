@@ -1,0 +1,10 @@
+<mat-form-field appearance="outline" class="small-input no-hint">
+
+  <input #input matInput (keyup)="sendFilter($event)" [placeholder]="placeholder">
+  <mat-icon *ngIf="!input.value" matSuffix>search</mat-icon>
+
+  <button matSuffix mat-icon-button *ngIf="input.value" (click)="clearFilter(input)">
+    <mat-icon>close</mat-icon>
+  </button>
+
+</mat-form-field>

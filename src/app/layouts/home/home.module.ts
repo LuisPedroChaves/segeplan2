@@ -6,6 +6,11 @@ import { HomeRoutes } from './home.routing';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ThemeButtonComponent } from 'src/app/core/components/theme-button/theme-button.component';
 import { LogoComponent } from 'src/app/core/components/logo/logo.component';
+import { NewIdeaComponent } from 'src/app/core/components/ideaBank/new-idea/new-idea.component';
+import { NewProjectTypeComponent } from 'src/app/core/components/configs/new-project-type/new-project-type.component';
+import { NewDesignationComponent } from 'src/app/core/components/configs/new-designation/new-designation.component';
+import { NewFinancingComponent } from 'src/app/core/components/configs/new-financing/new-financing.component';
+import { NewPopulationComponent } from 'src/app/core/components/configs/new-population/new-population.component';
 
 
 
@@ -19,7 +24,12 @@ import { LogoComponent } from 'src/app/core/components/logo/logo.component';
     SharedModule,
     // components
     LogoComponent,
-    ThemeButtonComponent
+    ThemeButtonComponent,
+    NewIdeaComponent,
+    NewProjectTypeComponent,
+    NewDesignationComponent,
+    NewFinancingComponent,
+    NewPopulationComponent
   ]
 })
 export class HomeModule { }

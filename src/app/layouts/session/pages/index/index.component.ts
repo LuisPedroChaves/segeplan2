@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ThemingService } from 'src/app/core/services/config/theming.service';
+import { ThemingService } from 'src/app/core/services/theming.service';
 
 @Component({
   selector: 'app-index',
