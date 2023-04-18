@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { IDenomination } from '../../../../core/models/configs/Denomination';
+import { IDenomination } from 'src/app/core/models/configs/denomination';
 
 export const READ_DENOMINATIONS = createAction(
   '[DENOMINATION], Leer denominaciones'

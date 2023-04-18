@@ -3,7 +3,7 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { CLOSE_DRAWER1, CLOSE_DRAWER2 } from 'src/app/core/store/actions';
+import { CHANGE_MENU_DRAWER, CLOSE_DRAWER1, CLOSE_DRAWER2 } from 'src/app/core/store/actions';
 import { AppState } from 'src/app/core/store/app.reducer';
 
 @Component({
@@ -63,6 +63,10 @@ export class IndexComponent implements OnInit, OnDestroy {
 
     this.appStore.dispatch(CLOSE_DRAWER2())
 
+  }
+
+  changeMenu(): void {
+    this.appStore.dispatch(CHANGE_MENU_DRAWER())
   }
 
 }

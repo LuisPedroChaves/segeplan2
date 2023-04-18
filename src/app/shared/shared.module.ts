@@ -18,7 +18,8 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
+import {MatDialogModule} from '@angular/material/dialog';
 // npm modules
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -35,6 +36,8 @@ import {
 } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import 'moment/locale/es';
+import { getSpanishPaginatorIntl } from './spanish-paginator-intl';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 // Tambien hay que instalar MOMENT JS
 export const MY_DATE_FORMATS = {
   parse: {
@@ -56,7 +59,9 @@ export const MY_DATE_FORMATS = {
 // ]);
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    NotFoundComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -79,7 +84,8 @@ export const MY_DATE_FORMATS = {
     MatDatepickerModule,
     MatSelectModule,
     MatSlideToggleModule,
-    MatSnackBarModule,
+    MatPaginatorModule,
+    MatDialogModule,
     // npm modules
     FullCalendarModule,
     SimplebarAngularModule,
@@ -107,11 +113,14 @@ export const MY_DATE_FORMATS = {
     MatDatepickerModule,
     MatSelectModule,
     MatSlideToggleModule,
-    MatSnackBarModule,
+    MatPaginatorModule,
+    MatDialogModule,
     // npm modules
     FullCalendarModule,
     SimplebarAngularModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    // components
+    NotFoundComponent
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'es' },
@@ -121,6 +130,7 @@ export const MY_DATE_FORMATS = {
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+    { provide: MatPaginatorIntl, useValue: getSpanishPaginatorIntl() },
   ]
 })
 export class SharedModule { }

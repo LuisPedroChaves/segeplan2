@@ -1,58 +1,51 @@
-<ngx-simplebar ngClass.gt-sm="content-desktop" ngClass.lt-md="content-desktop">
+<form (ngSubmit)="onSubmit()" [formGroup]="newReferencePopulation" autocomplete="off">
 
-  <mat-toolbar fxLayoutGap="8px" class="active-elevation">
-    <button
-      mat-icon-button
-      (click)="closeDrawer1()"
-      matTooltip="Cancelar"
-      type="button"
-    >
-      <mat-icon>close</mat-icon>
-    </button>
+  <ngx-simplebar ngClass.gt-sm="content-desktop" ngClass.lt-md="content-desktop">
 
-    <span>Nueva población</span>
-    <!-- <span *ngIf="!warehouse">{{ 'newBranch' | translate }}</span> -->
-    <span fxFlex></span>
+    <mat-toolbar fxLayoutGap="8px" class="active-elevation">
+      <button mat-icon-button (click)="closeDrawer1()" matTooltip="Cancelar" type="button">
+        <mat-icon>close</mat-icon>
+      </button>
 
-    <button mat-icon-button  color="warn"  type="button">
-      <mat-icon>delete_outline</mat-icon>
-    </button>
+      <span *ngIf="referencePopulation">Editar población</span>
+      <span *ngIf="!referencePopulation">Nueva población</span>
+      <span fxFlex></span>
 
-    <button mat-flat-button color="primary" type="submit">
-      <mat-icon fontIcon="save"></mat-icon>Guardar
-    </button>
-    <!-- <button mat-icon-button *ngIf="warehouse" (click)="deleteWarehouse()" color="warn" [matTooltip]="'delete' | translate" type="button">
+      <button mat-icon-button *ngIf="referencePopulation" (click)="deleteReferencePopulation()" color="warn"
+        type="button">
         <mat-icon>delete_outline</mat-icon>
-      </button> -->
-  </mat-toolbar>
+      </button>
 
-  <div fxLayout="row" fxLayoutAlign="center center" class="form">
+      <button mat-flat-button color="primary" type="submit">
+        <mat-icon fontIcon="save"></mat-icon>Guardar
+      </button>
+    </mat-toolbar>
 
-    <mat-card fxFlex="90" (click)="editCard1 = true" (clickOutside)="outCard1()" [ngClass]="elevationCard1"
-      (mouseover)="card1Style($event)" (mouseout)="card1Style($event)" class="radius">
+    <div fxLayout="row" fxLayoutAlign="center center" class="form">
 
-      <mat-card-content fxLayout="column" fxLayoutGap="12px">
+      <mat-card fxFlex="90" (click)="editCard1 = true" (clickOutside)="outCard1()" [ngClass]="elevationCard1"
+        (mouseover)="card1Style($event)" (mouseout)="card1Style($event)" class="radius">
 
-        <mat-form-field fxFill appearance="outline">
-          <mat-label>nombre de la población</mat-label>
-          <input matInput formControlName="name" type="text">
-          <mat-icon matSuffix>drive_file_rename_outline</mat-icon>
-          <!-- <mat-error *ngIf="newWarehouse.get('name')?.hasError('required')">
-            {{ 'requiredField' | translate }}
-          </mat-error> -->
-        </mat-form-field>
+        <mat-card-content fxLayout="column" fxLayoutGap="12px">
 
-      </mat-card-content>
+          <mat-form-field fxFill appearance="outline">
+            <mat-label>Nombre de la población</mat-label>
+            <input matInput formControlName="name" type="text">
+            <mat-icon matSuffix>drive_file_rename_outline</mat-icon>
+            <mat-error *ngIf="newReferencePopulation.get('name')?.hasError('required')">
+              Nombre requerido
+            </mat-error>
+          </mat-form-field>
 
-      <mat-card-actions>
+        </mat-card-content>
 
-        <!-- <button mat-button (click)="resetNewWarehouse()" type="button" class="radius">{{ 'clearForm' | translate -->
-          <!-- }}</button> -->
+        <mat-card-actions>
 
-      </mat-card-actions>
+        </mat-card-actions>
 
-    </mat-card>
+      </mat-card>
 
-  </div>
+    </div>
 
-</ngx-simplebar>
+  </ngx-simplebar>
+</form>

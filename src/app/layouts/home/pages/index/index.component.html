@@ -14,7 +14,6 @@
       <mat-drawer-content>
 
         <app-new-idea *ngIf="component1 === 'NEW_IDEA'"></app-new-idea>
-        <app-new-project-type *ngIf="component1 === 'NEW_PROJECT_TYPE'"></app-new-project-type>
         <app-new-designation *ngIf="component1 === 'NEW_DESIGNATION'"></app-new-designation>
         <app-new-financing *ngIf="component1 === 'NEW_FINANCING'"></app-new-financing>
         <app-new-population *ngIf="component1 === 'NEW_POPULATION'"></app-new-population>
@@ -32,8 +31,7 @@
 
       <mat-toolbar class="active-elevation" color="primary" fxLayoutGap="8px">
 
-        <!-- (click)="changeMenu()" -->
-        <button mat-icon-button color="accent" matTooltip="Menú">
+        <button mat-icon-button (click)="changeMenu()" color="accent" matTooltip="Menú">
           <mat-icon>menu</mat-icon>
         </button>
 

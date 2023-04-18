@@ -212,6 +212,26 @@ $dark-theme: mat.define-dark-theme(
   }
 }
 
+.small-input {
+
+  .mat-mdc-form-field-infix {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    min-height: 36px !important;
+  }
+
+  .mat-mdc-form-field-icon-prefix>.mat-icon, .mat-mdc-form-field-icon-suffix>.mat-icon {
+    padding: 6px 0px 0px 6px !important;
+    font-size: 18px;
+  }
+
+  // .mat-mdc-form-field-subscript-wrapper { height: 0px;}
+}
+
+.no-hint {
+  .mat-mdc-form-field-subscript-wrapper { height: 12px;}
+}
+
 /* You can add global styles to this file, and also import other style files */
 
 html,

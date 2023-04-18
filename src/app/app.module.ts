@@ -6,6 +6,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { environment } from 'src/env/environment.prod';
 import { AppComponent } from './app.component';
 import { appReducers } from './core/store/app.reducer';
@@ -21,6 +22,7 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    MatSnackBarModule,
     // npm modules
     StoreModule.forRoot(appReducers),
     EffectsModule.forRoot(effectsArray),

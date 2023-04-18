@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as actions from '../actions';
-import { IDenomination } from 'src/app/core/models/configs/Denomination';
+import { IDenomination } from 'src/app/core/models/configs/denomination';
 import { AppState } from 'src/app/core/store/app.reducer';
 
 export interface DenominationState {

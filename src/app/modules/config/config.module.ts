@@ -10,6 +10,11 @@ import { DesignationsComponent } from './pages/designations/designations.compone
 import { ReferencePopulationsComponent } from './pages/reference-populations/reference-populations.component';
 import { FinancingsComponent } from './pages/financings/financings.component';
 import { ProjectTypesComponent } from './pages/project-types/project-types.component';
+import { StoreModule } from '@ngrx/store';
+import { DenominationReducer, FinancingReducer, ReferencePopulationReducer } from './store/reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { effectsArray } from './store/effects';
+import { FilterComponent } from 'src/app/core/components/filter/filter.component';
 
 
 
@@ -26,8 +31,13 @@ import { ProjectTypesComponent } from './pages/project-types/project-types.compo
     CommonModule,
     RouterModule.forChild(ConfigRoutes),
     SharedModule,
+    EffectsModule.forFeature(effectsArray),
+    StoreModule.forFeature('denomination', DenominationReducer),
+    StoreModule.forFeature('referencePopulation', ReferencePopulationReducer),
+    StoreModule.forFeature('financing', FinancingReducer),
     // components
-    LogoComponent
+    LogoComponent,
+    FilterComponent
   ]
 })
 export class ConfigModule { }
