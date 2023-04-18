@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { LOGIN } from 'src/app/core/store/actions';
 import { AppState } from 'src/app/core/store/app.reducer';
 
 @Component({
@@ -15,6 +16,7 @@ export class LoginComponent implements OnInit {
   loginForm = new FormGroup({
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
+    remember: new FormControl(true),
   })
 
   sessionSubscription: Subscription;
@@ -22,24 +24,21 @@ export class LoginComponent implements OnInit {
   constructor(
     public store: Store<AppState>,
     private router: Router,
-  ) { }
+  ) {
+    const REMEMBER = localStorage.getItem('username')
+    if (REMEMBER) {
+      this.loginForm.controls['username'].setValue(REMEMBER)
+    }
+  }
 
   ngOnInit(): void {
 
-    // this.sessionSubscription = this.store.select('session').subscribe(session => {
-    //   // this.loading = session.loading;
-    //   // this.errormsg = null;
-    //   // this.showError = false;
-    //   // if (session.error !== null) {
-    //   //   this.error = session.error.errorMsg;
-    //   //   this.showError = true;
-    //   // }
-    //   // this.loaded = session.loaded;
+    this.sessionSubscription = this.store.select('session').subscribe(session => {
 
-    //   if (session.session) {
-    //     this.router.navigate(['/']);
-    //   }
-    // });
+      if (session.session) {
+        this.router.navigate(['/']);
+      }
+    });
 
   }
 
@@ -50,8 +49,15 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     if (this.loginForm.invalid) { return; }
-    const { username, password } = this.loginForm.value;
-    // this.store.dispatch(LOGIN({ username, password }));
+    const { username, password, remember } = this.loginForm.value;
+
+    if (remember) {
+      localStorage.setItem('username', username)
+    } else {
+      localStorage.removeItem('username')
+    }
+
+    this.store.dispatch(LOGIN({ username, password }));
   }
 
 }

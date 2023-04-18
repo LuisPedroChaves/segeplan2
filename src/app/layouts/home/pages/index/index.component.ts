@@ -3,7 +3,8 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { CHANGE_MENU_DRAWER, CLOSE_DRAWER1, CLOSE_DRAWER2 } from 'src/app/core/store/actions';
+import { ISession } from 'src/app/core/models/adicionales';
+import { CHANGE_MENU_DRAWER, CLOSE_DRAWER1, CLOSE_DRAWER2, LOGOUT } from 'src/app/core/store/actions';
 import { AppState } from 'src/app/core/store/app.reducer';
 
 @Component({
@@ -21,6 +22,9 @@ export class IndexComponent implements OnInit, OnDestroy {
   component2 = '';
   widthDrawer2 = '60%';
 
+  sessionSubscription: Subscription;
+  session: ISession = null;
+
   constructor(
     private appStore: Store<AppState>,
     public router: Router,
@@ -29,28 +33,36 @@ export class IndexComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.drawerSubscription = this.appStore.select('drawer')
-    .subscribe(state => {
+      .subscribe(state => {
 
-      if (this.drawer1) {
-        this.drawer1.opened = state.drawer1
-        this.widthDrawer1 = state.width1
-        this.component1 = state.component1
+        if (this.drawer1) {
+          this.drawer1.opened = state.drawer1
+          this.widthDrawer1 = state.width1
+          this.component1 = state.component1
+        }
+
+        if (this.drawer2) {
+          this.drawer2.opened = state.drawer2
+          this.widthDrawer2 = state.width2
+          this.component2 = state.component2
+        }
+
+      })
+
+    this.sessionSubscription = this.appStore.select('session').subscribe(session => {
+      this.session = session.session;
+
+      if (!this.session) {
+        this.router.navigate(['session']);
       }
-
-      if (this.drawer2) {
-        this.drawer2.opened = state.drawer2
-        this.widthDrawer2 = state.width2
-        this.component2 = state.component2
-      }
-
-    })
+    });
 
   }
 
   ngOnDestroy(): void {
 
     this.drawerSubscription?.unsubscribe()
-
+    this.sessionSubscription?.unsubscribe();
   }
 
   closeDrawer1(): void {
@@ -67,6 +79,12 @@ export class IndexComponent implements OnInit, OnDestroy {
 
   changeMenu(): void {
     this.appStore.dispatch(CHANGE_MENU_DRAWER())
+  }
+
+
+  logout(): void {
+    localStorage.removeItem('segeplan-session');
+    this.appStore.dispatch(LOGOUT());
   }
 
 }

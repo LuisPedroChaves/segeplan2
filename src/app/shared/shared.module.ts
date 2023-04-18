@@ -20,6 +20,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatExpansionModule} from '@angular/material/expansion';
 // npm modules
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -38,6 +39,7 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/mat
 import 'moment/locale/es';
 import { getSpanishPaginatorIntl } from './spanish-paginator-intl';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { ShowForRolesDirective } from './directives/show-for-roles.directive';
 // Tambien hay que instalar MOMENT JS
 export const MY_DATE_FORMATS = {
   parse: {
@@ -60,7 +62,8 @@ export const MY_DATE_FORMATS = {
 
 @NgModule({
   declarations: [
-    NotFoundComponent
+    NotFoundComponent,
+    ShowForRolesDirective
   ],
   imports: [
     CommonModule,
@@ -86,6 +89,7 @@ export const MY_DATE_FORMATS = {
     MatSlideToggleModule,
     MatPaginatorModule,
     MatDialogModule,
+    MatExpansionModule,
     // npm modules
     FullCalendarModule,
     SimplebarAngularModule,
@@ -115,12 +119,15 @@ export const MY_DATE_FORMATS = {
     MatSlideToggleModule,
     MatPaginatorModule,
     MatDialogModule,
+    MatExpansionModule,
     // npm modules
     FullCalendarModule,
     SimplebarAngularModule,
     FlexLayoutModule,
     // components
-    NotFoundComponent
+    NotFoundComponent,
+    // directives
+    ShowForRolesDirective
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'es' },

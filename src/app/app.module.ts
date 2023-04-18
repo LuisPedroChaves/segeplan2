@@ -12,6 +12,9 @@ import { AppComponent } from './app.component';
 import { appReducers } from './core/store/app.reducer';
 import { effectsArray } from './core/store/effects';
 import { AppRoutingModule } from './app-routing.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './core/auth/interceptors/auth.interceptor';
+import { AuthGuard } from './core/auth/guards/auth.guard';
 
 
 @NgModule({
@@ -30,7 +33,11 @@ import { AppRoutingModule } from './app-routing.module';
     LoadingBarHttpClientModule,
     LoadingBarRouterModule
   ],
-  providers: [],
+  providers: [
+    { provide: 'root', useValue: environment.root },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    AuthGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

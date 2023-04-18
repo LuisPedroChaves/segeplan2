@@ -1,8 +1,8 @@
 
 export interface FiltroIdeas {
-    state?: string, // puede ser 'CREADA' || 'ENVIADA' || 'CALIFICADA' 
-    institucionId?: string,
-    number?: string,
-    unitExecute?: string,
-    author?: string,
+  state?: string, // puede ser 'CREADA' || 'ENVIADA' || 'CALIFICADA'
+  institucionId?: string,
+  number?: string,
+  executionUnit?: string,
+  author?: string,
 }

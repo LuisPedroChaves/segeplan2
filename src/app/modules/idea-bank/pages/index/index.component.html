@@ -7,7 +7,7 @@
 
         <app-logo></app-logo>
 
-        <button mat-flat-button (click)="openDrawer1('80%', 'NEW_IDEA', null)" color="accent"
+        <button mat-flat-button *appShowForRoles="['USER_ROLE']" (click)="openDrawer1('80%', 'NEW_IDEA', null)" color="accent"
           class="menu-button-add active-elevation" matTooltip="Crear nueva" matTooltipPosition="right">
           <mat-icon>add</mat-icon>
           Crear idea
@@ -22,18 +22,18 @@
           <span matListItemTitle>Dashboard</span>
         </mat-list-item>
 
-        <mat-list-item routerLink="newIdeas" [activated]="router.url === '/ideasBank/newIdeas'" class="menu-option">
+        <mat-list-item *appShowForRoles="['USER_ROLE']" routerLink="newIdeas" [activated]="router.url === '/ideasBank/newIdeas'" class="menu-option">
           <mat-icon matListItemIcon fontIcon="tips_and_updates"></mat-icon>
           <span matListItemTitle>Registro de ideas</span>
         </mat-list-item>
 
-        <mat-list-item routerLink="sendIdeas" [activated]="router.url === '/ideasBank/sendIdeas'"
+        <mat-list-item *appShowForRoles="['USER_ROLE']" routerLink="sendIdeas" [activated]="router.url === '/ideasBank/sendIdeas'"
           class="menu-option">
           <mat-icon matListItemIcon fontIcon="send"></mat-icon>
           <span matListItemTitle>Ideas enviadas</span>
         </mat-list-item>
 
-        <mat-list-item routerLink="revelanceMatrix" [activated]="router.url === '/ideasBank/revelanceMatrix'"
+        <mat-list-item *appShowForRoles="['ADMIN_ROLE']" routerLink="revelanceMatrix" [activated]="router.url === '/ideasBank/revelanceMatrix'"
           class="menu-option" matTooltip="Solicitudes de análisis" matTooltipPosition="right">
           <mat-icon matListItemIcon fontIcon="timeline"></mat-icon>
           <span matListItemTitle>Solicitudes</span>
@@ -54,12 +54,6 @@
       </mat-nav-list>
 
     </ngx-simplebar>
-
-    <div fxLayout="row" fxLayoutAlign="center center">
-
-      <!-- <app-list-company></app-list-company> -->
-
-    </div>
 
   </mat-drawer>
 

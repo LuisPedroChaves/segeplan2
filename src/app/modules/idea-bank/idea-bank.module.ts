@@ -7,6 +7,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LogoComponent } from 'src/app/core/components/logo/logo.component';
 import { NewIdeasComponent } from './pages/new-ideas/new-ideas.component';
+import { StoreModule } from '@ngrx/store';
+import { IdeaReducer } from './store/reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { effectsArray } from './store/effects';
 
 
 
@@ -20,6 +24,8 @@ import { NewIdeasComponent } from './pages/new-ideas/new-ideas.component';
     CommonModule,
     RouterModule.forChild(IdeaRegistrationRoutes),
     SharedModule,
+    StoreModule.forFeature('idea', IdeaReducer),
+    EffectsModule.forFeature(effectsArray),
     // components
     LogoComponent
   ]

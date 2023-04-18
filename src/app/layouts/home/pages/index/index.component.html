@@ -62,12 +62,11 @@
 
         <span fxFlex></span>
 
-        <!-- <div fxHide.lt-md *ngIf="session">{{ session.usuario.username }}</div> -->
+        <div fxHide.lt-md *ngIf="session">{{ session.usuario.username }}</div>
 
         <app-theme-button></app-theme-button>
 
-        <!-- <button mat-mini-fab *ngIf="session" (click)="logout()" color="accent" matTooltip="Cerrar Sesión"> -->
-        <button mat-icon-button color="accent" matTooltip="Cerrar Sesión">
+        <button mat-icon-button *ngIf="session" (click)="logout()" color="accent" matTooltip="Cerrar Sesión">
           <mat-icon>logout</mat-icon>
         </button>
 
