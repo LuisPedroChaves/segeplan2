@@ -7,6 +7,11 @@
     <span>Nueva idea</span>
 
     <span fxFlex></span>
+
+    <button mat-raised-button (click)="openDrawer2()" color="accent">
+      <mat-icon>add</mat-icon>
+      Crear alternativa
+    </button>
   </mat-toolbar>
 
   <div fxLayout="row" fxLayoutAlign="center center" class="form">
@@ -454,13 +459,14 @@
                 <br />
 
                 <div fxLayoutGap="8px">
-                  <span fxFlex></span>
+
                   <button matStepperPrevious mat-raised-button>
                     <mat-icon>chevron_left</mat-icon>Volver
                   </button>
                   <button mat-raised-button (click)="stepper.reset()">
                     <mat-icon>manage_history</mat-icon>Restablecer
                   </button>
+                  <span fxFlex></span>
                   <button mat-raised-button (click)="saveGeneralInformation()"  color="primary" type="button">
                     <mat-icon fontIcon="save"></mat-icon>
                     Guardar

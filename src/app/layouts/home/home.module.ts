@@ -11,6 +11,8 @@ import { NewProjectTypeComponent } from 'src/app/core/components/configs/new-pro
 import { NewDesignationComponent } from 'src/app/core/components/configs/new-designation/new-designation.component';
 import { NewFinancingComponent } from 'src/app/core/components/configs/new-financing/new-financing.component';
 import { NewPopulationComponent } from 'src/app/core/components/configs/new-population/new-population.component';
+import { NewAlternativeComponent } from 'src/app/core/components/ideaBank/new-alternative/new-alternative.component';
+import { IdeaDetailsComponent } from 'src/app/core/components/ideaBank/idea-details/idea-details.component';
 
 
 
@@ -29,7 +31,9 @@ import { NewPopulationComponent } from 'src/app/core/components/configs/new-popu
     NewProjectTypeComponent,
     NewDesignationComponent,
     NewFinancingComponent,
-    NewPopulationComponent
+    NewPopulationComponent,
+    NewAlternativeComponent,
+    IdeaDetailsComponent
   ]
 })
 export class HomeModule { }

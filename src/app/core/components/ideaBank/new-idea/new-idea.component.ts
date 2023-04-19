@@ -105,7 +105,7 @@ export class NewIdeaComponent implements OnInit, OnDestroy {
   }
 
   closeDrawer1(): void { this.ideaStore.dispatch(CLOSE_DRAWER1()) }
-  openDrawer2(): void { this.ideaStore.dispatch(OPEN_DRAWER2({width2: '60%', component2: null})) }
+  openDrawer2(): void { this.ideaStore.dispatch(OPEN_DRAWER2({width2: '70%', component2: 'NEW_ALTERNATIVE'})) }
 
   changeDescription(event: MatSlideToggleChange): void {
     const description = this.generalInformation.get('description');

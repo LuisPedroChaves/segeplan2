@@ -93,6 +93,9 @@
       <ng-container matColumnDef="expand">
         <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
         <td mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="openDrawer1('70%', 'IDEA_DETAILS')" >
+            <mat-icon>visibility</mat-icon>
+          </button>
           <button mat-icon-button aria-label="expand row" (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">
             <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
             <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
@@ -141,8 +144,7 @@
       <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
       <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;"
           class="example-element-row"
-          [class.example-expanded-row]="expandedElement === element"
-          (click)="expandedElement = expandedElement === element ? null : element">
+          [class.example-expanded-row]="expandedElement === element">
       </tr>
       <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
     </table>

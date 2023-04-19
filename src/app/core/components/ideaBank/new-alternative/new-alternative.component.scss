@@ -1,0 +1,36 @@
+mat-toolbar {
+  /* Blur effect */
+  background: rgba(120, 192, 255, 0.2);
+  backdrop-filter: blur(18px); // This be the blur
+
+  /* Position */
+  position: sticky;
+  position: -webkit-sticky; /* For macOS/iOS Safari */
+  top: 0; /* Sets the sticky toolbar to be on top */
+  z-index: 10000000000; /* Ensure that your app's content doesn't overlap the toolbar */
+  height: 48px !important;
+}
+
+.form {
+  height: calc(100vh - 49px);
+}
+
+.content-stepper {
+  height: calc(100vh - 145px);
+  padding: 0 12px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+.marginYear{
+  margin: 8px;
+}

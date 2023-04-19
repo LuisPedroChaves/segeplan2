@@ -56,6 +56,7 @@ const _DRAWER_REDUCER = createReducer(DRAWER_STATE,
 
   on(actions.OPEN_DRAWER2, (state, { width2, component2 }) => ({
     ...state,
+    width1: '100%',
     drawer2: true,
     width2,
     component2
@@ -63,6 +64,7 @@ const _DRAWER_REDUCER = createReducer(DRAWER_STATE,
 
   on(actions.CLOSE_DRAWER2, (state) => ({
     ...state,
+    width1: '60%',
     drawer2: false,
     width2: '60%',
     component2: ''

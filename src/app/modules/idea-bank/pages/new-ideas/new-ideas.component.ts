@@ -10,6 +10,7 @@ import { IdeaAlternative } from 'src/app/core/models/alternative';
 import { IdeaStore } from '../../store/reducers';
 import { READ_IDEAS } from '../../store/actions';
 import { ConvertService } from 'src/app/core/services/convert.service';
+import { OPEN_DRAWER1 } from 'src/app/core/store/actions';
 
 @Component({
   selector: 'app-new-ideas',
@@ -67,6 +68,9 @@ export class NewIdeasComponent implements OnInit, OnDestroy {
     this.sessionSubscription?.unsubscribe();
   }
 
+  openDrawer1(width1: string, component1: string) {
+    this.ideaStore.dispatch(OPEN_DRAWER1({ width1, component1 }))
+  }
 
   sendFilter(): void {
 
