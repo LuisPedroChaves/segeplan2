@@ -13,6 +13,11 @@ import { NewFinancingComponent } from 'src/app/core/components/configs/new-finan
 import { NewPopulationComponent } from 'src/app/core/components/configs/new-population/new-population.component';
 import { NewAlternativeComponent } from 'src/app/core/components/ideaBank/new-alternative/new-alternative.component';
 import { IdeaDetailsComponent } from 'src/app/core/components/ideaBank/idea-details/idea-details.component';
+import { StoreModule } from '@ngrx/store';
+import { DenominationReducer } from '../../modules/config/store/reducers/denomination.reducer';
+import { ProcesoReducer } from 'src/app/modules/idea-bank/store/reducers';
+import { ReferencePopulationReducer } from 'src/app/modules/config/store/reducers';
+import { NewDataGeoComponent } from 'src/app/core/components/ideaBank/new-data-geo/new-data-geo.component';
 
 
 
@@ -33,7 +38,8 @@ import { IdeaDetailsComponent } from 'src/app/core/components/ideaBank/idea-deta
     NewFinancingComponent,
     NewPopulationComponent,
     NewAlternativeComponent,
-    IdeaDetailsComponent
+    IdeaDetailsComponent,
+    NewDataGeoComponent
   ]
 })
 export class HomeModule { }

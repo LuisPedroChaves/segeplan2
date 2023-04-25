@@ -21,3 +21,12 @@ export const OPEN_DRAWER2 = createAction(
 export const CLOSE_DRAWER2 = createAction(
   '[DRAWER] Cerrar cajón 2',
 )
+
+export const OPEN_DRAWER3 = createAction(
+  '[DRAWER] Abir cajón 3',
+  props<{ width3: string, component3: string }>()
+);
+
+export const CLOSE_DRAWER3 = createAction(
+  '[DRAWER] Cerrar cajón 3',
+)

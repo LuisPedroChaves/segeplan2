@@ -11,7 +11,7 @@ import { CLOSE_DRAWER1, OPEN_DRAWER2, READ_PRODUCTS } from 'src/app/core/store/a
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 import { IdeaStore } from 'src/app/modules/idea-bank/store/reducers';
-import { CREATE_IDEA } from 'src/app/modules/idea-bank/store/actions';
+import { CREATE_IDEA, SET_ALTERNATIVE } from 'src/app/modules/idea-bank/store/actions';
 import { SnackBarService } from 'src/app/core/services/snack-bar.service';
 
 @Component({
@@ -24,18 +24,14 @@ import { SnackBarService } from 'src/app/core/services/snack-bar.service';
 export class NewIdeaComponent implements OnInit, OnDestroy {
 
   get formEffects(): FormArray {
-    return this.generalInformation.get('possibleEffects') as FormArray;
+    return this.step2.get('possibleEffects') as FormArray;
   }
 
   get formCauses(): FormArray {
-    return this.generalInformation.get('possibleCauses') as FormArray;
+    return this.step2.get('possibleCauses') as FormArray;
   }
 
-  get formAlternatives(): FormArray {
-    return this.generalInformation.get('possibleAlternatives') as FormArray;
-  }
-
-  generalInformation = new FormGroup({
+  step1 = new FormGroup({
     _product: new FormControl<string | IProduct>('', Validators.required),
     date: new FormControl(moment(), Validators.required),
     planningInstrument: new FormControl(true, Validators.required),
@@ -43,15 +39,20 @@ export class NewIdeaComponent implements OnInit, OnDestroy {
     responsibleName: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
     phone: new FormControl('', Validators.required),
+  })
+
+  step2 = new FormGroup({
     possibleEffects: this.FormBuilder.array<PossibleEffect>([]),
     definitionPotentiality: new FormControl('', [Validators.required, Validators.maxLength(200)]),
     possibleCauses: this.FormBuilder.array<PossibleCause>([]),
     baseLine: new FormControl('', [Validators.required]),
     descriptionCurrentSituation: new FormControl('', [Validators.required, Validators.maxLength(200)]),
+  })
+
+  step3 = new FormGroup({
     generalObjective: new FormControl('', [Validators.required, Validators.maxLength(200)]),
     expectedChange: new FormControl('', [Validators.required, Validators.maxLength(200)]),
-    possibleAlternatives: this.FormBuilder.array<PossibleAlternative>([]),
-  });
+  })
 
   effectsColumns: string[] = ['description', 'remove'];
   effectsSource = new BehaviorSubject<AbstractControl[]>([]);
@@ -105,10 +106,13 @@ export class NewIdeaComponent implements OnInit, OnDestroy {
   }
 
   closeDrawer1(): void { this.ideaStore.dispatch(CLOSE_DRAWER1()) }
-  openDrawer2(): void { this.ideaStore.dispatch(OPEN_DRAWER2({width2: '70%', component2: 'NEW_ALTERNATIVE'})) }
+  openDrawer2(): void {
+    this.ideaStore.dispatch(SET_ALTERNATIVE({ alternative: null }))
+    this.ideaStore.dispatch(OPEN_DRAWER2({ width2: '80%', component2: 'NEW_ALTERNATIVE' }))
+  }
 
   changeDescription(event: MatSlideToggleChange): void {
-    const description = this.generalInformation.get('description');
+    const description = this.step1.get('description');
 
     if (event.checked) {
       description!.enable();
@@ -122,7 +126,7 @@ export class NewIdeaComponent implements OnInit, OnDestroy {
 
   /* #region productos */
   selectedProduct(): string {
-    const PRODUCT = this.generalInformation.controls['_product'].value;
+    const PRODUCT = this.step1.controls['_product'].value;
     return typeof PRODUCT === 'string' ? '' : PRODUCT?.nombre
   }
   /* #endregion */
@@ -159,28 +163,7 @@ export class NewIdeaComponent implements OnInit, OnDestroy {
   }
   /* #endregion */
 
-  /* #region alternativas */
-  addAlternatives(): void {
-    const NEW_DETAIL: FormGroup = this.FormBuilder.group({
-      description: new FormControl('', Validators.required),
-    });
-    this.formAlternatives.push(NEW_DETAIL);
-
-    this.alternativesSource.next(this.formAlternatives.controls);
-  }
-
-  removeAlternatives(index: number): void {
-    this.formAlternatives.removeAt(index);
-    this.alternativesSource.next(this.formAlternatives.controls);
-  }
-  /* #endregion */
-
   saveGeneralInformation(): void {
-
-    if (this.generalInformation.invalid) {
-      this.snackBarService.show('DANGER', 'Algunos campos son obligatorios', 5000)
-      return
-    }
 
     const {
       _product,
@@ -190,15 +173,20 @@ export class NewIdeaComponent implements OnInit, OnDestroy {
       responsibleName,
       email,
       phone,
+    } = this.step1.value
+
+    const {
       possibleEffects,
       definitionPotentiality,
       possibleCauses,
       baseLine,
       descriptionCurrentSituation,
+    } = this.step2.value
+
+    const {
       generalObjective,
       expectedChange,
-      possibleAlternatives
-    } = this.generalInformation.value;
+    } = this.step3.value
 
     const idea: GeneralInformation = {
       productId: typeof _product === 'string' ? null : _product?.codigo,
@@ -218,12 +206,10 @@ export class NewIdeaComponent implements OnInit, OnDestroy {
       descriptionCurrentSituation,
       generalObjective,
       expectedChange,
-      Alternatives: possibleAlternatives,
       alternatives: [],
       author: this.usuario.id
     }
 
-    console.log(idea);
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '250px',
       data: { title: 'Crear Idea', description: '¿Esta seguro que desea guardar los datos para crear una idea?', confirmation: true }
@@ -242,10 +228,12 @@ export class NewIdeaComponent implements OnInit, OnDestroy {
 
         this.ideaStore.dispatch(CLOSE_DRAWER1())
 
-        this.generalInformation.reset({
+        this.step1.reset({
           date: moment(),
           planningInstrument: true
         })
+        this.step2.reset()
+        this.step3.reset()
       }
       else {
         return;

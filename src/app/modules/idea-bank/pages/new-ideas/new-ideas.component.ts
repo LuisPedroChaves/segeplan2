@@ -8,7 +8,7 @@ import { FiltroIdeas, User } from 'src/app/core/models/adicionales';
 import { GeneralInformation } from 'src/app/core/models/informationGeneral';
 import { IdeaAlternative } from 'src/app/core/models/alternative';
 import { IdeaStore } from '../../store/reducers';
-import { READ_IDEAS } from '../../store/actions';
+import { READ_IDEAS, SET_IDEA } from '../../store/actions';
 import { ConvertService } from 'src/app/core/services/convert.service';
 import { OPEN_DRAWER1 } from 'src/app/core/store/actions';
 
@@ -28,7 +28,7 @@ export class NewIdeasComponent implements OnInit, OnDestroy {
 
   filtro: FiltroIdeas;
   state = 'TODAS';
-  author = 'TODOS';
+  author = 'Mis Ideas';
   number = '';
   unitExecute = '';
 
@@ -68,7 +68,8 @@ export class NewIdeasComponent implements OnInit, OnDestroy {
     this.sessionSubscription?.unsubscribe();
   }
 
-  openDrawer1(width1: string, component1: string) {
+  openDrawer1(width1: string, component1: string, idea: GeneralInformation) {
+    this.ideaStore.dispatch(SET_IDEA({idea}))
     this.ideaStore.dispatch(OPEN_DRAWER1({ width1, component1 }))
   }
 

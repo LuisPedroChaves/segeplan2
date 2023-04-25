@@ -1,0 +1,16 @@
+mat-toolbar {
+  /* Blur effect */
+  background: rgba(120, 192, 255, 0.2);
+  backdrop-filter: blur(18px); // This be the blur
+
+  /* Position */
+  position: sticky;
+  position: -webkit-sticky; /* For macOS/iOS Safari */
+  top: 0; /* Sets the sticky toolbar to be on top */
+  z-index: 10000000000; /* Ensure that your app's content doesn't overlap the toolbar */
+  height: 48px !important;
+}
+
+.form {
+  padding: 24px;
+}

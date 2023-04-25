@@ -29,7 +29,7 @@ export const DRAWER_STATE: DrawerState = {
   width2: '60%',
   component2: '',
   drawer3: false,
-  width3: '30%',
+  width3: '40%',
   component3: '',
 }
 
@@ -64,10 +64,26 @@ const _DRAWER_REDUCER = createReducer(DRAWER_STATE,
 
   on(actions.CLOSE_DRAWER2, (state) => ({
     ...state,
-    width1: '60%',
+    width1: '80%',
     drawer2: false,
     width2: '60%',
     component2: ''
+  })),
+
+  on(actions.OPEN_DRAWER3, (state, { width3, component3 }) => ({
+    ...state,
+    width2: '90%',
+    drawer3: true,
+    width3,
+    component3
+  })),
+
+  on(actions.CLOSE_DRAWER3, (state) => ({
+    ...state,
+    width2: '80%',
+    drawer3: false,
+    width3: '40%',
+    component3: ''
   })),
 
 )

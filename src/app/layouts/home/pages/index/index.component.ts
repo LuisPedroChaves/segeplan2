@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { ISession } from 'src/app/core/models/adicionales';
-import { CHANGE_MENU_DRAWER, CLOSE_DRAWER1, CLOSE_DRAWER2, LOGOUT } from 'src/app/core/store/actions';
+import { CHANGE_MENU_DRAWER, CLOSE_DRAWER1, CLOSE_DRAWER2, CLOSE_DRAWER3, LOGOUT } from 'src/app/core/store/actions';
 import { AppState } from 'src/app/core/store/app.reducer';
 
 @Component({
@@ -16,11 +16,14 @@ export class IndexComponent implements OnInit, OnDestroy {
 
   @ViewChild('drawer1') drawer1!: MatDrawer;
   @ViewChild('drawer2') drawer2!: MatDrawer;
+  @ViewChild('drawer3') drawer3!: MatDrawer;
   drawerSubscription = new Subscription()
   component1 = '';
   widthDrawer1 = '90%';
   component2 = '';
   widthDrawer2 = '60%';
+  component3 = '';
+  widthDrawer3 = '40%';
 
   sessionSubscription: Subscription;
   session: ISession = null;
@@ -47,6 +50,12 @@ export class IndexComponent implements OnInit, OnDestroy {
           this.component2 = state.component2
         }
 
+        if (this.drawer3) {
+          this.drawer3.opened = state.drawer3
+          this.widthDrawer3 = state.width3
+          this.component3 = state.component3
+        }
+
       })
 
     this.sessionSubscription = this.appStore.select('session').subscribe(session => {
@@ -66,15 +75,15 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
 
   closeDrawer1(): void {
-
     this.appStore.dispatch(CLOSE_DRAWER1())
-
   }
 
   closeDrawer2(): void {
-
     this.appStore.dispatch(CLOSE_DRAWER2())
+  }
 
+  closeDrawer3(): void {
+    this.appStore.dispatch(CLOSE_DRAWER3())
   }
 
   changeMenu(): void {

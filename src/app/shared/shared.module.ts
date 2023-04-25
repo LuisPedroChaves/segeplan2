@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // material components
 import { MatSidenavModule } from '@angular/material/sidenav';
 import {MatCardModule} from '@angular/material/card';
@@ -21,13 +22,14 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatChipsModule} from '@angular/material/chips';
 // npm modules
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { SimplebarAngularModule } from 'simplebar-angular';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MaterialFileInputModule } from 'ngx-material-file-input';
 /* #region  Configuración de fechas */
 import {
   DateAdapter,
@@ -63,7 +65,7 @@ export const MY_DATE_FORMATS = {
 @NgModule({
   declarations: [
     NotFoundComponent,
-    ShowForRolesDirective
+    ShowForRolesDirective,
   ],
   imports: [
     CommonModule,
@@ -90,10 +92,12 @@ export const MY_DATE_FORMATS = {
     MatPaginatorModule,
     MatDialogModule,
     MatExpansionModule,
+    MatChipsModule,
     // npm modules
     FullCalendarModule,
     SimplebarAngularModule,
     FlexLayoutModule,
+    MaterialFileInputModule,
   ],
   exports: [
     CommonModule,
@@ -120,10 +124,12 @@ export const MY_DATE_FORMATS = {
     MatPaginatorModule,
     MatDialogModule,
     MatExpansionModule,
+    MatChipsModule,
     // npm modules
     FullCalendarModule,
     SimplebarAngularModule,
     FlexLayoutModule,
+    MaterialFileInputModule,
     // components
     NotFoundComponent,
     // directives

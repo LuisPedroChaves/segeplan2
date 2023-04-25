@@ -1,68 +1,72 @@
 <mat-toolbar fxLayoutGap="8px" class="active-elevation">
+
   <button mat-icon-button (click)="closeDrawer1()" matTooltip="Cancelar" type="button">
     <mat-icon>close</mat-icon>
   </button>
 
-  <span>
-    Detalles de la idea
-  </span>
+  <span>Detalles de la idea</span>
 
   <span fxFlex></span>
 
+  <button *ngIf="currentIdea.state === 'CREADA'" mat-button (click)="sendIdea()" color="warn">
+    <mat-icon>send</mat-icon>
+    ENVIAR IDEA
+  </button>
+  <button *ngIf="currentIdea.state === 'CALIFICADA' && currentIdea.result == 'NO PERTINENTE'" mat-button
+    (click)="sendIdea()" color="warn">
+    <mat-icon>send</mat-icon>
+    REENVIAR IDEA
+  </button>
+  <button *ngIf="currentIdea.state === 'ENVIADA' && usuario.role == 'ADMIN_ROLE'" mat-button (click)="finishIdea()"
+    color="warn">
+    <mat-icon>send</mat-icon>
+    FINALIZAR ANALISIS
+  </button>
+
 </mat-toolbar>
+
 <div fxLayout="row wrap" fxLayoutAlign="center center">
   <div fxFlex.gt-lg="100" fxFlex.lg="100" fxFlex.md="100" fxFlex.sm="100" fxFlex.lt-sm="100">
 
     <mat-card class="idea-card mat-elevation-z2">
 
+      <mat-card-header>
+        <mat-icon mat-card-avatar color="accent">lightbulb</mat-icon>
+        <mat-card-title>
+          {{currentIdea?.registerCode}}
+        </mat-card-title>
+        <mat-card-subtitle>
+          <ul>
+            <li *ngIf="currentIdea.state == 'CREADA'" class="status pending">SIN ENVIAR</li>
+            <li *ngIf="currentIdea.state == 'ENVIADA'" class="status in-progress">ENVIADA</li>
+            <li *ngIf="currentIdea.state == 'CALIFICADA' && currentIdea.result == 'PERTINENTE'" class="status open">
+              PERTINENTE</li>
+            <li *ngIf="currentIdea.state == 'CALIFICADA' && currentIdea.result == 'NO PERTINENTE'" class="status dead">
+              NO
+              PERTINENTE</li>
+          </ul>
+        </mat-card-subtitle>
+        <!-- <span fxFlex></span> -->
+
+      </mat-card-header>
+
       <mat-card-content class="idea-card-content">
         <p>{{currentIdea?.generalObjective}} </p>
         <hr>
         <mat-tab-group mat-align-tabs="center" color="accent">
-
-          <mat-tab label="Información general">
-            <div class="generalInformation">
-              <p><b>Encargado: </b>{{currentIdea?.responsibleName}}</p>
-              <p><b>Entidad Responsable: </b>{{currentIdea?.nameEntity}}</p>
-              <p><b>Producto: </b>{{currentIdea?.productName}}</p>
-              <p><b>Problemática o Potencialidad: </b>{{currentIdea?.definitionPotentiality}}</p>
-              <p><b>Indicador de la Problemática / Linea Base: </b>{{currentIdea?.baseLine}}</p>
-              <p><b>Descripción de la situación actual: </b>{{currentIdea?.descriptionCurrentSituation}}</p>
-              <p><b>Descripción de objetivo general: </b>{{currentIdea?.generalObjective}}</p>
-              <p><b>Resultado o cambio esperado respecto a indicadores: </b>{{currentIdea?.expectedChange}}</p>
-            </div>
-          </mat-tab>
-          <mat-tab label="Posibles Efectos">
-            <div class="generalInformation">
-              <div *ngFor="let efect of currentIdea?.Effects; index as i">
-                <p><b>
-                    <mat-icon>flare</mat-icon>
-                  </b>{{ efect.description}}</p>
-              </div>
-            </div>
-          </mat-tab>
-          <mat-tab label="Posibles Causas">
-            <div class="generalInformation">
-              <div *ngFor="let cause of currentIdea?.Causes; index as i">
-                <p><b>
-                    <mat-icon>view_in_ar</mat-icon>
-                  </b>{{ cause.description}}</p>
-              </div>
-            </div>
-          </mat-tab>
           <mat-tab label="Alternativas">
 
-            <div class="alternatives" fxLayout="column" fxLayoutGap="16px">
+            <ngx-simplebar class="alternatives" fxLayout="column" fxLayoutGap="16px">
 
               <div>
-                <!-- <button *ngIf="currentIdea.state === 'CREADA'" mat-raised-button
-                  (click)="openFullDrawer2('Crear nueva alternativa', 'NEW_ALTERNATIVE', null)" color="accent">
+                <button *ngIf="currentIdea.state === 'CREADA'" mat-button
+                  (click)="openDrawer2('80%', 'NEW_ALTERNATIVE', null)" color="primary">
                   <mat-icon>add</mat-icon>
                   Crear alternativa
-                </button> -->
+                </button>
               </div>
 
-              <table mat-table [dataSource]="dataSource" class="mat-elevation-z4">
+              <table mat-table [dataSource]="dataSource" class="table mat-elevation-z4">
 
                 <ng-container matColumnDef="preliminaryName">
                   <th mat-header-cell *matHeaderCellDef> NOMBRE </th>
@@ -95,13 +99,15 @@
                   <th mat-header-cell *matHeaderCellDef> ESTADO </th>
                   <td mat-cell *matCellDef="let element">
 
-                    <!-- <mat-chip-list aria-label="Fish selection">
-                      <mat-chip *ngIf="currentIdea.state === 'CREADA' && element.state == 'CREADA'" color="light" selected>
+                    <mat-chip-option aria-label="Fish selection">
+                      <mat-chip *ngIf="currentIdea.state === 'CREADA' && element.state == 'CREADA'" color="light"
+                        selected>
                         <mat-icon matChipAvatar>pending</mat-icon>
                         CREADA
                       </mat-chip>
 
-                      <mat-chip *ngIf="currentIdea.state === 'ENVIADA' && element.state == 'CREADA'" color="light" selected>
+                      <mat-chip *ngIf="currentIdea.state === 'ENVIADA' && element.state == 'CREADA'" color="light"
+                        selected>
                         <mat-icon matChipAvatar>pending</mat-icon>
                         PENDIENTE DE REVISION
                       </mat-chip>
@@ -116,7 +122,7 @@
                         ANALIZADA
                       </mat-chip>
 
-                    </mat-chip-list> -->
+                    </mat-chip-option>
 
                   </td>
                 </ng-container>
@@ -131,24 +137,23 @@
 
                     <mat-menu #menu="matMenu">
 
-                      <button mat-menu-item
-                        (click)="openFullDrawer2('Detalles de la alternativa', 'SELECTED_ALTERNATIVE', element)">
+                      <button mat-menu-item (click)="openDrawer2('80%', 'SELECTED_ALTERNATIVE', element)">
                         <span>Detalles</span>
                       </button>
 
-                      <!-- <button mat-menu-item *ngIf="element.state === 'CREADA'"
-                        (click)="openFullDrawer2('Editar alternativa', 'NEW_ALTERNATIVE', element)">
+                      <button mat-menu-item *ngIf="element.state === 'CREADA'"
+                        (click)="openDrawer2('80%', 'NEW_ALTERNATIVE', element)">
                         <span>Editar</span>
-                      </button> -->
+                      </button>
 
-                      <!-- <button mat-menu-item *ngIf="usuario.role == 'ADMIN_ROLE' && element.state == 'CREADA' "
-                        (click)="openFullDrawer2('Matriz de pertinencia', 'NEW_RELEVANCE_MATRIX', element)">
+                      <button mat-menu-item *ngIf="usuario.role == 'ADMIN_ROLE' && element.state == 'CREADA' "
+                        (click)="openDrawer2('80%', 'NEW_RELEVANCE_MATRIX', element)">
                         <span>Matriz de pertinencia</span>
                       </button>
 
                       <button mat-menu-item *ngIf="element.state == 'CALIFICADA' " (click)="printReport(element)">
                         <span>Imprimir reporte</span>
-                      </button> -->
+                      </button>
 
                     </mat-menu>
 
@@ -159,28 +164,47 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
               </table>
 
-            </div>
+            </ngx-simplebar>
+
+          </mat-tab>
+          <mat-tab label="Información general">
+
+            <ngx-simplebar class="generalInformation">
+              <p><b>Encargado: </b><br>{{currentIdea?.responsibleName}}</p>
+              <p><b>Entidad Responsable: </b><br>{{currentIdea?.nameEntity}}</p>
+              <p><b>Producto: </b><br>{{currentIdea?.productName}}</p>
+              <p><b>Problemática o Potencialidad: </b><br>{{currentIdea?.definitionPotentiality}}</p>
+              <p><b>Indicador de la Problemática / Linea Base: </b><br>{{currentIdea?.baseLine}}</p>
+              <p><b>Descripción de la situación actual: </b><br>{{currentIdea?.descriptionCurrentSituation}}</p>
+              <p><b>Descripción de objetivo general: </b><br>{{currentIdea?.generalObjective}}</p>
+              <p><b>Resultado o cambio esperado respecto a indicadores: </b><br>{{currentIdea?.expectedChange}}</p>
+            </ngx-simplebar>
+
+          </mat-tab>
+          <mat-tab label="Posibles Efectos">
+
+            <ngx-simplebar class="generalInformation">
+              <div *ngFor="let efect of currentIdea?.Effects; index as i">
+                <p><b>
+                    <mat-icon>flare</mat-icon>
+                  </b>{{ efect.description}}</p>
+              </div>
+            </ngx-simplebar>
+
+          </mat-tab>
+          <mat-tab label="Posibles Causas">
+
+            <ngx-simplebar class="generalInformation">
+              <div *ngFor="let cause of currentIdea?.Causes; index as i">
+                <p><b>
+                    <mat-icon>view_in_ar</mat-icon>
+                  </b>{{ cause.description}}</p>
+              </div>
+            </ngx-simplebar>
 
           </mat-tab>
         </mat-tab-group>
       </mat-card-content>
-
-      <!-- <mat-card-actions>
-        <button *ngIf="currentIdea.state === 'CREADA'" mat-button (click)="sendIdea()" color="warn">
-          <mat-icon>send</mat-icon>
-          ENVIAR IDEA
-        </button>
-        <button *ngIf="currentIdea.state === 'CALIFICADA' && currentIdea.result == 'NO PERTINENTE'" mat-button
-          (click)="sendIdea()" color="warn">
-          <mat-icon>send</mat-icon>
-          REENVIAR IDEA
-        </button>
-        <button *ngIf="currentIdea.state === 'ENVIADA' && usuario.role == 'ADMIN_ROLE'" mat-button
-          (click)="finishIdea()" color="warn">
-          <mat-icon>send</mat-icon>
-          FINALIZAR ANALISIS
-        </button>
-      </mat-card-actions> -->
     </mat-card>
 
   </div>

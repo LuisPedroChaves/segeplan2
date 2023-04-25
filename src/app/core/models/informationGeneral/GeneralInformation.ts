@@ -33,7 +33,7 @@ export interface GeneralInformation {
 
     Effects: PossibleEffect[];
     Causes: PossibleCause[];
-    Alternatives: PossibleAlternative[];
+    Alternatives?: PossibleAlternative[];
     stage?: Stage;
 
     createdAt?: string;

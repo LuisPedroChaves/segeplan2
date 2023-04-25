@@ -3,7 +3,7 @@ import { PreliminaryName } from "./PreliminaryName";
 import { ResponsibleEntity } from "./ResponsibleEntity";
 
 export interface IdeaAlternativeOne {
-    sectionBIId: string;
+    sectionBIId?: string;
     preName: PreliminaryName;
     resEntity: ResponsibleEntity;
     popDelimit: PopulationDelimitation;
