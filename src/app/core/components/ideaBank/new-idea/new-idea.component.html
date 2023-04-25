@@ -5,13 +5,6 @@
     </button>
 
     <span>Nueva idea</span>
-
-    <span fxFlex></span>
-
-    <button mat-raised-button (click)="openDrawer2()" color="accent">
-      <mat-icon>add</mat-icon>
-      Crear alternativa
-    </button>
   </mat-toolbar>
 
   <div fxLayout="row" fxLayoutAlign="center center" class="form">
@@ -360,84 +353,32 @@
                 </mat-form-field>
 
                 <br />
-                <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
+                <div fxLayoutGap="8px">
+
                   <button matStepperPrevious mat-raised-button>
                     <mat-icon>chevron_left</mat-icon>Volver
                   </button>
-                  <button matStepperNext mat-raised-button color="accent">
-                    <mat-icon>navigate_next</mat-icon>Siguiente
+
+                  <button mat-raised-button (click)="stepper.reset()">
+                    <mat-icon>manage_history</mat-icon>Restablecer
                   </button>
+
+                  <span fxFlex></span>
+
+                  <button mat-raised-button (click)="saveGeneralInformation(true)" color="primary" type="button">
+                    <mat-icon fontIcon="save"></mat-icon>
+                    Guardar y crear alternativas
+                  </button>
+
+                  <button mat-raised-button (click)="saveGeneralInformation(false)" color="primary" type="button">
+                    <mat-icon fontIcon="save"></mat-icon>
+                    Guardar
+                  </button>
+
                 </div>
               </div>
             </ngx-simplebar>
           </form>
-        </mat-step>
-
-        <mat-step>
-          <ng-template matStepLabel>Paso 4</ng-template>
-
-          <ngx-simplebar class="content-stepper">
-            <div fxLayout="column" fxLayoutGap="15px">
-              <br />
-              <div fxLayout="column" fxLayoutAlign="space-around center">
-                <p class="mat-headline-6">
-                  Identificación preliminar de alternativas
-                </p>
-              </div>
-
-              <button mat-raised-button (click)="openDrawer2()" color="accent">
-                <mat-icon>add</mat-icon>
-                Crear alternativa
-              </button>
-
-              <div fxLayout="row wrap" fxLayoutGap="15px grid">
-                <div *ngFor="let item of idea?.alternatives" fxFlex.gt-lg="25" fxFlex.lg="33" fxFlex.md="100"
-                  fxFlex.sm="100" fxFlex.lt-sm="100">
-
-                  <mat-card class="alternative-card mat-elevation-z4">
-                    <mat-card-header>
-                      <mat-icon mat-card-avatar color="accent">alt_route</mat-icon>
-                      <mat-card-title>
-                        {{item?.preName?.preliminaryName}}
-                      </mat-card-title>
-
-                    </mat-card-header>
-                    <mat-card-content>
-                      <br>
-                      <p><b>Estimación preliminar de beneficiarios: </b>{{item?.popDelimit?.estimateBeneficiaries}}
-                      </p>
-                      <br>
-                      <p><b>Costo estimado de la preinversión: </b>Q.{{item?.projDesc?.estimatedCost}}</p>
-                      <br>
-                      <p><b>Costo estimado de la inversión: </b>Q.{{item?.projDesc?.investmentCost}}</p>
-                      <hr>
-                      <p> <b>Complejidad: </b>{{ item?.projDesc?.complexity }}</p>
-                    </mat-card-content>
-
-                  </mat-card>
-
-                </div>
-              </div>
-
-              <br />
-
-              <div fxLayoutGap="8px">
-
-                <button matStepperPrevious mat-raised-button>
-                  <mat-icon>chevron_left</mat-icon>Volver
-                </button>
-                <button mat-raised-button (click)="stepper.reset()">
-                  <mat-icon>manage_history</mat-icon>Restablecer
-                </button>
-                <span fxFlex></span>
-                <button mat-raised-button (click)="saveGeneralInformation()" color="primary" type="button">
-                  <mat-icon fontIcon="save"></mat-icon>
-                  Guardar
-                </button>
-              </div>
-            </div>
-          </ngx-simplebar>
-
         </mat-step>
       </mat-stepper>
     </div>

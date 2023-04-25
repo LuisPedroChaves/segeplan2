@@ -52,12 +52,12 @@ export const SET_RESULT_IDEAS = createAction(
 
 export const CREATE_IDEA = createAction(
   '[IDEA] Crear nueva idea',
-  props<{ idea: GeneralInformation }>()
+  props<{ idea: GeneralInformation, viewDetails: boolean }>()
 )
 
 export const SET_NEW_IDEA = createAction(
   '[IDEA] Asignar nueva idea',
-  props<{ idea: GeneralInformation }>()
+  props<{ idea: GeneralInformation, viewDetails: boolean }>()
 )
 
 export const SET_IDEA = createAction(

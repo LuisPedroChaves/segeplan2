@@ -11,14 +11,17 @@ mat-toolbar {
   height: 48px !important;
 }
 
+.idea-card {
+  height: calc(100vh - 48px);
+}
+
 .generalInformation {
-  height: calc(100vh - 257px);
+  height: calc(100vh - 277px);
   padding: 16px;
 }
 .alternatives {
   height: calc(100vh - 245px);
   padding-top: 16px;
-  // padding: 5px 5px 0 5px;
 }
 
 ul {

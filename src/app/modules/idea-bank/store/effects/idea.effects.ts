@@ -6,6 +6,7 @@ import { map, mergeMap } from 'rxjs/operators';
 
 import * as actions from '../actions';
 import { IdeaService } from "../../services/idea.service";
+import { OPEN_DRAWER1 } from '../../../../core/store/actions/drawer.actions';
 
 @Injectable()
 export class IdeaEffects {
@@ -73,9 +74,9 @@ export class IdeaEffects {
       .pipe(
         ofType(actions.CREATE_IDEA),
         mergeMap(
-          ({ idea }) => this.ideaService.sendGeneralInformation(idea)
+          ({ idea, viewDetails }) => this.ideaService.sendGeneralInformation(idea)
             .pipe(
-              map(idea => actions.SET_NEW_IDEA({ idea }))
+              map(idea => actions.SET_NEW_IDEA({ idea, viewDetails }))
             )
         )
       )

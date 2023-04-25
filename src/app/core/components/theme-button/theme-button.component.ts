@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ThemingService } from '../../services/theming.service';
+import { OverlayContainer } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-theme-button',
@@ -16,6 +17,7 @@ export class ThemeButtonComponent {
 
   constructor(
     private themingService: ThemingService,
+    private overlay: OverlayContainer
   ) { }
 
   ngOnInit(): void {
@@ -23,6 +25,12 @@ export class ThemeButtonComponent {
     this.themingService.theme.subscribe((theme: string) => {
 
       this.theme = theme;
+
+      if (theme === 'dark-theme') {
+        this.overlay.getContainerElement().classList.add(theme);
+      } else {
+        this.overlay.getContainerElement().classList.remove('dark-theme');
+      }
 
     });
 

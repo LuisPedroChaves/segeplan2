@@ -6,12 +6,12 @@ import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { IProduct, User } from 'src/app/core/models/adicionales';
-import { GeneralInformation, PossibleAlternative, PossibleCause, PossibleEffect } from 'src/app/core/models/informationGeneral';
-import { CLOSE_DRAWER1, OPEN_DRAWER2, READ_PRODUCTS } from 'src/app/core/store/actions';
+import { GeneralInformation, PossibleCause, PossibleEffect } from 'src/app/core/models/informationGeneral';
+import { CLOSE_DRAWER1, OPEN_DRAWER1, READ_PRODUCTS } from 'src/app/core/store/actions';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 import { IdeaStore } from 'src/app/modules/idea-bank/store/reducers';
-import { CREATE_IDEA, SET_ALTERNATIVE } from 'src/app/modules/idea-bank/store/actions';
+import { CREATE_IDEA } from 'src/app/modules/idea-bank/store/actions';
 import { SnackBarService } from 'src/app/core/services/snack-bar.service';
 
 @Component({
@@ -67,9 +67,6 @@ export class NewIdeaComponent implements OnInit, OnDestroy {
   filteredProducts: Observable<IProduct[]>;
   productStoreSubscription = new Subscription();
 
-  idea: GeneralInformation = null!
-  ideaStoreSubscription = new Subscription();
-
   sessionSubscription: Subscription;
   usuario: User;
 
@@ -92,24 +89,14 @@ export class NewIdeaComponent implements OnInit, OnDestroy {
       })
     this.ideaStore.dispatch(READ_PRODUCTS({ filtro: this.usuario ? this.usuario.id_inst : '' }))
 
-    this.ideaStoreSubscription = this.ideaStore.select('idea')
-      .subscribe(state => {
-        this.idea = state.idea;
-      })
-
   }
 
   ngOnDestroy(): void {
     this.sessionSubscription?.unsubscribe()
     this.productStoreSubscription?.unsubscribe()
-    this.ideaStoreSubscription?.unsubscribe()
   }
 
   closeDrawer1(): void { this.ideaStore.dispatch(CLOSE_DRAWER1()) }
-  openDrawer2(): void {
-    this.ideaStore.dispatch(SET_ALTERNATIVE({ alternative: null }))
-    this.ideaStore.dispatch(OPEN_DRAWER2({ width2: '80%', component2: 'NEW_ALTERNATIVE' }))
-  }
 
   changeDescription(event: MatSlideToggleChange): void {
     const description = this.step1.get('description');
@@ -163,7 +150,7 @@ export class NewIdeaComponent implements OnInit, OnDestroy {
   }
   /* #endregion */
 
-  saveGeneralInformation(): void {
+  saveGeneralInformation(viewDetails: boolean): void {
 
     const {
       _product,
@@ -220,13 +207,15 @@ export class NewIdeaComponent implements OnInit, OnDestroy {
       if (result === true) {
         // Code of Work
         this.ideaStore.dispatch(CREATE_IDEA({
-          idea: {
-            ...idea,
-            alternatives: this.idea?.alternatives
-          }
+          idea,
+          viewDetails
         }))
 
-        this.ideaStore.dispatch(CLOSE_DRAWER1())
+        if (viewDetails) {
+          this.ideaStore.dispatch(OPEN_DRAWER1({ width1: '80%', component1: 'IDEA_DETAILS' }))
+        } else {
+          this.ideaStore.dispatch(CLOSE_DRAWER1())
+        }
 
         this.step1.reset({
           date: moment(),
@@ -235,9 +224,8 @@ export class NewIdeaComponent implements OnInit, OnDestroy {
         this.step2.reset()
         this.step3.reset()
       }
-      else {
-        return;
-      }
+
+      return;
     });
   }
 }

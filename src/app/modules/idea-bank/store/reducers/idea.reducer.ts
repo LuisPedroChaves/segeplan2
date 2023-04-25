@@ -44,7 +44,8 @@ const _IDEA_REDUCER = createReducer(IDEA_STATE,
   })),
   on(actions.SET_NEW_IDEA, (state, { idea }) => ({
     ...state,
-    ideas: [...state.ideas, idea]
+    ideas: [...state.ideas, idea],
+    idea: { ...idea }
   })),
   on(actions.SET_IDEA, (state, { idea }) => ({
     ...state,
