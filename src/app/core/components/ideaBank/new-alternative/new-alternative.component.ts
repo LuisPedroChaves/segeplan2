@@ -13,7 +13,7 @@ import { AppState } from 'src/app/core/store/app.reducer';
 import { MatDialog } from '@angular/material/dialog';
 import { IdeaService } from 'src/app/modules/idea-bank/services/idea.service';
 import { READ_DENOMINATIONS, READ_REFERENCE_POPULATIONS } from 'src/app/modules/config/store/actions';
-import { DELETE_DATA_GEOS, READ_GEOGRAFICOS, READ_OBJECTS, READ_PROCESOS, REMOVE_DATA_GEO, SET_IDEA_ALTERNATIVES } from 'src/app/modules/idea-bank/store/actions';
+import { DELETE_DATA_GEOS, READ_GEOGRAFICOS, READ_OBJECTS, READ_PROCESOS, REMOVE_DATA_GEO, SET_ALTERNATIVE, SET_IDEA_ALTERNATIVES } from 'src/app/modules/idea-bank/store/actions';
 import { IPopulationAlt } from 'src/app/core/models/alternative/populationAlt';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 import { CLOSE_DRAWER2, OPEN_DRAWER3 } from 'src/app/core/store/actions';
@@ -177,14 +177,11 @@ export class NewAlternativeComponent implements OnInit, OnDestroy {
         this.denominations = state.denominations;
       })
 
-    this.denominationStore.dispatch(READ_DENOMINATIONS())
 
     this.departamentoStoreSubscription = this.geograficoStore.select('geografico')
       .subscribe(state => {
         this.departamentos = state.geograficos;
       })
-
-    this.geograficoStore.dispatch(READ_GEOGRAFICOS())
 
 
     this.objetoStoreSubscription = this.objectStore.select('object')
@@ -192,7 +189,6 @@ export class NewAlternativeComponent implements OnInit, OnDestroy {
         this.objetos = state.objects;
       })
 
-    this.objectStore.dispatch(READ_OBJECTS())
 
     this.processStoreSubscription = this.procesoStore.select('proceso')
       .subscribe(state => {
@@ -201,15 +197,11 @@ export class NewAlternativeComponent implements OnInit, OnDestroy {
 
       })
 
-    this.procesoStore.dispatch(READ_PROCESOS())
-
 
     this.referenceStoreSubscription = this.referencePopulationStore.select('referencePopulation')
       .subscribe(state => {
         this.references = state.referencePopulations;
       })
-
-    this.referencePopulationStore.dispatch(READ_REFERENCE_POPULATIONS())
 
     //#endregion
 
@@ -344,31 +336,31 @@ export class NewAlternativeComponent implements OnInit, OnDestroy {
     this.populationDelimitation.controls['menQty'].setValue(this.currentAlternative.popDelimit.populations[0].total)
     this.populationDelimitation.controls['womenQty'].setValue(this.currentAlternative.popDelimit.populations[1].total)
     this.totalGender = this.currentAlternative.popDelimit.totalPopulation;
-    this.coverageText = this.currentAlternative.popDelimit.coverage.toString();
+    this.coverageText = this.currentAlternative.popDelimit.coverage?.toString();
     // this.populationDelimitation.controls['gender'].setValue(this.currentAlternative.popDelimit.gender)
     this.populationDelimitation.controls['estimateBeneficiaries'].setValue(this.currentAlternative.popDelimit.estimateBeneficiaries)
     this.populationDelimitation.controls['preliminaryCharacterization'].setValue(this.currentAlternative.popDelimit.preliminaryCharacterization)
 
-    this.geographicArea.controls['oneAvailableTerrain'].setValue(this.currentAlternative.geoArea.oneAvailableTerrain)
-    this.geographicArea.controls['availableTerrain'].setValue(this.currentAlternative.geoArea.availableTerrain)
-    this.geographicArea.controls['investPurchase'].setValue(this.currentAlternative.geoArea.investPurchase)
+    this.geographicArea.controls['oneAvailableTerrain'].setValue(this.currentAlternative.geoArea?.oneAvailableTerrain)
+    this.geographicArea.controls['availableTerrain'].setValue(this.currentAlternative.geoArea?.availableTerrain)
+    this.geographicArea.controls['investPurchase'].setValue(this.currentAlternative.geoArea?.investPurchase)
 
-    this.projectDescription.controls['projectType'].setValue(this.currentAlternative.projDesc.projectType)
-    this.projectDescription.controls['formulationProcess'].setValue(this.currentAlternative.projDesc.formulationProcess)
-    this.projectDescription.controls['formulationProcessDescription'].setValue(this.currentAlternative.projDesc.formulationProcessDescription)
-    this.projectDescription.controls['descriptionInterventions'].setValue(this.currentAlternative.projDesc.descriptionInterventions)
-    this.projectDescription.controls['complexity'].setValue(this.currentAlternative.projDesc.complexity)
-    this.projectDescription.controls['estimatedCost'].setValue(this.currentAlternative.projDesc.estimatedCost)
-    this.projectDescription.controls['investmentCost'].setValue(this.currentAlternative.projDesc.investmentCost)
-    this.projectDescription.controls['foundingSourcesName'].setValue(this.currentAlternative.projDesc.foundingSourcesName)
+    this.projectDescription.controls['projectType'].setValue(this.currentAlternative.projDesc?.projectType)
+    this.projectDescription.controls['formulationProcess'].setValue(this.currentAlternative.projDesc?.formulationProcess)
+    this.projectDescription.controls['formulationProcessDescription'].setValue(this.currentAlternative.projDesc?.formulationProcessDescription)
+    this.projectDescription.controls['descriptionInterventions'].setValue(this.currentAlternative.projDesc?.descriptionInterventions)
+    this.projectDescription.controls['complexity'].setValue(this.currentAlternative.projDesc?.complexity)
+    this.projectDescription.controls['estimatedCost'].setValue(this.currentAlternative.projDesc?.estimatedCost)
+    this.projectDescription.controls['investmentCost'].setValue(this.currentAlternative.projDesc?.investmentCost)
+    this.projectDescription.controls['foundingSourcesName'].setValue(this.currentAlternative.projDesc?.foundingSourcesName)
 
-    this.executionTime.controls['tentativeTermMonth'].setValue(this.currentAlternative.projDesc.execTime.tentativeTermMonth)
-    this.executionTime.controls['tentativeTermYear'].setValue(this.currentAlternative.projDesc.execTime.tentativeTermYear)
-    this.executionTime.controls['executionDateMonth'].setValue(this.currentAlternative.projDesc.execTime.executionDateMonth)
-    this.executionTime.controls['executionDateYear'].setValue(this.currentAlternative.projDesc.execTime.executionDateYear)
-    this.executionTime.controls['finishDateMonth'].setValue(this.currentAlternative.projDesc.execTime.finishDateMonth)
-    this.executionTime.controls['finishDateYear'].setValue(this.currentAlternative.projDesc.execTime.finishDateYear)
-    this.executionTime.controls['annual'].setValue(Boolean(this.currentAlternative.projDesc.execTime.annual))
+    this.executionTime.controls['tentativeTermMonth'].setValue(this.currentAlternative.projDesc?.execTime.tentativeTermMonth)
+    this.executionTime.controls['tentativeTermYear'].setValue(this.currentAlternative.projDesc?.execTime.tentativeTermYear)
+    this.executionTime.controls['executionDateMonth'].setValue(this.currentAlternative.projDesc?.execTime.executionDateMonth)
+    this.executionTime.controls['executionDateYear'].setValue(this.currentAlternative.projDesc?.execTime.executionDateYear)
+    this.executionTime.controls['finishDateMonth'].setValue(this.currentAlternative.projDesc?.execTime.finishDateMonth)
+    this.executionTime.controls['finishDateYear'].setValue(this.currentAlternative.projDesc?.execTime.finishDateYear)
+    this.executionTime.controls['annual'].setValue(Boolean(this.currentAlternative.projDesc?.execTime.annual))
 
     setTimeout(() => {
 
@@ -378,6 +370,10 @@ export class NewAlternativeComponent implements OnInit, OnDestroy {
   }
 
   saveAlternativeP1(): void {
+
+    if (this.currentAlternative) {
+      return
+    }
 
     if (this.preliminaryName.invalid || this.responsibleEntity.invalid || this.populationDelimitation.invalid) {
       return
@@ -440,6 +436,7 @@ export class NewAlternativeComponent implements OnInit, OnDestroy {
     }
 
     const NEW_ALTERNATIVE_P1: IdeaAlternativeOne = {
+      sectionBIId: this.currentIdea.codigo,
       preName: PRELIMINAR_NAME,
       resEntity: RESPONSIBLE_ENTITY,
       popDelimit: POPULATION_DELIMITATION
@@ -449,226 +446,140 @@ export class NewAlternativeComponent implements OnInit, OnDestroy {
 
     this.ideaService.sendFirstPartAlternative(NEW_ALTERNATIVE_P1)
       .subscribe(alternative => {
-        console.log(alternative);
 
-        alternatives = alternatives.map(a => {
-
-          if (a.codigo === this.currentAlternative.codigo) {
-            return {
-              ...alternative
-            }
-          }
-
-          return {
-            ...a
-          }
-
-
-        })
-        this.ideaStore.dispatch(SET_IDEA_ALTERNATIVES({ alternatives }))
+        this.alternativeStore.dispatch(SET_ALTERNATIVE({ alternative }))
 
       })
 
   }
 
-  // saveIdeaAlternative(): void {
+  saveIdeaAlternative(): void {
 
-  //   const {
-  //     availableTerrain,
-  //     oneAvailableTerrain,
-  //     investPurchase,
-  //   } = this.geographicArea.value
+    const {
+      availableTerrain,
+      oneAvailableTerrain,
+      investPurchase,
+    } = this.geographicArea.value
 
-  //   const GEOGRAPHIC_AREA: GeographicArea = {
-  //     availableTerrain,
-  //     oneAvailableTerrain,
-  //     investPurchase,
-  //     dataGeo: this.dataGeos
-  //   }
+    const GEOGRAPHIC_AREA: GeographicArea = {
+      availableTerrain,
+      oneAvailableTerrain,
+      investPurchase,
+      dataGeo: this.dataGeos
+    }
 
-  //   const {
-  //     tentativeTermMonth,
-  //     tentativeTermYear,
-  //     executionDateMonth,
-  //     executionDateYear,
-  //     finishDateMonth,
-  //     finishDateYear,
-  //     annual
-  //   } = this.executionTime.value
+    const {
+      tentativeTermMonth,
+      tentativeTermYear,
+      executionDateMonth,
+      executionDateYear,
+      finishDateMonth,
+      finishDateYear,
+      annual
+    } = this.executionTime.value
 
-  //   const EXECUTION_TIME: ExecutionTime = {
-  //     tentativeTermMonth,
-  //     tentativeTermYear,
-  //     executionDateMonth,
-  //     executionDateYear,
-  //     finishDateMonth,
-  //     finishDateYear,
-  //     annual: 0
-  //   }
+    const EXECUTION_TIME: ExecutionTime = {
+      tentativeTermMonth,
+      tentativeTermYear,
+      executionDateMonth,
+      executionDateYear,
+      finishDateMonth,
+      finishDateYear,
+      annual: 0
+    }
 
-  //   if (this.executionTime.value.annual) {
-  //     EXECUTION_TIME.annual = 1
-  //   } else if (!this.executionTime.value.annual) {
-  //     EXECUTION_TIME.annual = 0
-  //   }
+    if (this.executionTime.value.annual) {
+      EXECUTION_TIME.annual = 1
+    } else if (!this.executionTime.value.annual) {
+      EXECUTION_TIME.annual = 0
+    }
 
-  //   const {
-  //     projectType,
-  //     formulationProcess,
-  //     formulationProcessDescription,
-  //     descriptionInterventions,
-  //     complexity,
-  //     estimatedCost,
-  //     investmentCost,
-  //     foundingSourcesName,
-  //   } = this.projectDescription.value
+    const {
+      projectType,
+      formulationProcess,
+      formulationProcessDescription,
+      descriptionInterventions,
+      complexity,
+      estimatedCost,
+      investmentCost,
+      foundingSourcesName,
+    } = this.projectDescription.value
 
-  //   const PROJECT_DESCRIPTION: ProjectDescription = {
-  //     projectType,
-  //     formulationProcess,
-  //     formulationProcessDescription,
-  //     descriptionInterventions,
-  //     complexity,
-  //     estimatedCost,
-  //     investmentCost,
-  //     foundingSourcesName,
-  //     fundingSources: 1,
-  //     execTime: EXECUTION_TIME
-  //   }
+    const PROJECT_DESCRIPTION: ProjectDescription = {
+      projectType,
+      formulationProcess,
+      formulationProcessDescription,
+      descriptionInterventions,
+      complexity,
+      estimatedCost,
+      investmentCost,
+      foundingSourcesName,
+      fundingSources: 1,
+      execTime: EXECUTION_TIME
+    }
 
-  //   if (tentativeTermYear > executionDateYear && tentativeTermYear > finishDateYear && executionDateYear > finishDateYear) {
-  //     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-  //       width: '250px',
-  //       data: { title: 'Error al seleccionar Fechas', description: 'Verifique que las fechas seleccionadas cumplan con un periodo de trabajo real.' }
-  //     });
+    if (tentativeTermYear > executionDateYear && tentativeTermYear > finishDateYear && executionDateYear > finishDateYear) {
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '250px',
+        data: { title: 'Error al seleccionar Fechas', description: 'Verifique que las fechas seleccionadas cumplan con un periodo de trabajo real.' }
+      });
 
-  //     dialogRef.afterClosed().subscribe(result => {
-  //       console.log('The dialog was closed', result);
-  //     });
-  //     return;
-  //   }
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
+      });
+      return;
+    }
 
-  //   let alternatives: IdeaAlternative[] = this.currentIdea.alternatives ? [...this.currentIdea.alternatives] : [];
+    let alternatives: IdeaAlternative[] = this.currentIdea.alternatives ? [...this.currentIdea.alternatives] : [];
 
-  //   // editar
-  //   if (this.currentAlternative) {
+    // editar
+    if (this.currentAlternative) {
 
-  //     this.currentAlternative = {
-  //       ...this.currentAlternative,
-  //       preName: PRELIMINAR_NAME,
-  //       resEntity: RESPONSIBLE_ENTITY,
-  //       popDelimit: POPULATION_DELIMITATION,
-  //       geoArea: GEOGRAPHIC_AREA,
-  //       projDesc: PROJECT_DESCRIPTION
-  //     }
+      this.currentAlternative = {
+        ...this.currentAlternative,
+        geoArea: GEOGRAPHIC_AREA,
+        projDesc: PROJECT_DESCRIPTION
+      }
 
-  //     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-  //       width: '250px',
-  //       data: { title: 'Editar Alternativa', description: '¿Esta Seguro que desea guardar los datos de la Alternativa?', confirmation: true }
-  //     });
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '250px',
+        data: { title: 'Editar Alternativa', description: '¿Esta Seguro que desea guardar los datos de la Alternativa?', confirmation: true }
+      });
 
-  //     dialogRef.afterClosed().subscribe(result => {
-  //       console.log('The dialog was closed', result);
-  //       if (result === true) {
-  //         // Code of Work
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
+        if (result === true) {
+          // Code of Work
 
-  //         this.ideaService.updateAlternative(this.currentAlternative).subscribe(alternative => {
+          this.ideaService.updateAlternative(this.currentAlternative).subscribe(alternative => {
 
-  //           alternatives = alternatives.map(a => {
+            alternatives = alternatives.map(a => {
 
-  //             if (a.codigo === this.currentAlternative.codigo) {
-  //               return {
-  //                 ...alternative
-  //               }
-  //             }
+              if (a.codigo === this.currentAlternative.codigo) {
+                return {
+                  ...alternative
+                }
+              }
 
-  //             return {
-  //               ...a
-  //             }
+              return {
+                ...a
+              }
 
 
-  //           })
-  //           this.ideaStore.dispatch(SET_IDEA_ALTERNATIVES({ alternatives }))
-  //           this.ideaStore.dispatch(CLOSE_DRAWER2())
-  //           // this.stepper.reset();
-  //         });
-  //       }
-  //       else {
-  //         return;
-  //       }
-  //     });
+            })
+            this.ideaStore.dispatch(SET_IDEA_ALTERNATIVES({ alternatives }))
+            this.ideaStore.dispatch(CLOSE_DRAWER2())
+            // this.stepper.reset();
+          });
+        }
+        else {
+          return;
+        }
+      });
 
-  //     return
-  //   }
-
-  //   if (this.currentIdea.codigo) {
-  //     const NEW_ALTERNATIVE: IdeaAlternative = {
-  //       sectionBIId: this.currentIdea.codigo,
-  //       preName: PRELIMINAR_NAME,
-  //       resEntity: RESPONSIBLE_ENTITY,
-  //       popDelimit: POPULATION_DELIMITATION,
-  //       geoArea: GEOGRAPHIC_AREA,
-  //       projDesc: PROJECT_DESCRIPTION
-  //     }
-  //     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-  //       width: '250px',
-  //       data: { title: 'Crear Alternativa', description: '¿Esta Seguro que desea guardar los datos de la Alternativa?', confirmation: true }
-  //     });
-
-  //     dialogRef.afterClosed().subscribe(result => {
-  //       console.log('The dialog was closed', result);
-  //       if (result === true) {
-
-  //         // Code of Work
-
-  //         this.ideaService.sendAlternative(NEW_ALTERNATIVE).subscribe(alternative => {
-
-  //           alternatives.push(alternative)
-
-  //           this.ideaStore.dispatch(SET_IDEA_ALTERNATIVES({ alternatives }))
-  //           this.ideaStore.dispatch(CLOSE_DRAWER2())
-  //           // this.stepper.reset();
-  //         });
-  //       }
-
-  //       return;
-  //     });
-  //     return
-  //   }
-
-  //   // Esto aplica solo cuando se esta creado una idea con sus alternativas al mismo timepo
-  //   const NEW_ALTERNATIVE: IdeaAlternative = {
-  //     sectionBIId: '',
-  //     preName: PRELIMINAR_NAME,
-  //     resEntity: RESPONSIBLE_ENTITY,
-  //     popDelimit: POPULATION_DELIMITATION,
-  //     geoArea: GEOGRAPHIC_AREA,
-  //     projDesc: PROJECT_DESCRIPTION
-  //   }
-
-  //   const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-  //     width: '250px',
-  //     data: { title: 'Crear Alternativa', description: '¿Esta Seguro que desea guardar los datos de la Alternativa?', confirmation: true }
-  //   });
-
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log('The dialog was closed', result);
-  //     if (result === true) {
-  //       // Code of Work
-  //       alternatives.push(NEW_ALTERNATIVE)
-  //       // this.stepper.reset();
-
-  //       this.ideaStore.dispatch(SET_IDEA_ALTERNATIVES({ alternatives }))
-  //       this.alternativeStore.dispatch(DELETE_DATA_GEOS())
-  //       this.ideaStore.dispatch(CLOSE_DRAWER2())
-
-  //     }
-  //     else {
-  //       return;
-  //     }
-  //   });
-
-  // }
+      return
+    }
+  }
 
   calculaCobertura(): void {
     if (this.populationDelimitation.value.estimateBeneficiaries) {

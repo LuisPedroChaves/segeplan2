@@ -5,7 +5,7 @@
       <mat-icon>close</mat-icon>
     </button>
 
-    <span>Nueva alternativa</span>
+    <span>{{ currentAlternative ? 'Editar ' : 'Nueva ' }} alternativa</span>
 
     <span fxFlex></span>
   </mat-toolbar>
@@ -847,12 +847,11 @@
                     <mat-icon>manage_history</mat-icon>Restablecer
                   </button>
                   <span fxFlex></span>
-                  <button mat-raised-button color="primary" type="button">
+                  <button mat-raised-button (click)="saveIdeaAlternative()" color="primary" type="button">
                     <mat-icon fontIcon="save"></mat-icon>
                     Guardar
                   </button>
                 </div>
-                <!-- <button mat-raised-button (click)="saveGeneralInformation()"  color="primary" type="button"> -->
               </div>
             </ngx-simplebar>
           </form>

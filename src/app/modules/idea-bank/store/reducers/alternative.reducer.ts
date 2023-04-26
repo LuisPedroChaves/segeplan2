@@ -24,7 +24,7 @@ const _ALTERNATIVE_REDUCER = createReducer(ALTERNATIVE_STATE,
   on(actions.SET_ALTERNATIVE, (state, { alternative }) => ({
     ...state,
     alternative: alternative ? { ...alternative } : null,
-    dataGeos: alternative ? [...alternative.geoArea.dataGeo] : []
+    dataGeos: alternative?.geoArea ? [...alternative.geoArea.dataGeo] : []
   })),
 
 

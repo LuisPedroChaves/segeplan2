@@ -1,0 +1,479 @@
+<div ngClass.gt-sm="content-desktop" ngClass.lt-md="content-desktop">
+  <mat-toolbar fxLayoutGap="8px" class="active-elevation">
+
+    <button mat-icon-button (click)="closeDrawer2()" matTooltip="Cancelar" type="button">
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <span>Matriz de pertinencia</span>
+
+    <span fxFlex></span>
+
+  </mat-toolbar>
+
+  <mat-stepper #stepper fxFill linear="true">
+    <mat-step [stepControl]="criterios">
+      <ng-template matStepLabel>Calificar</ng-template>
+
+      <form [formGroup]="criterios" (ngSubmit)="loadMatrix()" autocomplete="off">
+        <ngx-simplebar fxLayout="row" class="my-content">
+
+          <div fxLayout="column" fxLayoutGap="8px">
+
+            <p class="mat-headline-6">Descripción de la problemática y el indicador (LÍnea base)</p>
+            <p><b>Iniciativa de Inversión: </b></p>
+            <p class="mat-subheading-2">{{ matrix.criterio1.baseLine }}</p>
+
+            <div fxLayout="column">
+              <div fxLayout="row">
+                <mat-form-field fxFlex="30" appearance="outline">
+                  <mat-label>Puntuación</mat-label>
+                  <mat-select formControlName="descProblem">
+                    <mat-optgroup *ngFor="let group of ratingGroups" [label]="group.name">
+                      <mat-option *ngFor="let rating of group.ratings" [value]="rating">
+                        {{rating}}
+                      </mat-option>
+                    </mat-optgroup>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <mat-form-field fxFill appearance="outline">
+                <mat-label>Agregar Comentario</mat-label>
+                <textarea matInput formControlName="descProblemComment" placeholder="Máximo 200 caracteres..."
+                  rows="2"></textarea>
+                <mat-hint>El especialista analizará si el planteamiento de la problemática es adecuada y
+                  si existe el indicador para
+                  establecer una línea base.</mat-hint>
+              </mat-form-field>
+            </div>
+
+            <br>
+            <mat-divider></mat-divider>
+            <br>
+
+            <p class="mat-headline-6">Objetivo General y resultado</p>
+            <p><b>Objetivo General: </b></p>
+            <p class="mat-body-1">{{ matrix.criterio2.generalObjective }}</p>
+            <br>
+            <p><b>Resultado o cambio esperado respecto a indicadores: </b></p>
+            <p class="mat-body-1">{{ matrix.criterio2.expectedChange }}</p>
+
+            <div fxLayout="column">
+              <div fxLayout="row">
+
+                <mat-form-field fxFlex="30" appearance="outline">
+                  <mat-label>Puntuación</mat-label>
+                  <mat-select formControlName="generalObjct">
+                    <mat-optgroup *ngFor="let group of ratingGroups" [label]="group.name">
+                      <mat-option *ngFor="let rating of group.ratings" [value]="rating">
+                        {{rating}}
+                      </mat-option>
+                    </mat-optgroup>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <mat-form-field fxFlex appearance="outline">
+                <mat-label>Agregar Comentario</mat-label>
+                <textarea matInput formControlName="generalObjctComment" placeholder="Máximo 200 caracteres..."
+                  rows="2"></textarea>
+                <mat-hint>Se establece si el objetivo general tiene viabilidad y tiene coherencia con el
+                  resultado
+                  definido.
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <br>
+            <mat-divider></mat-divider>
+            <br>
+
+            <p class="mat-headline-6">Análisis de la delimitación preliminar de beneficiarios.</p>
+            <p class="mat-body">
+              <span class="mat-body-strong">Población total: </span><br>
+              {{ matrix.criterio3.totalPopulation }} - {{ matrix.criterio3.gender }}
+            </p>
+            <p class="mat-body">
+              <span class="mat-body-strong">Estimación de beneficiarios:</span><br>
+              {{ matrix.criterio3.estimateBeneficiaries }}
+            </p>
+            <p class="mat-body">
+              <span class="mat-body-strong">Caracterización Preliminar:</span><br>
+              {{ matrix.criterio3.preliminaryCharacterization }}
+            </p>
+            <p class="mat-body">
+              <span class="mat-body-strong">Cobertura:</span><br>
+              {{ matrix.criterio3.coverage }}
+            </p>
+            <p class="mat-body">
+              <span class="mat-body-strong">Población de referencia:</span><br>
+              {{ matrix.criterio3.referencePopulation }} - {{ matrix.criterio3.denomination }}
+            </p>
+
+            <div fxLayout="column">
+              <div fxLayout="row">
+
+                <mat-form-field fxFlex="30" appearance="outline">
+                  <mat-label>Puntuación</mat-label>
+                  <mat-select formControlName="anlysDelimitation">
+                    <mat-optgroup *ngFor="let group of ratingGroups" [label]="group.name">
+                      <mat-option *ngFor="let rating of group.ratings" [value]="rating">
+                        {{rating}}
+                      </mat-option>
+                    </mat-optgroup>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <mat-form-field fxFlex appearance="outline">
+                <mat-label>Agregar Comentario</mat-label>
+                <textarea matInput formControlName="anlysDelimitationComment" placeholder="Máximo 200 caracteres..."
+                  rows="2"></textarea>
+                <mat-hint>La cantidad de beneficiarios es coherente, análisis de la caracterización
+                  preliminar.
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <br>
+            <mat-divider></mat-divider>
+            <br>
+
+            <p class="mat-headline-6">Identificación del terreno.</p>
+            <p class="mat-body">
+              <span class="mat-body-strong">Se identifican varios terrenos disponibles: </span><br>
+              {{ matrix.criterio4.availableTerrain ? 'SI' : 'NO'}}
+            </p>
+            <p class="mat-body">
+              <span class="mat-body-strong">Se identifica solo un terreno disponible:</span><br>
+              {{ matrix.criterio4.oneAvailableTerrain ? 'SI' : 'NO'}}
+            </p>
+            <p class="mat-body">
+              <span class="mat-body-strong">Es necesario invertir en la compra del terreno:</span><br>
+              {{ matrix.criterio4.investPurchase ? 'SI' : 'NO'}}
+            </p>
+
+            <div fxLayout="column">
+              <div fxLayout="row">
+
+                <mat-form-field fxFlex="30" appearance="outline">
+                  <mat-label>Puntuación</mat-label>
+                  <mat-select formControlName="terrainIdent">
+                    <mat-optgroup *ngFor="let group of ratingGroups" [label]="group.name">
+                      <mat-option *ngFor="let rating of group.ratings" [value]="rating">
+                        {{rating}}
+                      </mat-option>
+                    </mat-optgroup>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <mat-form-field fxFlex appearance="outline">
+                <mat-label>Agregar Comentario</mat-label>
+                <textarea matInput formControlName="terrainIdentComment" placeholder="Máximo 200 caracteres..."
+                  rows="2"></textarea>
+                <mat-hint>En base al siguiente rango: Se identifican varios terrenos = Excelente; Se
+                  identifica un
+                  terreno =
+                  Bueno / Aceptable; Es necesario invertir en la compra del terreno = Deficiente /
+                  Replantear.
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <br>
+            <mat-divider></mat-divider>
+            <br>
+
+            <p class="mat-headline-6">Situación legal del posible bien inmueble.</p>
+            <span *ngIf="matrix.criterio5.terrenos.length <= 0" class="mat-body-strong">No hay Información de
+              Terrenos
+              Disponibles </span><br>
+
+            <br>
+            <mat-radio-group formControlName="terreno" aria-labelledby="example-radio-group-label"
+              class="example-radio-group" [disabled]="terrainDisabled">
+              <mat-radio-button class="example-radio-button" *ngFor="let terreno of matrix.criterio5.terrenos"
+                [value]="terreno">
+                <mat-card>
+                  <p class="mat-body">
+                    <span class="mat-body-strong">Terreno a nombre del Estado: </span><br>
+                    {{ terreno.registerGovernmentTerrain ? 'SI' : 'NO'}}
+                  </p>
+                  <p class="mat-body">
+                    <span class="mat-body-strong">Se debe de inscribir el terreno a nombre del Estado:</span><br>
+                    {{ terreno.registerGovernmentTerrain ? 'NO' : 'SI'}}
+                  </p>
+                  <p class="mat-body">
+                    {{ terreno.statusDescribe }}
+                  </p>
+                </mat-card>
+              </mat-radio-button>
+            </mat-radio-group>
+
+            <div fxLayout="column">
+              <div fxLayout="row">
+
+                <mat-form-field fxFlex="30" appearance="outline">
+                  <mat-label>Puntuación</mat-label>
+                  <mat-select formControlName="legalSituation">
+                    <mat-optgroup *ngFor="let group of ratingGroups" [label]="group.name">
+                      <mat-option *ngFor="let rating of group.ratings" [value]="rating">
+                        {{rating}}
+                      </mat-option>
+                    </mat-optgroup>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <mat-form-field fxFlex appearance="outline">
+                <mat-label>Agregar Comentario</mat-label>
+                <textarea matInput formControlName="legalSituationComment" placeholder="Máximo 200 caracteres..."
+                  rows="2"></textarea>
+                <mat-hint>En base al siguiente rango: Terreno a nombre del Estado (A nombre del Estado)
+                  = Excelente
+                  / Bueno /
+                  Aceptable; Se debe inscribir a nombre del Estado = Deficiente / Replantear (El
+                  especialista
+                  revisará la
+                  descripción en base a si ya tiene el título, se encuentra en trámite, se encuentran
+                  conformando
+                  los
+                  documentos para el trámite, no tienen certeza jurídica)
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <br>
+            <br>
+            <mat-divider></mat-divider>
+            <br>
+            <br>
+
+            <p class="mat-headline-6">Análisis de la descripción de la idea.</p>
+            <p class="mat-body">
+              <span class="mat-body-strong">Tipo de proyecto: </span><br>
+              {{ matrix.criterio6.projectType}}
+            </p>
+            <p class="mat-body">
+              <span class="mat-body-strong">Proceso de formulación:</span><br>
+              {{ matrix.criterio6.formulationProcess}}
+            </p>
+            <p class="mat-body">
+              <span class="mat-body-strong">Descripción de Intervenciones:</span><br>
+              {{ matrix.criterio6.descriptionInterventions}}
+            </p>
+            <p class="mat-body">
+              <span class="mat-body-strong">Complejidad:</span><br>
+              {{ matrix.criterio6.complexity}}
+            </p>
+
+            <div fxLayout="column">
+              <div fxLayout="row">
+
+                <mat-form-field fxFlex="30" appearance="outline">
+                  <mat-label>Puntuación</mat-label>
+                  <mat-select formControlName="descAnlys">
+                    <mat-optgroup *ngFor="let group of ratingGroups" [label]="group.name">
+                      <mat-option *ngFor="let rating of group.ratings" [value]="rating">
+                        {{rating}}
+                      </mat-option>
+                    </mat-optgroup>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <mat-form-field fxFlex appearance="outline">
+                <mat-label>Agregar Comentario</mat-label>
+                <textarea matInput formControlName="descAnlysComment" placeholder="Máximo 200 caracteres..."
+                  rows="2"></textarea>
+                <mat-hint>El especialista realizará un análisis en relación a la problemática planteada
+                  en
+                  relación a los
+                  objetivos buscados y la propuesta de solución, con los distintos puntos ingresados
+                  dentro
+                  del registro.
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <br>
+            <br>
+            <mat-divider></mat-divider>
+            <br>
+            <br>
+
+            <button mat-raised-button matStepperNext color="primary" type="submit">
+              <mat-icon fontIcon="done"></mat-icon>
+              Finalizar
+            </button>
+
+          </div>
+
+        </ngx-simplebar>
+      </form>
+
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>Finalizar </ng-template>
+      <form [formGroup]="resume" (ngSubmit)="savePertinenceMatrix()" autocomplete="off">
+        <ngx-simplebar fxLayout="row" class="my-content">
+
+          <div fxLayout="column" fxLayoutGap="15px">
+
+            <div fxLayout="column">
+              <div fxLayout="row" fxLayoutAlign="space-between center">
+                <span class="mat-subheading-2">Descripción de la problemática y el Indicador:</span>
+                <span class="mat-title">{{ relevanceMatrix?.descProblem}} / 20</span>
+              </div>
+
+              <mat-progress-bar mode="determinate" [value]="(relevanceMatrix?.descProblem * 100) / 20" color="primary">
+              </mat-progress-bar>
+            </div>
+
+            <div fxLayout="column">
+              <div fxLayout="row" fxLayoutAlign="space-between center">
+                <span class="mat-subheading-2">Objetivo General y resultado:</span>
+                <span class="mat-title">{{ relevanceMatrix?.generalObjct}} / 20</span>
+              </div>
+
+              <mat-progress-bar mode="determinate" [value]="(relevanceMatrix?.generalObjct * 100) / 20" color="primary">
+              </mat-progress-bar>
+            </div>
+
+            <div fxLayout="column">
+              <div fxLayout="row" fxLayoutAlign="space-between center">
+                <span class="mat-subheading-2">Análisis de la delimitación preliminar de
+                  beneficiarios:</span>
+                <span class="mat-title">{{ relevanceMatrix?.anlysDelimitation}} / 20</span>
+              </div>
+
+              <mat-progress-bar mode="determinate" [value]="(relevanceMatrix?.anlysDelimitation * 100) / 20"
+                color="primary"></mat-progress-bar>
+            </div>
+
+            <div fxLayout="column">
+              <div fxLayout="row" fxLayoutAlign="space-between center">
+                <span class="mat-subheading-2">Identificación del terreno:</span>
+                <span class="mat-title">{{ relevanceMatrix?.terrainIdent}} / 10</span>
+              </div>
+
+              <mat-progress-bar mode="determinate" [value]="(relevanceMatrix?.terrainIdent * 100) / 10" color="primary">
+              </mat-progress-bar>
+            </div>
+
+            <div fxLayout="column">
+              <div fxLayout="row" fxLayoutAlign="space-between center">
+                <span class="mat-subheading-2">Situación legal del posible bien
+                  inmueble:</span>
+                <span class="mat-title">{{ relevanceMatrix?.legalSituation}} / 10</span>
+              </div>
+
+              <mat-progress-bar mode="determinate" [value]="(relevanceMatrix?.legalSituation * 100) / 10"
+                color="primary"></mat-progress-bar>
+            </div>
+
+            <div fxLayout="column">
+              <div fxLayout="row" fxLayoutAlign="space-between center">
+                <span class="mat-subheading-2">Análisis de la descripción de la idea:</span>
+                <span class="mat-title">{{ relevanceMatrix?.descAnlys}} / 20</span>
+              </div>
+
+              <mat-progress-bar mode="determinate" [value]="(relevanceMatrix?.descAnlys * 100) / 20" color="primary">
+              </mat-progress-bar>
+            </div>
+
+            <div fxLayout="column">
+              <div fxLayout="column" fxLayoutAlign="center center">
+                <span class="mat-title">Resultado: </span>
+                <span class="mat-headline">{{ relevanceMatrix?.result}}</span>
+              </div>
+
+              <div fxLayout="row" fxLayoutAlign="space-between center">
+                <span class="mat-title">Total: </span>
+                <span class="mat-headline">{{ relevanceMatrix?.total}} / 100</span>
+              </div>
+
+              <mat-progress-bar *ngIf="relevanceMatrix?.total < 60" mode="determinate" [value]="relevanceMatrix?.total"
+                color="warn">
+              </mat-progress-bar>
+              <mat-progress-bar *ngIf="relevanceMatrix?.total >= 60" mode="determinate" [value]="relevanceMatrix?.total"
+                color="accent"></mat-progress-bar>
+              <br>
+
+              <div *ngIf="!loadingPre && !preSend && totalMatrix >= 60" class="load-spin" fxFlex>
+                <h2>IDEA PERTINENTE</h2>
+                <h2>APLICAR MATRIZ DE PREINVERSIÓN</h2>
+                <br>
+                <button (click)="generateMatrixPreinvent()" mat-raised-button color="accent">
+                  <mat-icon>get_app</mat-icon>
+                  Generar Matriz de PreInversión
+                </button>
+              </div>
+
+              <div *ngIf="!loadingPre && !preSend && totalMatrix < 60" class="load-spin" fxFlex>
+                <h2>IDEA NO PERTINENTE, NO APLICA A MATRIZ DE PREINVERSIÓN</h2>
+              </div>
+
+              <div *ngIf="loadingPre && preSend" class="load-spin" fxFlex>
+                <mat-spinner></mat-spinner>
+              </div>
+
+              <div *ngIf="!loadingPre && preSend" class="load-spin" fxFlex>
+                <br>
+                <span class="mat-title">Matriz de PreInversión</span>
+                <br>
+                <table>
+                  <tr>
+                    <th>Descripción</th>
+                    <th>%</th>
+                    <th>Resultados Rango</th>
+                  </tr>
+                  <tr>
+                    <td>RANGO DE INVERSIÓN</td>
+                    <td>{{preInvestment?.rango?.valor}}</td>
+                    <td>{{preInvestment?.rango?.resultado}}</td>
+                  </tr>
+                  <tr>
+                    <td>ESTIMACIÓN BENEFICIARIOS (Personas)</td>
+                    <td>{{preInvestment?.estimacion?.valor}}</td>
+                    <td>{{preInvestment?.estimacion?.resultado}}</td>
+                  </tr>
+                  <tr>
+                    <td>COMPLEJIDAD</td>
+                    <td>{{preInvestment?.complejidad?.valor}}</td>
+                    <td>{{preInvestment?.complejidad?.resultado}}</td>
+                  </tr>
+                  <tr>
+                    <td>ETAPA SUGERIDA</td>
+                    <td>{{preInvestment?.etapa?.valor}}%</td>
+                    <td>{{preInvestment?.etapa?.resultado}}</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+          <div fxLayout="column" fxLayoutGap="15px">
+
+            <mat-form-field appearance="outline">
+              <mat-label>Agregar Comentario</mat-label>
+              <textarea matInput formControlName="descriptionGeneral" placeholder="Máximo 200 caracteres..."
+                rows="4"></textarea>
+            </mat-form-field>
+
+            <button mat-raised-button color="accent" type="submit">
+              <mat-icon fontIcon="save"></mat-icon>
+              Guardar
+            </button>
+          </div>
+        </ngx-simplebar>
+      </form>
+    </mat-step>
+
+  </mat-stepper>
+
+</div>

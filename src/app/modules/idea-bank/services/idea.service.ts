@@ -127,7 +127,7 @@ export class IdeaService {
     const url = this.API_URL + this.urlAlternative;
     let snackBarRef = this.snackBarService.loading()
 
-    return this.http.post(url, alternative).pipe(
+    return this.http.post(url+ 'first', alternative).pipe(
       map((res: any) => {
         this.snackBarService.show('SUCCESS', 'Cambios guardados con éxito', 1500)
         return res.alternative;
@@ -293,6 +293,8 @@ export class IdeaService {
         return res.alternative;
       }),
       catchError((err, caught) => {
+        console.log(err);
+
         this.snackBarService.show('DANGER', err.error.message ? err.error.message : err.message, 5000)
         return throwError(() => new Error('err'));
       }),

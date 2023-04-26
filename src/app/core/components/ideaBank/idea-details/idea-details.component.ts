@@ -10,10 +10,11 @@ import { ConvertService } from 'src/app/core/services/convert.service';
 import { CLOSE_DRAWER1, OPEN_DRAWER2 } from 'src/app/core/store/actions';
 import { AppState } from 'src/app/core/store/app.reducer';
 import { IdeaService } from 'src/app/modules/idea-bank/services/idea.service';
-import { SET_ALTERNATIVE, UPDATE_CREATED_IDEA, UPDATE_SEND_IDEA } from 'src/app/modules/idea-bank/store/actions';
+import { READ_GEOGRAFICOS, READ_OBJECTS, READ_PROCESOS, SET_ALTERNATIVE, UPDATE_CREATED_IDEA, UPDATE_SEND_IDEA } from 'src/app/modules/idea-bank/store/actions';
 import { IdeaStore } from 'src/app/modules/idea-bank/store/reducers';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
+import { READ_DENOMINATIONS, READ_REFERENCE_POPULATIONS } from 'src/app/modules/config/store/actions';
 
 @Component({
   selector: 'app-idea-details',
@@ -53,6 +54,13 @@ export class IdeaDetailsComponent implements OnInit, OnDestroy {
     this.sessionSubscription = this.store.select('session').subscribe(session => {
       this.usuario = session.session.usuario;
     });
+
+    this.ideaStore.dispatch(READ_DENOMINATIONS())
+    this.ideaStore.dispatch(READ_GEOGRAFICOS())
+    this.ideaStore.dispatch(READ_OBJECTS())
+    this.ideaStore.dispatch(READ_PROCESOS())
+    this.ideaStore.dispatch(READ_REFERENCE_POPULATIONS())
+
   }
 
   ngOnDestroy(): void {

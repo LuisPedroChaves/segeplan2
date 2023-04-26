@@ -15,6 +15,10 @@ import { ReferencePopulationReducer } from '../config/store/reducers/reference-p
 import { DenominationReducer } from '../config/store/reducers/denomination.reducer';
 import { ReferencePopulationEffects } from '../config/store/effects/reference-population.effects';
 import { DenominationsEffects } from '../config/store/effects/denomination.effects';
+import { SendIdeasComponent } from './pages/send-ideas/send-ideas.component';
+import { DoneIdeasComponent } from './pages/done-ideas/done-ideas.component';
+import { ResultIdeasComponent } from './pages/result-ideas/result-ideas.component';
+import { RevelanceMatrixComponent } from './pages/revelance-matrix/revelance-matrix.component';
 
 
 
@@ -22,7 +26,11 @@ import { DenominationsEffects } from '../config/store/effects/denomination.effec
   declarations: [
     IndexComponent,
     DashboardComponent,
-    NewIdeasComponent
+    NewIdeasComponent,
+    SendIdeasComponent,
+    DoneIdeasComponent,
+    ResultIdeasComponent,
+    RevelanceMatrixComponent
   ],
   imports: [
     CommonModule,

@@ -18,6 +18,8 @@ import { DenominationReducer } from '../../modules/config/store/reducers/denomin
 import { ProcesoReducer } from 'src/app/modules/idea-bank/store/reducers';
 import { ReferencePopulationReducer } from 'src/app/modules/config/store/reducers';
 import { NewDataGeoComponent } from 'src/app/core/components/ideaBank/new-data-geo/new-data-geo.component';
+import { AlternativeDetailsComponent } from 'src/app/core/components/ideaBank/alternative-details/alternative-details.component';
+import { NewRevelanceMatrixComponent } from 'src/app/core/components/ideaBank/new-revelance-matrix/new-revelance-matrix.component';
 
 
 
@@ -39,7 +41,9 @@ import { NewDataGeoComponent } from 'src/app/core/components/ideaBank/new-data-g
     NewPopulationComponent,
     NewAlternativeComponent,
     IdeaDetailsComponent,
-    NewDataGeoComponent
+    NewDataGeoComponent,
+    AlternativeDetailsComponent,
+    NewRevelanceMatrixComponent
   ]
 })
 export class HomeModule { }

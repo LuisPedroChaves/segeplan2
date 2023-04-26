@@ -3,39 +3,9 @@
   <header fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="start center" class="active-elevation">
     <mat-icon fontIcon="tips_and_updates"></mat-icon>
 
-    <p class="mat-headline-6">Registro</p>
+    <p class="mat-headline-6">Solicitudes</p>
 
     <span fxFlex></span>
-
-
-    <mat-form-field appearance="outline" floatLabel="always" class="small-input no-hint">
-      <mat-label>Autor</mat-label>
-      <mat-select [(value)]="author">
-        <mat-option value="Mis Ideas">Mis Ideas</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" floatLabel="always" class="small-input no-hint">
-      <mat-label>Estado</mat-label>
-      <mat-select [(value)]="state">
-        <mat-option value="TODAS">Todas</mat-option>
-        <mat-option value="CREADA">Creadas</mat-option>
-        <mat-option value="ENVIADA">Enviadas</mat-option>
-        <mat-option value="CALIFICADA">Calificadas</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field class="example-form-field" appearance="outline" floatLabel="always" class="small-input no-hint">
-      <mat-label>Número de Idea</mat-label>
-      <input matInput type="text" [(ngModel)]="number">
-      <button *ngIf="number" matSuffix mat-icon-button aria-label="Clear" (click)="number=''">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-
-    <button mat-mini-fab (click)="sendFilter()" color="accent" class="menu-button-add">
-      <mat-icon>search</mat-icon>
-    </button>
 
   </header>
 

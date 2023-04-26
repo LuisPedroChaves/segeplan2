@@ -21,6 +21,8 @@
           <mat-drawer-content>
 
             <app-new-alternative *ngIf="component2 === 'NEW_ALTERNATIVE'"></app-new-alternative>
+            <app-alternative-details *ngIf="component2 === 'SELECTED_ALTERNATIVE'"></app-alternative-details>
+            <app-new-revelance-matrix *ngIf="component2 === 'NEW_RELEVANCE_MATRIX'"></app-new-revelance-matrix>
 
           </mat-drawer-content>
 

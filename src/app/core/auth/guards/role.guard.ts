@@ -20,7 +20,7 @@ export class RoleGuard implements CanActivate {
 
     if (SESSION) {
 
-      const ROLE = JSON.parse(SESSION).user.role;
+      const ROLE = JSON.parse(SESSION).usuario.role;
 
       if (ALLOWED_ROLES.includes(ROLE)) {
         return true;

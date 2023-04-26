@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { distinctUntilChanged } from 'rxjs';
-import { DataGeo } from 'src/app/core/models/alternative';
+import { Subscription, distinctUntilChanged } from 'rxjs';
+import { DataGeo, IdeaAlternative } from 'src/app/core/models/alternative';
 import { AlternativeStore } from 'src/app/modules/idea-bank/store/reducers';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SET_DATA_GEO } from 'src/app/modules/idea-bank/store/actions';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 import { CLOSE_DRAWER3 } from 'src/app/core/store/actions';
+import { UploadService } from 'src/app/core/services/upload.service';
 
 @Component({
   selector: 'app-new-data-geo',
@@ -17,7 +18,7 @@ import { CLOSE_DRAWER3 } from 'src/app/core/store/actions';
   templateUrl: './new-data-geo.component.html',
   styleUrls: ['./new-data-geo.component.scss']
 })
-export class NewDataGeoComponent implements OnInit {
+export class NewDataGeoComponent implements OnInit, OnDestroy {
 
   dataGeo = new FormGroup({
     governmentTerrain: new FormControl(false),
@@ -50,12 +51,19 @@ export class NewDataGeoComponent implements OnInit {
     descriptionLocation: new FormControl('', [Validators.maxLength(200)]),
   })
 
+  alternativeSubscription = new Subscription()
+  alternative: IdeaAlternative = null
+
   constructor(
     private alternativeStore: Store<AlternativeStore>,
     public dialog: MatDialog,
+    private uploadService: UploadService
   ) { }
 
   ngOnInit(): void {
+
+    this.alternativeSubscription = this.alternativeStore.select('alternative')
+      .subscribe(state => this.alternative = state.alternative)
 
     this.dataGeo.controls['governmentTerrain'].valueChanges
       .pipe(
@@ -174,6 +182,10 @@ export class NewDataGeoComponent implements OnInit {
 
   }
 
+  ngOnDestroy(): void {
+    this.alternativeSubscription?.unsubscribe()
+  }
+
   closeDrawer3(): void {
     this.alternativeStore.dispatch(CLOSE_DRAWER3())
   }
@@ -235,11 +247,13 @@ export class NewDataGeoComponent implements OnInit {
       data: { title: 'Agregar', description: '¿Esta seguro que desea agregar los detalles del terreno?', confirmation: true }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async (result) => {
       console.log('The dialog was closed', result);
       if (result === true) {
 
-        console.log(NEW_DATA_GEO);
+        if (image && image.files) {
+          // await this.uploadService.uploadFile(image.files[0], 'terrain', this.alternative.codigo).then();
+        }
 
         // Code of Work
         this.alternativeStore.dispatch(SET_DATA_GEO({ dataGeo: NEW_DATA_GEO }))
