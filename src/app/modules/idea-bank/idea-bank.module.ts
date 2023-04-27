@@ -19,6 +19,7 @@ import { SendIdeasComponent } from './pages/send-ideas/send-ideas.component';
 import { DoneIdeasComponent } from './pages/done-ideas/done-ideas.component';
 import { ResultIdeasComponent } from './pages/result-ideas/result-ideas.component';
 import { RevelanceMatrixComponent } from './pages/revelance-matrix/revelance-matrix.component';
+import { IdeaTableComponent } from './components/idea-table/idea-table.component';
 
 
 
@@ -30,7 +31,8 @@ import { RevelanceMatrixComponent } from './pages/revelance-matrix/revelance-mat
     SendIdeasComponent,
     DoneIdeasComponent,
     ResultIdeasComponent,
-    RevelanceMatrixComponent
+    RevelanceMatrixComponent,
+    IdeaTableComponent
   ],
   imports: [
     CommonModule,

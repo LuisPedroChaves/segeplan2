@@ -3,7 +3,6 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { CHANGE_MENU_DRAWER } from 'src/app/core/store/actions';
 import { AppState } from 'src/app/core/store/app.reducer';
 
 @Component({

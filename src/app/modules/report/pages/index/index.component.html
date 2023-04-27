@@ -1,1 +1,44 @@
-<p>index works!</p>
+<mat-drawer-container class="menu-drawer-container">
+  <mat-drawer #menuDrawer fxHide.lt-md mode="side" class="menu-drawer">
+    <ngx-simplebar class="menu-sidebar">
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <app-logo></app-logo>
+      </div>
+
+      <mat-nav-list>
+        <div mat-subheader>Reportes</div>
+        <mat-list-item
+          routerLink="/reports"
+          [activated]="router.url === '/reports'"
+          class="menu-option"
+        >
+          <mat-icon matListItemIcon fontIcon="tips_and_updates"></mat-icon>
+          <span matListItemTitle>Banco de ideas</span>
+        </mat-list-item>
+
+        <mat-list-item
+          routerLink="sinafip"
+          [activated]="router.url === '/reports/sinafip'"
+          class="menu-option"
+        >
+          <mat-icon matListItemIcon fontIcon="request_quote"></mat-icon>
+          <span matListItemTitle>Sinafip</span>
+        </mat-list-item>
+
+        <mat-list-item
+          routerLink="checkProjects"
+          [activated]="router.url === '/reports/checkProjects'"
+          class="menu-option"
+        >
+          <mat-icon matListItemIcon fontIcon="account_tree"></mat-icon>
+          <span matListItemTitle>Seguimientos</span>
+        </mat-list-item>
+
+      </mat-nav-list>
+    </ngx-simplebar>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>
