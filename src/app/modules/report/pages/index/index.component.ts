@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AppState } from 'src/app/core/store/app.reducer';
+import { READ_GEOGRAFICOS, READ_OBJECTS, READ_PROCESOS } from '../../../idea-bank/store/actions';
 
 @Component({
   selector: 'app-index',
@@ -33,6 +34,10 @@ export class IndexComponent implements OnInit, OnDestroy,AfterViewInit {
         }
 
       })
+
+      this.appStore.dispatch(READ_GEOGRAFICOS())
+      this.appStore.dispatch(READ_OBJECTS())
+      this.appStore.dispatch(READ_PROCESOS())
 
   }
 
