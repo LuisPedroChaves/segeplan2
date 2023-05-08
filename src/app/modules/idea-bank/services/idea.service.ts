@@ -139,11 +139,11 @@ export class IdeaService {
     );
   }
 
-  sendSecondPartAlternative(alternative: IdeaAlternativeTwo): Observable<IdeaAlternative> {
+  sendSecondPartAlternative(alternative: IdeaAlternativeTwo, idAlternative: string): Observable<IdeaAlternative> {
     const url = this.API_URL + this.urlAlternative;
     let snackBarRef = this.snackBarService.loading()
 
-    return this.http.post(url, alternative).pipe(
+    return this.http.post(url+ `second/${idAlternative}`, alternative).pipe(
       map((res: any) => {
         this.snackBarService.show('SUCCESS', 'Cambios guardados con éxito', 1500)
         return res.alternative;

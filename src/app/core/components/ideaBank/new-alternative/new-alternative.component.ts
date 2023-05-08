@@ -533,7 +533,7 @@ export class NewAlternativeComponent implements OnInit, OnDestroy {
     let alternatives: IdeaAlternative[] = this.currentIdea.alternatives ? [...this.currentIdea.alternatives] : [];
 
     // editar
-    if (this.currentAlternative) {
+    if (this.currentAlternative.geoArea) {
 
       this.currentAlternative = {
         ...this.currentAlternative,
@@ -568,7 +568,7 @@ export class NewAlternativeComponent implements OnInit, OnDestroy {
 
             })
             this.ideaStore.dispatch(SET_IDEA_ALTERNATIVES({ alternatives }))
-            this.ideaStore.dispatch(CLOSE_DRAWER2())
+            // this.ideaStore.dispatch(CLOSE_DRAWER2()) TODO: Remove this comment
             // this.stepper.reset();
           });
         }
@@ -579,6 +579,41 @@ export class NewAlternativeComponent implements OnInit, OnDestroy {
 
       return
     }
+
+
+    if (this.currentAlternative.codigo) {
+      const NEW_ALTERNATIVE: IdeaAlternative = {
+        ...this.currentAlternative,
+        geoArea: GEOGRAPHIC_AREA,
+        projDesc: PROJECT_DESCRIPTION
+      }
+
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '250px',
+        data: { title: 'Crear Alternativa', description: '¿Esta Seguro que desea guardar los datos de la Alternativa?', confirmation: true }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
+        if (result === true) {
+
+          // Code of Work
+
+          this.ideaService.sendSecondPartAlternative(NEW_ALTERNATIVE,this.currentAlternative.codigo).subscribe(alternative => {
+
+            alternatives.push(alternative)
+
+            this.ideaStore.dispatch(SET_IDEA_ALTERNATIVES({ alternatives }))
+            // this.ideaStore.dispatch(CLOSE_DRAWER2()) TODO: Remove this comment
+            // this.stepper.reset();
+          });
+        }
+
+        return;
+      });
+      return
+    }
+
   }
 
   calculaCobertura(): void {
