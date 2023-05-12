@@ -17,6 +17,7 @@ import { DELETE_DATA_GEOS, READ_GEOGRAFICOS, READ_OBJECTS, READ_PROCESOS, REMOVE
 import { IPopulationAlt } from 'src/app/core/models/alternative/populationAlt';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 import { CLOSE_DRAWER2, OPEN_DRAWER3 } from 'src/app/core/store/actions';
+import { UploadService } from '../../../services/upload.service';
 
 @Component({
   selector: 'app-new-alternative',
@@ -27,6 +28,9 @@ import { CLOSE_DRAWER2, OPEN_DRAWER3 } from 'src/app/core/store/actions';
 })
 export class NewAlternativeComponent implements OnInit, OnDestroy {
 
+  terrainsSend: DataGeo[] = [];
+  terrainsWithImages: any[] = [];
+  
   /* #region catálogos */
   references: ReferencePopulation[] = [];
   referenceStoreSubscription = new Subscription();
@@ -132,6 +136,7 @@ export class NewAlternativeComponent implements OnInit, OnDestroy {
     public store: Store<AppState>,
     public alternativeStore: Store<AlternativeStore>,
     public dialog: MatDialog,
+    private uploadService: UploadService,
   ) { }
 
   ngOnInit(): void {
@@ -460,6 +465,7 @@ export class NewAlternativeComponent implements OnInit, OnDestroy {
       oneAvailableTerrain,
       investPurchase,
     } = this.geographicArea.value
+    console.log("🚀 ~ file: new-alternative.component.ts:468 ~ NewAlternativeComponent ~ saveIdeaAlternative ~ this.geographicArea.value:", this.geographicArea.value)
 
     const GEOGRAPHIC_AREA: GeographicArea = {
       availableTerrain,
@@ -467,6 +473,7 @@ export class NewAlternativeComponent implements OnInit, OnDestroy {
       investPurchase,
       dataGeo: this.dataGeos
     }
+    console.log("🚀 ~ file: new-alternative.component.ts:470 ~ NewAlternativeComponent ~ saveIdeaAlternative ~ GEOGRAPHIC_AREA:", GEOGRAPHIC_AREA)
 
     const {
       tentativeTermMonth,
@@ -598,14 +605,53 @@ export class NewAlternativeComponent implements OnInit, OnDestroy {
         if (result === true) {
 
           // Code of Work
-
+          if (NEW_ALTERNATIVE.geoArea.dataGeo && NEW_ALTERNATIVE.geoArea.dataGeo.length > 0){
+            this.terrainsSend = NEW_ALTERNATIVE.geoArea.dataGeo;
+          }
           this.ideaService.sendSecondPartAlternative(NEW_ALTERNATIVE,this.currentAlternative.codigo).subscribe(alternative => {
+            if (alternative.geoArea.dataGeo && alternative.geoArea.dataGeo.length > 0) {
 
-            alternatives.push(alternative)
+              for (let i = 0; i < this.terrainsSend.length; i++) {
 
-            this.ideaStore.dispatch(SET_IDEA_ALTERNATIVES({ alternatives }))
-            // this.ideaStore.dispatch(CLOSE_DRAWER2()) TODO: Remove this comment
-            // this.stepper.reset();
+                for (let j = 0; j < alternative.geoArea.dataGeo.length; j++) {
+                  if (
+                    this.terrainsSend[i].statusDescribe === alternative.geoArea.dataGeo[j].statusDescribe 
+                    && this.terrainsSend[i].minutesx === alternative.geoArea.dataGeo[j].minutesx 
+                    && this.terrainsSend[i].minutesy === alternative.geoArea.dataGeo[j].minutesy 
+                  ) {
+                    if (this.terrainsSend[i].image){
+                      this.terrainsWithImages.push({ image: this.terrainsSend[i].image.files[0], id: alternative.geoArea.dataGeo[j].id });
+                    }
+                  }
+                }
+              }
+
+              if (this.terrainsWithImages && this.terrainsWithImages.length > 0) {
+                let contador = 0;
+
+                for (let index = 0; index < this.terrainsWithImages.length; index++) {
+                  const element = this.terrainsWithImages[index];
+                  this.uploadService.uploadFile(element.image, 'terrain', element.id).then((response) => { 
+                    contador++;
+
+
+                    if (contador === this.terrainsWithImages.length) {
+
+                      this.ideaService.getAlternativeById(alternative.codigo).subscribe(alternative => {
+                        alternatives.push({ ...alternative })
+                      })
+                      this.ideaStore.dispatch(SET_IDEA_ALTERNATIVES({ alternatives }))
+                      this.ideaStore.dispatch(CLOSE_DRAWER2())
+                      // this.stepper.reset();
+                    }
+                  });
+                }
+              }
+
+            } else {
+              alternatives.push(alternative)
+            }
+
           });
         }
 
@@ -613,6 +659,12 @@ export class NewAlternativeComponent implements OnInit, OnDestroy {
       });
       return
     }
+
+  }
+
+  finishCreateAlternative(alternatives: IdeaAlternative[], alternative: IdeaAlternative): void {
+
+
 
   }
 

@@ -203,6 +203,23 @@ export class IdeaService {
     );
   }
 
+  getAlternativeById(idAlternative: string): Observable<any> {
+    const url = this.API_URL + this.urlAlternative + 'one/' +idAlternative;
+    let snackBarRef = this.snackBarService.loading()
+
+    return this.http.get(url).pipe(
+      finalize(() => snackBarRef.dismiss()),
+      map((res: any) => {
+        return res.data;
+      }),
+      catchError((err, caught) => {
+        this.snackBarService.show('DANGER', err.error.message ? err.error.message : err.message, 5000)
+        return throwError(() => new Error('err'));
+      }),
+    );
+  }
+
+
   getMatrizPertinencia(idAlternative: string): Observable<any> {
     const url = this.API_URL + this.urlAlternative + 'pertinencia/' + idAlternative;
     let snackBarRef = this.snackBarService.loading()
