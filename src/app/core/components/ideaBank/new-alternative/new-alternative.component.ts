@@ -30,7 +30,7 @@ export class NewAlternativeComponent implements OnInit, OnDestroy {
 
   terrainsSend: DataGeo[] = [];
   terrainsWithImages: any[] = [];
-  
+
   /* #region catálogos */
   references: ReferencePopulation[] = [];
   referenceStoreSubscription = new Subscription();
@@ -615,9 +615,9 @@ export class NewAlternativeComponent implements OnInit, OnDestroy {
 
                 for (let j = 0; j < alternative.geoArea.dataGeo.length; j++) {
                   if (
-                    this.terrainsSend[i].statusDescribe === alternative.geoArea.dataGeo[j].statusDescribe 
-                    && this.terrainsSend[i].minutesx === alternative.geoArea.dataGeo[j].minutesx 
-                    && this.terrainsSend[i].minutesy === alternative.geoArea.dataGeo[j].minutesy 
+                    this.terrainsSend[i].statusDescribe === alternative.geoArea.dataGeo[j].statusDescribe
+                    && this.terrainsSend[i].minutesx === alternative.geoArea.dataGeo[j].minutesx
+                    && this.terrainsSend[i].minutesy === alternative.geoArea.dataGeo[j].minutesy
                   ) {
                     if (this.terrainsSend[i].image){
                       this.terrainsWithImages.push({ image: this.terrainsSend[i].image.files[0], id: alternative.geoArea.dataGeo[j].id });
@@ -631,7 +631,7 @@ export class NewAlternativeComponent implements OnInit, OnDestroy {
 
                 for (let index = 0; index < this.terrainsWithImages.length; index++) {
                   const element = this.terrainsWithImages[index];
-                  this.uploadService.uploadFile(element.image, 'terrain', element.id).then((response) => { 
+                  this.uploadService.uploadFile(element.image, 'terrain', element.id).then((response) => {
                     contador++;
 
 
@@ -669,15 +669,15 @@ export class NewAlternativeComponent implements OnInit, OnDestroy {
   }
 
   calculaCobertura(): void {
-    if (this.populationDelimitation.value.estimateBeneficiaries) {
-      let estBenefic = this.populationDelimitation.value.estimateBeneficiaries;
-      let tpop = this.totalGender;
 
-      let multCov = (estBenefic / tpop);
-      let resCov = (multCov * 100);
+    if (this.populationDelimitation.controls['estimateBeneficiaries']) {
+      const EST_BENEFIC = this.populationDelimitation.controls['estimateBeneficiaries']
+      const TPOP = this.totalGender
 
-      this.coverageText = resCov.toFixed(2);
+      const MULTCOV = (+EST_BENEFIC / TPOP);
+      const RESCOV = (MULTCOV * 100);
 
+      this.coverageText = RESCOV.toFixed(2);
     }
   }
 }
