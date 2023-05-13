@@ -1,0 +1,51 @@
+mat-toolbar {
+  /* Blur effect */
+  background: rgba(120, 192, 255, 0.2);
+  backdrop-filter: blur(18px); // This be the blur
+
+  /* Position */
+  position: sticky;
+  position: -webkit-sticky; /* For macOS/iOS Safari */
+  top: 0; /* Sets the sticky toolbar to be on top */
+  z-index: 10000000000; /* Ensure that your app's content doesn't overlap the toolbar */
+  height: 48px !important;
+}
+
+.my-content {
+  height: calc(100vh - 144px);
+  padding: 24px;
+}
+
+.load-spin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.example-radio-group {
+  display: wrap;
+  flex-direction: column;
+  margin: 15px 0;
+  align-items: flex-start;
+}
+
+.example-radio-button {
+  margin: 5px;
+}

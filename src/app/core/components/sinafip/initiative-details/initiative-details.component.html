@@ -1,0 +1,238 @@
+
+<div ngClass.gt-sm="content-desktop" ngClass.lt-md="content-desktop">
+  <mat-toolbar fxLayoutGap="8px" class="active-elevation">
+
+    <button mat-icon-button (click)="closeDrawer1()" matTooltip="Cancelar" type="button">
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <span class="mat-title"> Detalles de la iniciativa </span>
+    <span fxFlex></span>
+
+    <button *ngIf="initiative.status === 'CREADA' || initiative.status === 'RECHAZADA' && usuario.role === 'USER_ROLE'"
+      mat-button color="warn" (click)="openDrawer2('80%', 'NEW_INITIATIVE', null)">
+      <mat-icon>edit</mat-icon>
+      EDITAR INICIATIVA
+    </button>
+
+    <button *ngIf="initiative.status === 'CREADA' || initiative.status === 'RECHAZADA' && usuario.role === 'USER_ROLE'"
+      mat-button color="warn" (click)="changeStatus('reception')">
+      <mat-icon>send</mat-icon>
+      ENVIAR INICIATIVA
+    </button>
+
+    <button *ngIf="initiative.status === 'EN RECEPCIÓN' && usuario.role === 'ADMIN_ROLE'"
+      (click)="changeStatus('analysis')" mat-button (click)="null" color="warn">
+      <mat-icon>check</mat-icon>
+      ACEPTAR
+    </button>
+
+    <button *ngIf="initiative.status === 'EN RECEPCIÓN' && usuario.role === 'ADMIN_ROLE'"
+      (click)="changeStatus('denied')" mat-button color="warn">
+      <mat-icon>block</mat-icon>
+      DENEGAR
+    </button>
+
+  </mat-toolbar>
+
+  <mat-card class="initiative-card mat-elevation-z2">
+
+    <mat-card-header>
+      <mat-icon mat-card-avatar color="accent"> start </mat-icon>
+      <mat-card-title>
+        {{initiative?.studyDescription.nameStudy}}
+      </mat-card-title>
+
+      <mat-card-subtitle>
+        <ul>
+          <li *ngIf="initiative.status == 'CREADA'" class="status pending"> SIN ENVIAR </li>
+          <li *ngIf="initiative.status == 'EN RECEPCIÓN'" class="status in-progress"> ENVIADA </li>
+          <li *ngIf="initiative.status == 'EN ANÁLISIS'" class="status in-progress"> RECEPCIONADA </li>
+          <li *ngIf="initiative.status == 'RECHAZADA'" class="status dead"> SIN RECEPCIONAR </li>
+          <li *ngIf="initiative.status == 'CALIFICADA' && initiative.result == 'ADMITIDA'" class="status open"> ADMITIDA </li>
+          <li *ngIf="initiative.status == 'CALIFICADA' && initiative.result == 'NO ADMITIDA'" class="status dead"> NO ADMITIDA </li>
+        </ul>
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="initiative-card-content">
+      <p> {{initiative?.studyDescription.objetiveGeneral}} </p>
+      <hr>
+
+      <mat-tab-group mat-align-tabs="center" color="accent">
+
+        <mat-tab label="Institución">
+
+          <ngx-simplebar class="initiatives" fxLayout="column" fxLayoutGap="16px">
+
+            <br>
+            <label *ngIf="initiative?.institution?.entityName" class="mat-headline-6" fxLayoutAlign="center center">{{ initiative.institution.entityName }}</label>
+            <label *ngIf="!initiative?.institution?.entityName">No Se encontró una institucion</label>
+
+            <div *ngIf="!initiative.institution"> No se encontraron datos de la Institution </div>
+            <div *ngIf="initiative.institution">
+              <br>
+              <p> <b> Nombre: </b>
+                <label *ngIf="initiative?.institution?.functionProjName"> {{ initiative.institution.functionProjName}}</label>
+                <label *ngIf="!initiative?.institution?.functionProjName"> No se encontró nombre del proyecto</label>
+              </p>
+
+              <p> <b> Estudio general: </b>
+                <label *ngIf="initiative.institution?.generalStudy">{{ initiative.institution.generalStudy}}</label>
+                <label *ngIf="!initiative.institution?.generalStudy">No se encontró estudio general</label>
+              </p>
+
+              <p> <b> Unidad Ejecutora: </b>
+                <label *ngIf="initiative.institution?.executionUnit ">{{ initiative.institution.executionUnit}}</label>
+                <label *ngIf="!initiative.institution?.executionUnit ">No se encontró Unidad Ejecutora</label>
+              </p>
+
+              <div *ngIf="initiative.institution">
+                <p *ngIf="initiative.institution.documentsFinance && initiative.institution.documentsFinance.length > 0">
+                  <b>Documento de preinversión: </b>
+                  {{ initiative.institution.dcmntPreinvest }}
+                </p>
+
+                <ol *ngIf="initiative.institution?.documentsFinance && initiative.institution?.documentsFinance.length > 0">
+                  <li *ngFor="let doc of initiative.institution?.documentsFinance">{{doc.name}}</li>
+                </ol>
+              </div>
+
+              <p> <b>Nombre del responsable: </b> {{ initiative.institution.responsibleName }} </p>
+              <p> <b>Email del contácto: </b> {{ initiative.institution.contactEmail }} </p>
+              <p> <b>Número de teléfono: </b> {{ initiative.institution.phoneNumber }} </p>
+
+            </div>
+          </ngx-simplebar>
+        </mat-tab>
+
+        <mat-tab label="Inversión">
+          <ngx-simplebar class="generalInformation">
+            <br>
+            <p> <b> Nombre del proyecto: </b> {{ initiative.investment.nameProject }}</p>
+            <p> <b>Objetivo del proyecto: </b> {{ initiative.investment.objetiveProject }} </p>
+            <p> <b>Descripción y justificación del proyecto: </b> {{ initiative.investment.descAdnJust }} </p>
+            <p> <b>Información de estudios: </b> {{ initiative.investment.infoStudies }} </p>
+            <p> <b>Costo estimado: </b> Q{{ initiative.investment.estimatedProject | number: '.2' }} </p>
+
+          </ngx-simplebar>
+        </mat-tab>
+
+        <mat-tab label="Estudios">
+          <ngx-simplebar class="generalInformation">
+            <br>
+            <p> <b> Nombre del estudio: </b> {{ initiative.studyDescription.nameStudy }} </p>
+            <p> <b>Objetivo del proyecto: </b> {{ initiative.studyDescription.objetiveGeneral }} </p>
+            <p> <b>Costo estimado: </b> Q{{ initiative.studyDescription.costEstimted | number: '.2' }} </p>
+            <p> <b>Financiamiento: </b> {{ initiative.studyDescription.modalityFinancing }} </p>
+
+          </ngx-simplebar>
+        </mat-tab>
+
+        <mat-tab label="Delimitación">
+          <ngx-simplebar class="generalInformation">
+            <br>
+            <p> <b> Delimitación: </b> {{ initiative.delimit.denomination }} </p>
+            <p> <b>Referencia de población: </b> {{ initiative.delimit.nameRefPop }} </p>
+            <p> <b>Estimación de beneficiados Hombres: </b> {{ initiative.delimit.populations[0]?.total }} </p>
+            <p> <b>Estimación de beneficiados Mujeres: </b> {{ initiative.delimit.populations[1]?.total }} </p>
+            <p> <b>Estimación de beneficiados Total: </b> {{ initiative.delimit.estimatedBenef }} </p>
+          </ngx-simplebar>
+        </mat-tab>
+
+        <mat-tab label="Documentos">
+          <ngx-simplebar class="generalInformation">
+
+            <br>
+            <p class="mat-headline-6"> <b> Archivos adjuntos: </b> </p>
+            <div *ngIf="initiative.institution">
+              <p *ngIf="initiative.institution.documentProject">
+                <b>Documento del proyecto:</b>
+                <a mat-button color="accent" mat-line [href]="initiative.institution.documentProject" target="_blank"> Abrir <mat-icon>launch</mat-icon> </a>
+              </p>
+            </div>
+
+            <p *ngIf="initiative.requirementsDocuments.tdr">
+              <b>TDR:</b>
+              <a mat-button color="accent" mat-line [href]="initiative.requirementsDocuments.tdr" target="_blank"> Abrir <mat-icon>launch</mat-icon> </a>
+            </p>
+
+            <p *ngIf="initiative.requirementsDocuments.scheduleActiv">
+              <b>Cronograma de actividades:</b>
+              <a mat-button color="accent" mat-line [href]="initiative.requirementsDocuments.scheduleActiv" target="_blank"> Abrir <mat-icon>launch</mat-icon> </a>
+            </p>
+
+          </ngx-simplebar>
+        </mat-tab>
+
+        <mat-tab label="Actividades">
+          <ngx-simplebar class="generalInformation">
+
+            <br>
+            <p class="mat-headline-6"> <b> Actividades y Cronograma </b> </p>
+            <mat-divider></mat-divider>
+
+            <table mat-table [dataSource]="dataSource">
+
+              <ng-container matColumnDef="dateStart">
+                <th mat-header-cell *matHeaderCellDef> Inicio </th>
+                <td mat-cell *matCellDef="let element"> {{element.dateStart | date: 'dd/MM/yyyy'}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="dateEnd">
+                <th mat-header-cell *matHeaderCellDef> Finalización </th>
+                <td mat-cell *matCellDef="let element"> {{element.dateEnd | date: 'dd/MM/yyyy'}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="activity">
+                <th mat-header-cell *matHeaderCellDef> Actividad </th>
+                <td mat-cell *matCellDef="let element"> {{element.activity}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="unitMeasure">
+                <th mat-header-cell *matHeaderCellDef> Unidad de medida </th>
+                <td mat-cell *matCellDef="let element"> {{element.unitMeasure}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="cant">
+                <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+                <td mat-cell *matCellDef="let element"> {{element.cant}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="priceU">
+                <th mat-header-cell *matHeaderCellDef> Precio U. </th>
+                <td mat-cell *matCellDef="let element">Q{{element.priceU | number: '.2'}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="subTotal">
+                <th mat-header-cell *matHeaderCellDef> Subtotal </th>
+                <td mat-cell *matCellDef="let element">Q{{element.subTotal | number: '.2'}} </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <br>
+            <p class="mat-title" fxLayoutAlign="center center" class="mat-headline-6">
+              <b>Total estimado: </b>
+              &nbsp; Q.{{ initiative.requirementsDocuments.stimatedBudget.totalStimated | number: '.2' }}
+            </p>
+
+            <div *ngIf="initiative?.requirementsDocuments?.stimatedBudget?.activities &&
+                        initiative?.requirementsDocuments?.stimatedBudget?.activities.length > 0">
+              <p class="mat-title" class="mat-headline-6"> Cronograma: </p>
+              <div>
+                <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+              </div>
+            </div>
+
+          </ngx-simplebar>
+        </mat-tab>
+
+      </mat-tab-group>
+
+    </mat-card-content>
+
+  </mat-card>
+</div>

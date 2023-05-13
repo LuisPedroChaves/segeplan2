@@ -5,6 +5,12 @@ import { RouterModule } from '@angular/router';
 import { SinafipRoutes } from './sinafip.routing';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { NewIniciativesComponent } from './pages/new-iniciatives/new-iniciatives.component';
+import { FollowupsComponent } from './pages/followups/followups.component';
+import { AdmissionsComponent } from './pages/admissions/admissions.component';
+import { PrioritizationMatrixComponent } from './pages/prioritization-matrix/prioritization-matrix.component';
+import { LogoComponent } from 'src/app/core/components/logo/logo.component';
+import { SinafipTableComponent } from './components/sinafip-table/sinafip-table.component';
 import { StoreModule } from '@ngrx/store';
 import { InitiativeReducer } from './store/reducers';
 import { EffectsModule } from '@ngrx/effects';
@@ -23,7 +29,12 @@ import { ModalityFinancingReducer } from './store/reducers/modalityFinancing.red
 @NgModule({
   declarations: [
     IndexComponent,
-    DashboardComponent
+    DashboardComponent,
+    NewIniciativesComponent,
+    FollowupsComponent,
+    AdmissionsComponent,
+    PrioritizationMatrixComponent,
+    SinafipTableComponent,
   ],
   imports: [
     CommonModule,
@@ -39,7 +50,9 @@ import { ModalityFinancingReducer } from './store/reducers/modalityFinancing.red
     StoreModule.forFeature('denomination', DenominationReducer),
     StoreModule.forFeature('referencePopulation', ReferencePopulationReducer),
     StoreModule.forFeature('product', ProductReducer),
-    EffectsModule.forFeature(sinafipEffects)
+    EffectsModule.forFeature(sinafipEffects),
+    //components
+    LogoComponent
   ]
 })
 export class SinafipModule { }

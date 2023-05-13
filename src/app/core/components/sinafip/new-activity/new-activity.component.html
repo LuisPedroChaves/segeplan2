@@ -1,0 +1,91 @@
+<ngx-simplebar ngClass.gt-sm="content-desktop" ngClass.lt-md="content-desktop">
+  <mat-toolbar fxLayoutGap="8px" class="active-elevation">
+    <button mat-icon-button (click)="closeDrawer2()" matTooltip="Cancelar" type="button">
+      <mat-icon>close</mat-icon>
+    </button>
+    <span> Nueva actividad </span>
+    <span fxFlex></span>
+  </mat-toolbar>
+
+  <div fxLayout="row" fxLayoutAlign="center center" class="form">
+    <div fxFlex="90">
+      <form [formGroup]="activity" (ngSubmit)="onSubmit()" autocomplete="off">
+        <div fxLayout="column" fxLayoutGap="10px" class="my-form">
+          <br>
+          <mat-form-field fxFill appearance="outline">
+            <mat-label>Fecha de inicio</mat-label>
+            <input matInput formControlName="dateStart" [matDatepicker]="datepicker">
+            <mat-hint>DD/MM/YYYY</mat-hint>
+            <mat-error *ngIf="activity.get('dateStart')?.hasError('required')">
+              La fecha es <strong>requerida</strong>
+            </mat-error>
+            <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+            <mat-datepicker #datepicker>
+            </mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field fxFill appearance="outline">
+            <mat-label>Fecha de finalización</mat-label>
+            <input matInput formControlName="dateEnd" [matDatepicker]="datepicker2">
+            <mat-hint>DD/MM/YYYY</mat-hint>
+            <mat-error *ngIf="activity.get('dateEnd')?.hasError('required')">
+              La fecha es <strong>requerida</strong>
+            </mat-error>
+            <mat-datepicker-toggle matSuffix [for]="datepicker2"></mat-datepicker-toggle>
+            <mat-datepicker #datepicker2>
+            </mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field fxFill appearance="outline">
+            <mat-label>Actividad</mat-label>
+            <input matInput formControlName="activity" type="text">
+            <mat-error *ngIf="activity.get('activity')?.hasError('required')">
+              La actividad es <strong>requerida</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field fxFill appearance="outline">
+            <mat-label>Unidad de medida</mat-label>
+            <input matInput formControlName="unitMeasure" type="text">
+            <mat-error *ngIf="activity.get('unitMeasure')?.hasError('required')">
+              La unidad de medida es <strong>requerida</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field fxFill appearance="outline">
+            <mat-label>Cantidad </mat-label>
+            <input formControlName="cant" type="number" matInput placeholder="Ingrese una cantidad">
+            <mat-error *ngIf="activity.get('cant')?.hasError('required')">
+              La cantidad es <strong>requerida</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field fxFill appearance="outline">
+            <mat-label>Precio U. </mat-label>
+            <span matPrefix>Q. &nbsp;</span>
+            <input formControlName="priceU" type="number" (ngModelChange)='updateSubtotal($event)' matInput
+              placeholder="Ingrese un precio">
+            <mat-error *ngIf="activity.get('priceU')?.hasError('required')">
+              El precio unitario es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <!-- <mat-form-field appearance="outline"> -->
+          <mat-label>Subtotal: {{subtotal}}</mat-label>
+          <!-- <span matPrefix>Q &nbsp;</span>
+            <input formControlName="subTotal" type="number" matInput placeholder="Ingrese un subtotal">
+            <mat-error *ngIf="activity.get('subTotal')?.hasError('required')">
+              El subtotal es <strong>requerido</strong>
+            </mat-error>-->
+          <!-- </mat-form-field> -->
+
+          <button mat-raised-button type="submit" color="accent">
+            Agregar
+          </button>
+
+        </div>
+
+      </form>
+    </div>
+  </div>
+</ngx-simplebar>
