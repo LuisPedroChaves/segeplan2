@@ -15,7 +15,7 @@ import { StoreModule } from '@ngrx/store';
 import { InitiativeReducer } from './store/reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { sinafipEffects } from './store/effects';
-import { GeograficoReducer } from '../idea-bank/store/reducers';
+import { GeograficoReducer } from '../../core/store/reducers';
 import { DenominationReducer, ReferencePopulationReducer } from '../config/store/reducers';
 import { ProductReducer } from 'src/app/core/store/reducers';
 import { EntityReducer } from './store/reducers/entity.reducer';
@@ -23,6 +23,7 @@ import { ProjectFunctionReducer } from './store/reducers/projectFunction.reducer
 import { GeneralStudyReducer } from './store/reducers/generalStudy.reducer';
 import { PreinvDocumentReducer } from './store/reducers/preinvDocument.reducer';
 import { ModalityFinancingReducer } from './store/reducers/modalityFinancing.reducer';
+import { GeograficoEffects } from 'src/app/core/store/effects/geografico.effects';
 
 
 
@@ -50,7 +51,7 @@ import { ModalityFinancingReducer } from './store/reducers/modalityFinancing.red
     StoreModule.forFeature('denomination', DenominationReducer),
     StoreModule.forFeature('referencePopulation', ReferencePopulationReducer),
     StoreModule.forFeature('product', ProductReducer),
-    EffectsModule.forFeature(sinafipEffects),
+    EffectsModule.forFeature([...sinafipEffects, GeograficoEffects]),
     //components
     LogoComponent
   ]

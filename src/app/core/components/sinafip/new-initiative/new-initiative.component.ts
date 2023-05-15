@@ -31,6 +31,7 @@ import { IDelimitPopulation } from 'src/app/core/models/sinafip/delimitPopulatio
 import { CREATE_INITIATIVE, DELETE_ACTIVITIES, READ_GENERALSTUDIES, READ_MODALITYFINANCINGS, READ_PREINVDOCUMENTS, READ_PROJECTFUNCTIONS, REMOVE_ACTIVITY, SET_ACTIVITIES, SET_ACTIVITY } from 'src/app/modules/sinafip/store/actions';
 import { READ_GEOGRAFICOS } from 'src/app/modules/idea-bank/store/actions';
 import { READ_DENOMINATIONS } from 'src/app/modules/config/store/actions';
+import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 
 
 @Component({
@@ -179,8 +180,6 @@ export class NewInitiativeComponent implements OnInit, OnDestroy {
     this.delimit.controls.menBenef.setValue(0)
     this.delimit.controls.womenBenef.setValue(0)
 
-
-
     this.sessionSubscription = this.store.select('session').subscribe(session => {
       this.usuario = session.session.usuario;
       this.idEntidad = session.session.usuario.id_inst.toString()
@@ -289,29 +288,24 @@ export class NewInitiativeComponent implements OnInit, OnDestroy {
     this.departamentoStoreSubscription.unsubscribe();
   }
 
-  closeDrawer1(): void { this.initiativeStore.dispatch(CLOSE_DRAWER1()) }
+  // closeDrawer1(): void { this.initiativeStore.dispatch(CLOSE_DRAWER1()) }
 
-  // closeFullDrawer(): void {
-  //   const dialogRef = this.dialog.open(AlertDialogComponent, {
-  //     width: '375px',
-  //     data: { title: 'Cambios no guardados', description: '¿Seguro que quiere salir? Hay cambios sin guardar. Si abandona la página, los cambios se perderán.', confirmation: true }
-  //   });
+  closeDrawer1(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '375px',
+      data: { title: 'Cambios no guardados', description: '¿Seguro que quiere salir? Hay cambios sin guardar. Si abandona la página, los cambios se perderán.', confirmation: true }
+    });
 
-  //   dialogRef.afterClosed().subscribe(result => {
-
-  //     if (result === true) {
-
-  //       // this.initiativeStore.dispatch(CLOSE_FULL_DRAWER())
-
-  //     }
-
-  //     return
-  //   });
-  // }
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.initiativeStore.dispatch(CLOSE_DRAWER1())
+      } return
+    });
+  }
 
   //formulario de nueva actividad
   openDrawer2(width2: string, component2: string, activity: Activity) {
-    this.initiativeStore.dispatch(SET_ACTIVITY({activity}))
+    // this.initiativeStore.dispatch(SET_ACTIVITY({activity}))
     this.initiativeStore.dispatch(OPEN_DRAWER2({ width2, component2 }))
   }
 
@@ -321,12 +315,6 @@ export class NewInitiativeComponent implements OnInit, OnDestroy {
 
   removeActivity(activity: Activity): void {
     this.initiativeStore.dispatch(REMOVE_ACTIVITY({ activity }))
-  }
-
-  scrollToTop(): void {
-    setTimeout(() => {
-      this.myScrollContainer.nativeElement.scrollTop = 0;
-    }, 500);
   }
 
   selecDepartament(): void {
@@ -567,30 +555,27 @@ export class NewInitiativeComponent implements OnInit, OnDestroy {
     }
     console.log("🚀 ~ file: new-initiative.component.ts:526 ~ NewInitiativeComponent ~ saveInitiative ~ NEW_REQUEST", NEW_REQUEST)
 
-    // const dialogRef = this.dialog.open(AlertDialogComponent, {
-    //   width: '250px',
-    //   data: { title: 'Crear Iniciativa de preinversión', description: '¿Esta seguro que desea guardar los datos para crear una iniciativa?', confirmation: true }
-    // });
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '250px',
+      data: { title: 'Crear Iniciativa de preinversión', description: '¿Esta seguro que desea guardar los datos para crear una iniciativa?', confirmation: true }
+    });
 
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (result === true) {
-    //     // Code of Work
-    //     this.initiativeStore.dispatch(CREATE_INITIATIVE({
-    //       initiative: NEW_REQUEST,
-    //       payload: {
-    //         documentProject,
-    //         tdr,
-    //       }
-    //     }))
-
-    //     this.resetForms()
-    //     this.initiativeStore.dispatch(CLOSE_DRAWER1())
-
-    //     return
-    //   }
-
-    //   return
-    // });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        // Code of Work
+        this.initiativeStore.dispatch(CREATE_INITIATIVE({
+          initiative: NEW_REQUEST,
+          payload: {
+            documentProject,
+            tdr,
+          }
+        }))
+        this.resetForms()
+        this.initiativeStore.dispatch(CLOSE_DRAWER1());
+        return
+      }
+      return
+    });
   }
 
 }

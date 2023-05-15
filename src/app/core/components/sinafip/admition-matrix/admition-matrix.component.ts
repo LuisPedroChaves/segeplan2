@@ -1,3 +1,4 @@
+
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -9,12 +10,15 @@ import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { AdmissionQuanty, IPriorizationMatrix, IRequest } from 'src/app/core/models/sinafip';
-import { CLOSE_DRAWER2 } from 'src/app/core/store/actions';
+import { CLOSE_DRAWER1 } from 'src/app/core/store/actions';
 import { AppState } from 'src/app/core/store/app.reducer';
 import { SinafipService } from 'src/app/modules/sinafip/services/sinafip.service';
 import { InitiativeStore } from 'src/app/modules/sinafip/store/reducers';
 
 import { SharedModule } from 'src/app/shared/shared.module';
+import { SnackBarService } from '../../../services/snack-bar.service';
+import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
+import { IAdmissionConfig } from 'src/app/core/models/sinafip/admissionConfig';
 
 @Component({
   selector: 'app-admition-matrix',
@@ -40,60 +44,116 @@ export class AdmitionMatrixComponent implements OnInit, OnDestroy {
     locale: 'es',
   };
 
-  isMatrixPriorization = false;
   matrixPriorization: any = {};
   matrices: any = {};
 
+  isMatrixPriorization = false;
   valuePlanning = 0;
   totalPriorization = 0;
 
   initiativeStoreSubscription = new Subscription()
-  initiative: IRequest = null;
+  initiative: IRequest = {
+    "investment": {
+      "coreProblem": "",
+      "productId": "",
+      "productName": "",
+      "nameProject": "",
+      "objetiveProject": "",
+      "descAdnJust": "",
+      "infoStudies": "",
+      "estimatedProject": "",
+      "requestId": ""
+    },
+    "studyDescription": {
+      "nameStudy": "",
+      "objetiveGeneral": "",
+      "costEstimted": 0,
+      "modalityFinancing": "",
+      "requestId": ""
+    },
+    "delimit": {
+      "denomination": "",
+      "departament": "",
+      "estimatedBenef": "",
+      "municipality": "",
+      "nameRefPop": "",
+      "populations": [{ "type": "", "total": 0, "delimitId": "" }],
+      "requestId": ""
+    },
+    "requirementsDocuments": {
+      "tdr": "",
+      "scheduleActiv": "",
+      "stimatedBudget": {
+        "totalStimated": 0,
+        "activities": [{
+          "dateStart": "",
+          "dateEnd": "",
+          "activity": "",
+          "unitMeasure": "",
+          "cant": 0,
+          "priceU": 0,
+          "subTotal": 0,
+        }]
+      },
+      "requestId": ""
+    },
+    institution: undefined
+  }
+
+  statementMaxValue: any = []
+  beneficiariestMaxValue: any = []
+  goalsMaxValue: any = []
+  tdrMaxValue: any = []
+  costMaxValue: any = []
+  scheduleMaxValue: any = []
 
   admissionResume: AdmissionQuanty;
   priorizationMatrix: IPriorizationMatrix;
 
-  criterio1 = new FormGroup({
+  criterios = new FormGroup({
     statementNeedValue: new FormControl('', Validators.required),
     statementNeedDescription: new FormControl(''),
-  })
-  criterio2 = new FormGroup({
     numberBeneficiariesValue: new FormControl('', Validators.required),
     numberBeneficiariesDescription: new FormControl(''),
-  })
-  criterio3 = new FormGroup({
     objetivesGoalsValue: new FormControl('', Validators.required),
     objetivesGoalsDescription: new FormControl(''),
-  })
-  criterio4 = new FormGroup({
     tdrValue: new FormControl('', Validators.required),
     tdrDescription: new FormControl(''),
-  })
-  criterio5 = new FormGroup({
     estimatedCostValue: new FormControl('', Validators.required),
     estimatedCostDescription: new FormControl(''),
-  })
-  criterio6 = new FormGroup({
     generalScheduleValue: new FormControl('', Validators.required),
     generalScheduleDescription: new FormControl(''),
   })
-  // resume = new FormGroup({
-  //   descriptionGeneral: new FormControl(''),
-  // })
 
-  // admissionValues: IAdmissionConfig = {}
+  resume = new FormGroup({
+    descriptionGeneral: new FormControl(''),
+  })
+
+  admissionValues: IAdmissionConfig = {}
   isLoadingValues = true;
 
-  rating30 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
-  rating20 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
-  rating10 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-  // statementMaxValue = []
-  // beneficiariestMaxValue = []
-  // goalsMaxValue = []
-  // tdrMaxValue = []
-  // costMaxValue = []
-  // scheduleMaxValue = []
+  ratingGroups: any = [
+    {
+      name: 'EXCELENTE',
+      ratings: [10]
+    },
+    {
+      name: 'BUENO',
+      ratings: [9, 8]
+    },
+    {
+      name: 'ACEPTABLE',
+      ratings: [7, 6]
+    },
+    {
+      name: 'DEFICIENTE',
+      ratings: [5, 4]
+    },
+    {
+      name: 'REPLANTEAR',
+      ratings: [3, 2, 1]
+    },
+  ]
 
   constructor(
     private appStore: Store<AppState>,
@@ -101,80 +161,67 @@ export class AdmitionMatrixComponent implements OnInit, OnDestroy {
     private sinafipService: SinafipService,
     private dialog: MatDialog,
     private ref: ChangeDetectorRef,
-
+    private snackbarService: SnackBarService,
   ) {
 
   }
 
   ngOnInit(): void {
-    // this.sinafipService.getValuesOfMatrixPertinence().subscribe((res: any) => {
-    //   this.admissionValues = res;
-    //   this.statementMaxValue = this.getNumberArray(res.statementMaxValue);
-    //   this.beneficiariestMaxValue = this.getNumberArray(res.beneficiariestMaxValue);
-    //   this.goalsMaxValue = this.getNumberArray(res.goalsMaxValue);
-    //   this.tdrMaxValue = this.getNumberArray(res.tdrMaxValue);
-    //   this.costMaxValue = this.getNumberArray(res.costMaxValue);
-    //   this.scheduleMaxValue = this.getNumberArray(res.scheduleMaxValue);
-    //   this.isLoadingValues = false;
-    // });
+    this.sinafipService.getValuesOfMatrixPertinence().subscribe((res: any) => {
+      this.admissionValues = res;
+      this.statementMaxValue = this.getNumberArray(res.statementMaxValue);
+      this.beneficiariestMaxValue = this.getNumberArray(res.beneficiariestMaxValue);
+      this.goalsMaxValue = this.getNumberArray(res.goalsMaxValue);
+      this.tdrMaxValue = this.getNumberArray(res.tdrMaxValue);
+      this.costMaxValue = this.getNumberArray(res.costMaxValue);
+      this.scheduleMaxValue = this.getNumberArray(res.scheduleMaxValue);
+      this.isLoadingValues = false;
+    });
 
-    // this.criterio1;
+    this.initiativeStoreSubscription = this.initiativeStore.select('initiative')
+      .subscribe(state => {
 
-    // this.initiativeStoreSubscription = this.initiativeStore.select('initiative')
-    //   .subscribe(state => {
+        if (state.initiative) {
+          this.initiative = state.initiative
 
-    //     if (state.initiative) {
-    //       this.initiative = state.initiative
-    //       console.log(this.initiative)
-
-    //       if (this.initiative?.requirementsDocuments?.stimatedBudget?.activities &&
-    //         this.initiative?.requirementsDocuments?.stimatedBudget?.activities.length > 0) {
-    //         const ACTIVITIES = this.initiative?.requirementsDocuments?.stimatedBudget?.activities;
-    //         this.calendarOptions.events = ACTIVITIES.map(a => {
-    //           return { title: a.activity, start: moment(a.dateStart).format(), end: moment(a.dateEnd).format() }
-    //         })
-    //         this.ref.detectChanges()
-    //         window.dispatchEvent(new Event('resize'));
-    //       }
-    //     }
-
-    //   })
+          if (this.initiative?.requirementsDocuments?.stimatedBudget?.activities &&
+            this.initiative?.requirementsDocuments?.stimatedBudget?.activities.length > 0) {
+            const ACTIVITIES = this.initiative?.requirementsDocuments?.stimatedBudget?.activities;
+            this.calendarOptions.events = ACTIVITIES.map(a => {
+              return { title: a.activity, start: moment(a.dateStart).format(), end: moment(a.dateEnd).format() }
+            })
+            this.ref.detectChanges()
+            window.dispatchEvent(new Event('resize'));
+          }
+        }
+      })
   }
 
   ngOnDestroy(): void {
-
+    this.initiativeStoreSubscription?.unsubscribe()
   }
 
-  closeDrawer2():void {
-    this.initiativeStore.dispatch(CLOSE_DRAWER2())
+  closeDrawer1(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '375px',
+      data: { title: 'Cambios no guardados', description: '¿Seguro que quiere salir? Hay cambios sin guardar. Si abandona la página, los cambios se perderán.', confirmation: true }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.initiativeStore.dispatch(CLOSE_DRAWER1())
+      } return
+    });
   }
 
-  // closeFullDrawer(): void {
-  //   const dialogRef = this.dialog.open(AlertDialogComponent, {
-  //     width: '375px',
-  //     data: { title: 'Cambios no guardados', description: '¿Seguro que quiere salir? Hay cambios sin guardar. Si abandona la página, los cambios se perderán.', confirmation: true }
-  //   });
+  loadMatrix(): void {
 
-  //   dialogRef.afterClosed().subscribe(result => {
-
-  //     if (result === true) {
-
-  //       this.appStore.dispatch(CLOSE_FULL_DRAWER())
-
-  //     }
-
-  //     return
-  //   });
-  // }
-
-  resumeMatrix(): void {
-
-    const { statementNeedValue, statementNeedDescription } = this.criterio1.value;
-    const { numberBeneficiariesValue, numberBeneficiariesDescription } = this.criterio2.value;
-    const { objetivesGoalsValue, objetivesGoalsDescription } = this.criterio3.value;
-    const { tdrValue, tdrDescription } = this.criterio4.value;
-    const { estimatedCostValue, estimatedCostDescription } = this.criterio5.value;
-    const { generalScheduleValue, generalScheduleDescription } = this.criterio6.value;
+    const { statementNeedValue, statementNeedDescription } = this.criterios.value;
+    const { numberBeneficiariesValue, numberBeneficiariesDescription } = this.criterios.value;
+    const { objetivesGoalsValue, objetivesGoalsDescription } = this.criterios.value;
+    const { tdrValue, tdrDescription } = this.criterios.value;
+    const { estimatedCostValue, estimatedCostDescription } = this.criterios.value;
+    const { generalScheduleValue, generalScheduleDescription } = this.criterios.value;
 
     const statementNeed = this.initiative.investment.coreProblem;
     const numberBeneficiaries = this.initiative.delimit.estimatedBenef;
@@ -190,7 +237,6 @@ export class AdmitionMatrixComponent implements OnInit, OnDestroy {
     let estimatedCostValueInt = parseInt(estimatedCostValue);
     let generalScheduleValueInt = parseInt(generalScheduleValue);
     let total = statementNeedValueInt + numberBeneficiariesValueInt + objetivesGoalsValueInt + tdrValueInt + estimatedCostValueInt + generalScheduleValueInt;
-
 
     this.admissionResume = {
       statementNeed,
@@ -216,13 +262,11 @@ export class AdmitionMatrixComponent implements OnInit, OnDestroy {
 
     this.matrices = { admissionQuanty: this.admissionResume }
 
-
     if (this.initiative.studyDescription.modalityFinancing == 'NO SE CUENTA CON FUENTE DE FINANCIAMIENTO' && total >= 60) {
       if (this.initiative.investment?.productName) {
         this.valuePlanning = 20;
       }
       let benefValue = this.admissionResume?.numberBeneficiariesValue * 2;
-
 
       this.sinafipService.requestPriorizationData(this.initiative.id).subscribe((res: any) => {
         this.matrixPriorization = res;
@@ -239,20 +283,16 @@ export class AdmitionMatrixComponent implements OnInit, OnDestroy {
         this.matrices.priorizationMatrix = this.priorizationMatrix;
       })
       this.isMatrixPriorization = true;
-
-
     }
   }
 
   saveAdmissionMatrix(): void {
-
     this.sinafipService.saveRequestAdmission(this.initiative.id, this.matrices)
       .subscribe((res: any) => {
         console.log(res);
-        this.appStore.dispatch(CLOSE_DRAWER2());
+        this.appStore.dispatch(CLOSE_DRAWER1());
         this.stepper.reset();
       });
-
   }
 
   getNumberArray(maxValue: number): number[] {
@@ -262,5 +302,5 @@ export class AdmitionMatrixComponent implements OnInit, OnDestroy {
     }
     return numbersArray;
   }
-
 }
+

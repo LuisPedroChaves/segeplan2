@@ -11,5 +11,5 @@ export const sinafipEffects: any[] = [
   ProjectFunctionEffects,
   GeneralStudyEffects,
   PreinvDocumentEffects,
-  ModalityFinancingEffects
+  ModalityFinancingEffects,
 ];

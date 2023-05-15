@@ -1,5 +1,6 @@
 
 <div ngClass.gt-sm="content-desktop" ngClass.lt-md="content-desktop">
+
   <mat-toolbar fxLayoutGap="8px" class="active-elevation">
 
     <button mat-icon-button (click)="closeDrawer1()" matTooltip="Cancelar" type="button">
@@ -9,11 +10,11 @@
     <span class="mat-title"> Detalles de la iniciativa </span>
     <span fxFlex></span>
 
-    <button *ngIf="initiative.status === 'CREADA' || initiative.status === 'RECHAZADA' && usuario.role === 'USER_ROLE'"
-      mat-button color="warn" (click)="openDrawer2('80%', 'NEW_INITIATIVE', null)">
+    <!-- <button *ngIf="initiative.status === 'CREADA' || initiative.status === 'RECHAZADA' && usuario.role === 'USER_ROLE'"
+      mat-button color="warn" (click)="openDrawer1('80%', 'NEW_INITIATIVE', initiative)">
       <mat-icon>edit</mat-icon>
       EDITAR INICIATIVA
-    </button>
+    </button> -->
 
     <button *ngIf="initiative.status === 'CREADA' || initiative.status === 'RECHAZADA' && usuario.role === 'USER_ROLE'"
       mat-button color="warn" (click)="changeStatus('reception')">
@@ -67,9 +68,9 @@
 
             <br>
             <label *ngIf="initiative?.institution?.entityName" class="mat-headline-6" fxLayoutAlign="center center">{{ initiative.institution.entityName }}</label>
-            <label *ngIf="!initiative?.institution?.entityName">No Se encontró una institucion</label>
+            <label *ngIf="!initiative?.institution?.entityName" fxLayoutAlign="center center">No se encontró una institucion</label>
 
-            <div *ngIf="!initiative.institution"> No se encontraron datos de la Institution </div>
+            <div *ngIf="!initiative.institution" fxLayoutAlign="center center"> No se encontraron datos de la Institution </div>
             <div *ngIf="initiative.institution">
               <br>
               <p> <b> Nombre: </b>
@@ -133,10 +134,10 @@
           <ngx-simplebar class="generalInformation">
             <br>
             <p> <b> Delimitación: </b> {{ initiative.delimit.denomination }} </p>
-            <p> <b>Referencia de población: </b> {{ initiative.delimit.nameRefPop }} </p>
-            <p> <b>Estimación de beneficiados Hombres: </b> {{ initiative.delimit.populations[0]?.total }} </p>
-            <p> <b>Estimación de beneficiados Mujeres: </b> {{ initiative.delimit.populations[1]?.total }} </p>
-            <p> <b>Estimación de beneficiados Total: </b> {{ initiative.delimit.estimatedBenef }} </p>
+            <p> <b>Referencia de población: </b> {{ initiative.delimit.nameRefPop | number}} </p>
+            <p> <b>Estimación de beneficiados Hombres: </b> {{ initiative.delimit.populations[0]?.total | number}} </p>
+            <p> <b>Estimación de beneficiados Mujeres: </b> {{ initiative.delimit.populations[1]?.total | number}} </p>
+            <p> <b>Estimación de beneficiados Total: </b> {{ initiative.delimit.estimatedBenef | number}} </p>
           </ngx-simplebar>
         </mat-tab>
 
@@ -144,7 +145,7 @@
           <ngx-simplebar class="generalInformation">
 
             <br>
-            <p class="mat-headline-6"> <b> Archivos adjuntos: </b> </p>
+            <p class="mat-headline-6" fxLayoutAlign="center center"> <b> Archivos adjuntos </b> </p>
             <div *ngIf="initiative.institution">
               <p *ngIf="initiative.institution.documentProject">
                 <b>Documento del proyecto:</b>
@@ -169,7 +170,7 @@
           <ngx-simplebar class="generalInformation">
 
             <br>
-            <p class="mat-headline-6"> <b> Actividades y Cronograma </b> </p>
+            <p class="mat-headline-6" fxLayoutAlign="center center"> <b> Actividades y Cronograma </b> </p>
             <mat-divider></mat-divider>
 
             <table mat-table [dataSource]="dataSource">
@@ -201,12 +202,12 @@
 
               <ng-container matColumnDef="priceU">
                 <th mat-header-cell *matHeaderCellDef> Precio U. </th>
-                <td mat-cell *matCellDef="let element">Q{{element.priceU | number: '.2'}} </td>
+                <td mat-cell *matCellDef="let element"> Q.{{element.priceU | number: '.2'}} </td>
               </ng-container>
 
               <ng-container matColumnDef="subTotal">
                 <th mat-header-cell *matHeaderCellDef> Subtotal </th>
-                <td mat-cell *matCellDef="let element">Q{{element.subTotal | number: '.2'}} </td>
+                <td mat-cell *matCellDef="let element"> Q.{{element.subTotal | number: '.2'}} </td>
               </ng-container>
 
               <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
@@ -218,9 +219,9 @@
               <b>Total estimado: </b>
               &nbsp; Q.{{ initiative.requirementsDocuments.stimatedBudget.totalStimated | number: '.2' }}
             </p>
-
+            <br>
             <div *ngIf="initiative?.requirementsDocuments?.stimatedBudget?.activities &&
-                        initiative?.requirementsDocuments?.stimatedBudget?.activities.length > 0">
+                initiative?.requirementsDocuments?.stimatedBudget?.activities.length > 0">
               <p class="mat-title" class="mat-headline-6"> Cronograma: </p>
               <div>
                 <full-calendar #calendar [options]="calendarOptions"></full-calendar>

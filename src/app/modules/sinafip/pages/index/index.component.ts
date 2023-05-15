@@ -6,6 +6,8 @@ import { Subscription } from 'rxjs';
 
 import { OPEN_DRAWER1 } from 'src/app/core/store/actions';
 import { AppState } from 'src/app/core/store/app.reducer';
+import { SET_INITIATIVE } from '../../store/actions';
+import { IRequest } from 'src/app/core/models/sinafip';
 
 
 @Component({
@@ -51,8 +53,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
-  openDrawer1(width1: string, component1: string, product: any): void {
-    // this.warehouseStore.dispatch(SET_WAREHOUSE({ warehouse }))
+  openDrawer1(width1: string, component1: string, initiative: IRequest): void {
+    this.appStore.dispatch(SET_INITIATIVE({ initiative }))
     this.appStore.dispatch(OPEN_DRAWER1({ width1, component1 }))
   }
 

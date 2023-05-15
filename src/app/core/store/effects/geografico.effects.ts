@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { map, mergeMap } from 'rxjs/operators';
-import * as actions from '../actions';
+import * as actions from '../../../modules/idea-bank/store/actions';
 import { IntegrationsService } from "src/app/core/services/integrations.service";
 
 @Injectable()

@@ -90,11 +90,11 @@
               <span> Detalles </span>
             </button>
 
-            <button mat-menu-item *ngIf="element.status === 'CREADA' && usuario.role != 'ADMIN_ROLE'"
+            <!-- <button mat-menu-item *ngIf="element.status === 'CREADA' && usuario.role != 'ADMIN_ROLE'"
               (click)="openDrawer1('80%', 'NEW_INITIATIVE', element)">
               <mat-icon> edit </mat-icon>
               <span> Editar </span>
-            </button>
+            </button> -->
 
             <button *ngIf="element.status === 'EN ANÁLISIS' && usuario.role === 'ADMIN_ROLE'" mat-menu-item
               (click)="openDrawer1('80%', 'ADMITION_MATRIX', element)">

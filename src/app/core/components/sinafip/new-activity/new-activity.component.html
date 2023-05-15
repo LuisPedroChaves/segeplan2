@@ -11,7 +11,6 @@
     <div fxFlex="90">
       <form [formGroup]="activity" (ngSubmit)="onSubmit()" autocomplete="off">
         <div fxLayout="column" fxLayoutGap="10px" class="my-form">
-          <br>
           <mat-form-field fxFill appearance="outline">
             <mat-label>Fecha de inicio</mat-label>
             <input matInput formControlName="dateStart" [matDatepicker]="datepicker">
@@ -62,7 +61,6 @@
 
           <mat-form-field fxFill appearance="outline">
             <mat-label>Precio U. </mat-label>
-            <span matPrefix>Q. &nbsp;</span>
             <input formControlName="priceU" type="number" (ngModelChange)='updateSubtotal($event)' matInput
               placeholder="Ingrese un precio">
             <mat-error *ngIf="activity.get('priceU')?.hasError('required')">
@@ -70,15 +68,8 @@
             </mat-error>
           </mat-form-field>
 
-          <!-- <mat-form-field appearance="outline"> -->
-          <mat-label>Subtotal: {{subtotal}}</mat-label>
-          <!-- <span matPrefix>Q &nbsp;</span>
-            <input formControlName="subTotal" type="number" matInput placeholder="Ingrese un subtotal">
-            <mat-error *ngIf="activity.get('subTotal')?.hasError('required')">
-              El subtotal es <strong>requerido</strong>
-            </mat-error>-->
-          <!-- </mat-form-field> -->
-
+          <mat-label fxLayoutAlign="center center"> Subtotal:&nbsp; Q.{{ subtotal| number: '.2'}} </mat-label>
+          <br>
           <button mat-raised-button type="submit" color="accent">
             Agregar
           </button>

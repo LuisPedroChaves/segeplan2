@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 
 import { User } from 'src/app/core/models/adicionales/user';
 import { Activity, IRequest } from 'src/app/core/models/sinafip';
-import { CLOSE_DRAWER1, OPEN_DRAWER2 } from 'src/app/core/store/actions';
+import { CLOSE_DRAWER1, OPEN_DRAWER1, OPEN_DRAWER2 } from 'src/app/core/store/actions';
 import { SET_INITIATIVE, UPDATE_INITIATIVE } from '../../../../modules/sinafip/store/actions';
 
 import { AppState } from 'src/app/core/store/app.reducer';
@@ -97,9 +97,9 @@ export class InitiativeDetailsComponent implements OnInit, OnDestroy {
     this.initiativeStore.dispatch(CLOSE_DRAWER1())
   }
 
-  openDrawer2(width2: string, component2: string, initiative: IRequest): void {
+  openDrawer1(width1: string, component1: string, initiative: IRequest): void {
     this.initiativeStore.dispatch(SET_INITIATIVE({ initiative: initiative ? initiative : null }))
-    this.initiativeStore.dispatch(OPEN_DRAWER2({ width2, component2 }))
+    this.initiativeStore.dispatch(OPEN_DRAWER1({ width1, component1 }))
   }
 
 }
