@@ -23,6 +23,8 @@
             <app-new-alternative *ngIf="component2 === 'NEW_ALTERNATIVE'"></app-new-alternative>
             <app-alternative-details *ngIf="component2 === 'SELECTED_ALTERNATIVE'"></app-alternative-details>
             <app-new-revelance-matrix *ngIf="component2 === 'NEW_RELEVANCE_MATRIX'"></app-new-revelance-matrix>
+            <app-new-activity *ngIf="component2 === 'NEW_ACTIVITY'"></app-new-activity>
+            <app-new-initiative *ngIf="component2 === 'NEW_INITIATIVE'"></app-new-initiative>
 
           </mat-drawer-content>
 
@@ -38,6 +40,9 @@
         <app-new-financing *ngIf="component1 === 'NEW_FINANCING'"></app-new-financing>
         <app-new-population *ngIf="component1 === 'NEW_POPULATION'"></app-new-population>
         <app-alternative-details *ngIf="component1 === 'SELECTED_ALTERNATIVE'"></app-alternative-details>
+        <app-new-initiative *ngIf="component1 === 'NEW_INITIATIVE'"></app-new-initiative>
+        <app-initiative-details *ngIf="component1 === 'INITIATIVE_DETAILS'"></app-initiative-details>
+        <app-admition-matrix *ngIf="component1 === 'ADMITION_MATRIX'"></app-admition-matrix>
 
       </mat-drawer-content>
 
@@ -69,11 +74,13 @@
         <button mat-icon-button [matMenuTriggerFor]="menu">
           <mat-icon>more_vert</mat-icon>
         </button>
+
         <mat-menu #menu="matMenu">
           <button mat-menu-item routerLink="reports">
             <mat-icon>summarize</mat-icon>
             <span>Reportes</span>
           </button>
+
           <button mat-menu-item routerLink="configs">
             <mat-icon>category</mat-icon>
             <span>Parametrización</span>

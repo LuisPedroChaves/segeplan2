@@ -1,1 +1,60 @@
-<p>index works!</p>
+
+<mat-drawer-container class="menu-drawer-container">
+
+  <mat-drawer #menuDrawer fxHide.lt-md mode="side" class="menu-drawer">
+    <ngx-simplebar class="menu-sidebar">
+
+      <div fxLayout="column" fxLayoutAlign="center center">
+
+        <app-logo></app-logo>
+
+        <button mat-flat-button *appShowForRoles="['USER_ROLE']" (click)="openDrawer1('80%', 'NEW_INITIATIVE', null)" color="accent"
+          class="menu-button-add active-elevation" matTooltip="Crear nueva" matTooltipPosition="right">
+          <mat-icon> add </mat-icon>
+          Crear iniciativa
+        </button>
+
+      </div>
+
+      <mat-nav-list>
+
+        <mat-list-item routerLink="/sinafip" [activated]="router.url === '/sinafip'"
+          class="menu-option">
+          <mat-icon matListItemIcon fontIcon="dashboard"></mat-icon>
+          <span matListItemTitle> Dashboard </span>
+        </mat-list-item>
+
+        <mat-list-item *appShowForRoles="['USER_ROLE']" routerLink="newIniciatives" [activated]="router.url === '/sinafip/newIniciatives'"
+          class="menu-option">
+          <mat-icon matListItemIcon fontIcon="start"></mat-icon>
+          <span matListItemTitle> Registro de iniciativas </span>
+        </mat-list-item>
+
+        <mat-list-item *appShowForRoles="['USER_ROLE', 'ADMIN_ROLE']" routerLink="followups" [activated]="router.url === '/sinafip/followups'"
+          class="menu-option">
+          <mat-icon matListItemIcon fontIcon="timeline"></mat-icon>
+          <span matListItemTitle> Solicitudes </span>
+        </mat-list-item>
+
+        <mat-list-item *appShowForRoles="['ADMIN_ROLE']" routerLink="admissions" [activated]="router.url === '/sinafip/admissions'"
+          class="menu-option">
+          <mat-icon matListItemIcon fontIcon="assignment_turned_in"></mat-icon>
+          <span matListItemTitle> Admisiones </span>
+        </mat-list-item>
+
+        <mat-list-item *appShowForRoles="['ADMIN_ROLE']" routerLink="prioritizationMatrix" [activated]="router.url === '/sinafip/prioritizationMatrix'"
+          class="menu-option">
+          <mat-icon matListItemIcon fontIcon="priority_high"></mat-icon>
+          <span matListItemTitle> M. Priorización </span>
+        </mat-list-item>
+
+      </mat-nav-list>
+
+    </ngx-simplebar>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+
+</mat-drawer-container>

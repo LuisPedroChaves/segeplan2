@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import * as actions from '../actions';
+import * as actions from '../../../modules/idea-bank/store/actions';
 import { Departament } from 'src/app/core/models/adicionales';
 import { AppState } from 'src/app/core/store/app.reducer';
 

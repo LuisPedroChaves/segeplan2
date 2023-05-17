@@ -1,4 +1,4 @@
-import { GeograficoEffects } from "./geografico.effects";
+import { GeograficoEffects } from "../../../../core/store/effects/geografico.effects";
 import { IdeaEffects } from "./idea.effects";
 import { ObjectEffects } from "./object.effects";
 import { ProcesoEffects } from "./proceso.effects";

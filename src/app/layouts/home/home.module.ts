@@ -20,6 +20,10 @@ import { ReferencePopulationReducer } from 'src/app/modules/config/store/reducer
 import { NewDataGeoComponent } from 'src/app/core/components/ideaBank/new-data-geo/new-data-geo.component';
 import { AlternativeDetailsComponent } from 'src/app/core/components/ideaBank/alternative-details/alternative-details.component';
 import { NewRevelanceMatrixComponent } from 'src/app/core/components/ideaBank/new-revelance-matrix/new-revelance-matrix.component';
+import { NewInitiativeComponent } from 'src/app/core/components/sinafip/new-initiative/new-initiative.component';
+import { NewActivityComponent } from 'src/app/core/components/sinafip/new-activity/new-activity.component';
+import { InitiativeDetailsComponent } from 'src/app/core/components/sinafip/initiative-details/initiative-details.component';
+import { AdmitionMatrixComponent } from 'src/app/core/components/sinafip/admition-matrix/admition-matrix.component';
 
 
 
@@ -43,7 +47,11 @@ import { NewRevelanceMatrixComponent } from 'src/app/core/components/ideaBank/ne
     IdeaDetailsComponent,
     NewDataGeoComponent,
     AlternativeDetailsComponent,
-    NewRevelanceMatrixComponent
+    NewRevelanceMatrixComponent,
+    NewInitiativeComponent,
+    NewActivityComponent,
+    InitiativeDetailsComponent,
+    AdmitionMatrixComponent
   ]
 })
 export class HomeModule { }
