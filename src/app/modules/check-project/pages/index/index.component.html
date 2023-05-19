@@ -36,13 +36,13 @@
           <span matListItemTitle> Dashboard </span>
         </mat-list-item>
 
-        <mat-list-item *appShowForRoles="['ADMIN_ROLE']" routerLink="projects" [activated]="router.url === '/checkProject/projects'"
+        <mat-list-item *appShowForRoles="['ADMIN_ROLE']" routerLink="projects" [activated]="router.url === '/checkProjects/projects'"
           class="menu-option">
           <mat-icon matListItemIcon fontIcon="account_tree"></mat-icon>
           <span matListItemTitle> Proyectos </span>
         </mat-list-item>
 
-        <mat-list-item *appShowForRoles="['ADMIN_ROLE']" routerLink="projectFinish" [activated]="router.url === '/checkProject/projectFinish'"
+        <mat-list-item *appShowForRoles="['ADMIN_ROLE']" routerLink="projectFinish" [activated]="router.url === '/checkProjects/projectFinish'"
           class="menu-option">
           <mat-icon matListItemIcon fontIcon="check_circle_outline"></mat-icon>
           <span matListItemTitle> Completados </span>
