@@ -1,10 +1,9 @@
 import { createAction, props } from '@ngrx/store';
-import { Departament } from 'src/app/core/models/adicionales';
 
+import { Departament } from 'src/app/core/models/adicionales/department';
 
 export const READ_GEOGRAFICOS = createAction(
 	'[GEOGRAFICOS] Leer geograficos',
-  // props<{ geograficos: Departament[] }>()
 );
 
 export const SET_GEOGRAFICOS = createAction(

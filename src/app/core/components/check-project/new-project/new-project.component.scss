@@ -1,0 +1,12 @@
+table {
+  width: 100%;
+  height: calc(100vh - 445px) !important;
+}
+
+.button-container {
+  padding-bottom: 16px;
+}
+
+.add-button + .add-button {
+  margin-left: 8px;
+}
