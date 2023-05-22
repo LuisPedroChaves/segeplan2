@@ -1,0 +1,15 @@
+table {
+  width: 100%;
+}
+
+.content-stepper {
+  height: calc(100vh - 145px);
+}
+
+.button-container {
+  padding-bottom: 16px;
+}
+
+.add-button + .add-button {
+  margin-left: 8px;
+}

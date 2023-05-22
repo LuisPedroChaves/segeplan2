@@ -70,7 +70,6 @@ export class PrioritizationMatrixComponent implements OnInit, OnDestroy {
   }
 
   openDrawer1(width1: string, component1: string, initiative: IRequest) {
-
     this.initiativeStore.dispatch(SET_INITIATIVE({ initiative }))
     this.initiativeStore.dispatch(OPEN_DRAWER1({ width1, component1 }))
     // this.initiativeStore.dispatch(CLOSE_DRAWER1())

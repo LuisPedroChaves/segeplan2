@@ -1,1 +1,62 @@
-<p>index works!</p>
+
+<mat-drawer-container class="menu-drawer-container">
+  <mat-drawer #menuDrawer fxHide.lt-md mode="side" class="menu-drawer" opened>
+    <ngx-simplebar class="menu-sidebar">
+
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <app-logo></app-logo>
+        <button mat-flat-button *appShowForRoles="['ADMIN_ROLE']" (click)="openDrawer1('80%', 'NEW_PROJECT', null)" color="accent"
+          class="menu-button-add active-elevation" matTooltip="Registar nuevo" matTooltipPosition="right">
+          <mat-icon> add </mat-icon>
+          Registar proyecto
+        </button>
+      </div>
+      <mat-divider></mat-divider>
+      <br>
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <mat-chip-listbox>
+          <mat-chip-option (click)="checkIsMinistry(false)" [selected]=" isMinistry === false "
+          class="active-elevation">
+            Territorial
+          </mat-chip-option>
+
+          <mat-chip-option (click)="checkIsMinistry(true)" [selected]=" isMinistry === true "
+          class="active-elevation">
+            Sectorial
+          </mat-chip-option>
+        </mat-chip-listbox>
+      </div>
+      <br>
+      <mat-divider></mat-divider>
+      <mat-nav-list>
+
+        <mat-list-item routerLink="/checkProjects" [activated]="router.url === '/checkProjects'"
+          class="menu-option">
+          <mat-icon matListItemIcon fontIcon="dashboard"></mat-icon>
+          <span matListItemTitle> Dashboard </span>
+        </mat-list-item>
+
+        <mat-list-item *appShowForRoles="['ADMIN_ROLE']" routerLink="projects" [activated]="router.url === '/checkProjects/projects'"
+          class="menu-option">
+          <mat-icon matListItemIcon fontIcon="account_tree"></mat-icon>
+          <span matListItemTitle> Proyectos </span>
+        </mat-list-item>
+
+        <mat-list-item *appShowForRoles="['ADMIN_ROLE']" routerLink="projectFinish" [activated]="router.url === '/checkProjects/projectFinish'"
+          class="menu-option">
+          <mat-icon matListItemIcon fontIcon="check_circle_outline"></mat-icon>
+          <span matListItemTitle> Completados </span>
+        </mat-list-item>
+
+      </mat-nav-list>
+
+    </ngx-simplebar>
+
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+
+</mat-drawer-container>
+

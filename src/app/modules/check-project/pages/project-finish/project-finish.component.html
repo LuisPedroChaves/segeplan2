@@ -1,0 +1,59 @@
+<ngx-simplebar ngClass.gt-sm="content-index" ngClass.lt-md="content-index">
+
+  <header fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="start center" class="active-elevation">
+
+    <mat-icon fontIcon="check_circle_outline"></mat-icon>
+    <p class="mat-headline-6"> Completados </p>
+
+    <span fxFlex></span>
+
+    <mat-form-field appearance="outline" floatLabel="always" class="small-input no-hint">
+      <mat-label> Departamento </mat-label>
+      <mat-select [formControl]="departamentoFilter" (selectionChange)="selecDepartament()">
+        <mat-option *ngFor="let depto of departamentos" [value]="depto.NOMBRE">
+          {{depto.NOMBRE}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" floatLabel="always" class="small-input no-hint">
+      <mat-label> Municipio </mat-label>
+      <mat-select [formControl]="municipioFilter">
+        <mat-option *ngFor="let mncpio of municipios" [value]="mncpio.NOMBRE">
+          {{mncpio.NOMBRE}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="isMinistry" appearance="outline" floatLabel="always" class="small-input no-hint">
+      <mat-label> Entidad </mat-label>
+      <mat-select [formControl]="entidadFilter">
+        <mat-option *ngFor="let entity of entities" [value]="entity.name">
+          {{entity.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" floatLabel="always" class="small-input no-hint">
+      <mat-label> Mes </mat-label>
+      <mat-select [formControl]="monthFilter">
+        <mat-option *ngFor="let month of months" [value]="month.value">
+          {{month.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <span fxFlex></span>
+
+    <button mat-mini-fab (click)="searchProjects()" color="accent" class="menu-button-add">
+      <mat-icon>search</mat-icon>
+    </button>
+    <button mat-mini-fab (click)="clearControls()" color="accent" class="menu-button-add">
+      <mat-icon>delete</mat-icon>
+    </button>
+
+  </header>
+
+  <app-project-table component="PROJECT_FINISHED"></app-project-table>
+
+</ngx-simplebar>

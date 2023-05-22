@@ -97,6 +97,7 @@ export class AdmitionMatrixComponent implements OnInit, OnDestroy {
       },
       "requestId": ""
     },
+    "priorizationQuanty": {"total": 0},
     institution: undefined
   }
 
@@ -287,11 +288,25 @@ export class AdmitionMatrixComponent implements OnInit, OnDestroy {
   }
 
   saveAdmissionMatrix(): void {
-    this.sinafipService.saveRequestAdmission(this.initiative.id, this.matrices)
-      .subscribe((res: any) => {
-        console.log(res);
-        this.appStore.dispatch(CLOSE_DRAWER1());
-        this.stepper.reset();
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '250px',
+        data: { title: 'Guardar Matriz', description: '¿Esta seguro que desea guardar la matriz?', confirmation: true }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
+        if (result === true) {
+          // Code of Work
+          this.sinafipService.saveRequestAdmission(this.initiative.id, this.matrices)
+            .subscribe((res: any) => {
+            console.log(res);
+            this.appStore.dispatch(CLOSE_DRAWER1());
+            this.stepper.reset();
+            })
+        }
+        else {
+          return;
+        }
       });
   }
 
