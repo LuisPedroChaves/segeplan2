@@ -1,6 +1,9 @@
 table {
   width: 100%;
-  height: calc(100vh - 445px) !important;
+}
+
+.content-stepper {
+  height: calc(100vh - 145px);
 }
 
 .button-container {

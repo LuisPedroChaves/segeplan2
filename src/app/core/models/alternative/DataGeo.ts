@@ -13,7 +13,7 @@ export interface DataGeo {
     plano: boolean;
     slightIncline: boolean;
     broken: boolean;
-    image?: string;
+    image?: any;
     imageUrl?: string;
     description: string;
 

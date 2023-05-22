@@ -1,0 +1,23 @@
+.track-card {
+  height: calc(100vh - 48px);
+}
+
+.projects {
+  height: calc(100vh - 245px);
+  padding-top: 16px;
+}
+
+.generalProject {
+  height: calc(100vh - 277px);
+  padding: 16px;
+}
+
+.img-content{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.img-1{
+  width: 90%;
+}

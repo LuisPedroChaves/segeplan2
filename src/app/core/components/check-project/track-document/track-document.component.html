@@ -1,0 +1,270 @@
+
+<ngx-simplebar ngClass.gt-sm="content-desktop" ngClass.lt-md="content-desktop">
+  <mat-toolbar fxLayoutGap="8px" class="active-elevation">
+    <button mat-icon-button (click)="closeDrawer2()" matTooltip="Cancelar" type="button">
+      <mat-icon>close</mat-icon>
+    </button>
+    <span> ASESORÍA AL DOCUMENTO </span>
+  </mat-toolbar>
+
+  <div fxLayout="row" fxLayoutAlign="center center" class="form">
+    <div fxFlex="90">
+
+      <mat-stepper #stepper fxFill linear="true">
+
+        <mat-step [stepControl]="advisoryDoc">
+          <ng-template matStepLabel>Paso 1</ng-template>
+
+          <form [formGroup]="track" autocomplete="off">
+            <ngx-simplebar class="content-stepper">
+              <div fxLayout="column" fxLayoutGap="15px">
+
+                <div fxLayout="column" fxLayoutAlign="space-around center">
+                  <p class="mat-headline-6"> SEGUIMIENTO </p>
+                </div>
+                <div fxLayout="row" class="container-guide">
+                  <button mat-stroked-button (click)="openDialog()" class="buttom-guide" color="primary">
+                    Ver guía de ponderaciones</button>
+                </div>
+                <br>
+                <mat-form-field fxFill appearance="outline">
+                  <mat-label>A 55 %</mat-label>
+                  <input matInput formControlName="iapa" type="number" (input)="verifyValue($event, 55)">
+                  <mat-error *ngIf="track.get('iapa')?.hasError('required')">
+                    A 55% es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFill appearance="outline">
+                  <mat-label>B 25 %</mat-label>
+                  <input formControlName="iapb" type="number" (input)="verifyValue($event, 25)" matInput>
+                  <mat-error *ngIf="track.get('iapb')?.hasError('required')">
+                    B 25% es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFill appearance="outline">
+                  <mat-label>C 20 % </mat-label>
+                  <input matInput formControlName="iapc" type="number" (input)="verifyValue($event, 20)">
+                  <mat-error *ngIf="track.get('iapc')?.hasError('required')">
+                    C 20% es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFill appearance="outline">
+                  <mat-label>Fecha</mat-label>
+                  <input matInput formControlName="reportDate" [matDatepicker]="datepicker">
+                  <mat-hint>DD/MM/YYYY</mat-hint>
+                  <mat-error *ngIf="track.get('reportDate')?.hasError('required')">
+                    La fecha es <strong>requerida</strong>
+                  </mat-error>
+                  <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                  <mat-datepicker #datepicker>
+                  </mat-datepicker>
+                </mat-form-field>
+                <br>
+                <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
+                  <button mat-raised-button color="accent" matStepperNext>
+                    Siguiente
+                    <mat-icon>navigate_next</mat-icon>
+                  </button>
+                </div>
+
+              </div>
+            </ngx-simplebar>
+          </form>
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>Paso 2</ng-template>
+
+          <form [formGroup]="advisoryDoc" (ngSubmit)="onSubmit()" autocomplete="off">
+            <ngx-simplebar class="content-stepper">
+              <div fxLayout="column" fxLayoutGap="15px">
+                <br>
+                <br>
+                <mat-form-field appearance="outline">
+                  <mat-label>Meta POA</mat-label>
+                  <input matInput formControlName="goal" type="text">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Acción POA</mat-label>
+                  <input matInput formControlName="action" type="text">
+                </mat-form-field>
+
+                <mat-form-field fxFill appearance="outline">
+                  <mat-label>Sectorización del sector público</mat-label>
+                  <mat-select formControlName="sectorization" (selectionChange)="sectorSelected($event)"  >
+                    <mat-option *ngFor="let sector of sectors" [value]="sector.name">
+                      {{sector.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="advisoryDoc.get('entity')?.hasError('required')">
+                    El nombre de la entidad es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFill appearance="outline">
+                  <mat-label>Entidad</mat-label>
+                  <mat-select formControlName="subSectorization">
+                    <mat-option *ngFor="let sector of subSectors" [value]="sector.name">
+                      {{sector.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="advisoryDoc.get('entity')?.hasError('required')">
+                    El nombre de la entidad es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFill appearance="outline">
+                  <mat-label>Entidad pública de inversión</mat-label>
+                  <mat-select formControlName="entity">
+                    <mat-option *ngFor="let entity of entities" [value]="entity.name">
+                      {{entity.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="advisoryDoc.get('entity')?.hasError('required')">
+                    El nombre de la entidad es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFill appearance="outline">
+                  <mat-label>Tema de la asesoría</mat-label>
+                  <textarea matInput formControlName="advTheme" placeholder="Máximo 200 caracteres..." rows="4"></textarea>
+                  <mat-hint>Hasta {{200 - advisoryDoc.get('advTheme')?.value?.length}} caracteres.
+                  </mat-hint>
+                  <mat-error *ngIf="advisoryDoc.get('advTheme')?.hasError('maxlength')">
+                    Máximo 200 caracteres.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Código SNIP</mat-label>
+                  <input matInput formControlName="snipCode" type="number">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Nombre del proyecto</mat-label>
+                  <input matInput formControlName="projectName" type="text">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Participante de la entidad</mat-label>
+                  <input matInput formControlName="participant" type="text">
+                </mat-form-field>
+
+                <mat-form-field fxFill appearance="outline">
+                  <mat-label>Fecha de análisis de documento</mat-label>
+                  <input matInput formControlName="analysisDate" [matDatepicker]="analysisDate">
+                  <mat-hint>DD/MM/YYYY</mat-hint>
+                  <mat-error *ngIf="advisoryDoc.get('analysisDate')?.hasError('required')">
+                    La fecha es <strong>requerida</strong>
+                  </mat-error>
+                  <mat-datepicker-toggle matSuffix [for]="analysisDate"></mat-datepicker-toggle>
+                  <mat-datepicker #analysisDate>
+                  </mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field fxFill appearance="outline">
+                  <mat-label>Fecha de asesoría</mat-label>
+                  <input matInput formControlName="advDate" [matDatepicker]="advDate">
+                  <mat-hint>DD/MM/YYYY</mat-hint>
+                  <mat-error *ngIf="advisoryDoc.get('advDate')?.hasError('required')">
+                    La fecha es <strong>requerida</strong>
+                  </mat-error>
+                  <mat-datepicker-toggle matSuffix [for]="advDate"></mat-datepicker-toggle>
+                  <mat-datepicker #advDate>
+                  </mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Atendido por</mat-label>
+                  <input matInput formControlName="assistant" type="text">
+                </mat-form-field>
+                <br>
+                <div fxLayout="column" fxLayoutGap="10px" class="comments">
+                  <br>
+                  <p class="mat-subheading-1" fxLayoutAlign="center center">ANÁLISIS Y RECOMENDACIONES DEL DOCUMENTO</p>
+                  <br>
+                  <mat-form-field fxFlex appearance="outline">
+                    <mat-label>Documento del proyecto</mat-label>
+                    <mat-select [formControl]="theme">
+                      <mat-option *ngFor="let doc of themeDoc" [value]="doc.name">
+                        {{doc.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field fxFill appearance="outline">
+                    <mat-label>Observaciones</mat-label>
+                    <textarea matInput [formControl]="description" placeholder="Máximo 200 caracteres..." rows="4"></textarea>
+                    <mat-hint>Hasta {{200 - description?.value?.length}} caracteres.
+                    </mat-hint>
+                    <mat-error *ngIf="description?.hasError('maxlength')">
+                      Máximo 200 caracteres.
+                    </mat-error>
+                  </mat-form-field>
+
+                  <div fxLayout="row" fxLayoutAlign="center center">
+                    <button mat-stroked-button (click)="addComment()" color="primary" type="button">Agregar</button>
+                  </div>
+                  <br>
+                  <mat-divider></mat-divider>
+                  <mat-list-item *ngFor="let comment of comments, let i = index">
+                    <br>
+                    <div mat-line>
+                      <b>{{comment.theme}}</b>
+                      <span fxFlex></span>
+                      <button mat-icon-button (click)="removeComment(i)"><mat-icon>close</mat-icon></button>
+                    </div>
+                    <div mat-line> {{comment.description}} </div>
+                  </mat-list-item>
+                  <br>
+                </div>
+                <br>
+                <br>
+                <mat-form-field fxFill appearance="outline">
+                  <mat-label>Conclusiones</mat-label>
+                  <textarea matInput formControlName="conclusions" placeholder="Máximo 400 caracteres..." rows="4"></textarea>
+                  <mat-hint>Hasta {{400 - advisoryDoc.get('conclusions')?.value?.length}} caracteres.
+                  </mat-hint>
+                  <mat-error *ngIf="advisoryDoc.get('conclusions')?.hasError('maxlength')">
+                    Máximo 400 caracteres.
+                  </mat-error>
+                </mat-form-field>
+                <br>
+                <mat-form-field fxFill appearance="outline">
+                  <mat-label>Recomendaciones</mat-label>
+                  <textarea matInput formControlName="recomend" placeholder="Máximo 400 caracteres..." rows="4"></textarea>
+                  <mat-hint>Hasta {{400 - advisoryDoc.get('recomend')?.value?.length}} caracteres.
+                  </mat-hint>
+                  <mat-error *ngIf="advisoryDoc.get('recomend')?.hasError('maxlength')">
+                    Máximo 400 caracteres.
+                  </mat-error>
+                </mat-form-field>
+                <br>
+                <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
+                  <button mat-raised-button color="accent" matStepperPrevious>
+                    Volver
+                    <mat-icon>chevron_left</mat-icon>
+                  </button>
+                  <button mat-raised-button color="accent" (click)="stepper.reset()">
+                    Restablecer
+                    <mat-icon>settings_backup_restore</mat-icon>
+                  </button>
+                  <button mat-raised-button color="accent" type="submit">
+                    Finalizar
+                    <mat-icon>task_alt</mat-icon>
+                  </button>
+                </div>
+
+              </div>
+            </ngx-simplebar>
+          </form>
+        </mat-step>
+
+      </mat-stepper>
+    </div>
+  </div>
+</ngx-simplebar>

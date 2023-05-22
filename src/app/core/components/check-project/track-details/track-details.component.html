@@ -1,1 +1,377 @@
-<p>track-details works!</p>
+
+<div ngClass.gt-sm="content-desktop" ngClass.lt-md="content-desktop">
+
+  <mat-toolbar>
+    <button mat-icon-button (click)="closeDrawer2()" matTooltip="Cancelar" type="button">
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <span class="mat-title"> Detalles del seguimiento </span>
+    <span fxFlex></span>
+  </mat-toolbar>
+
+  <mat-card class="initiative-card mat-elevation-z2">
+
+    <mat-card-header>
+      <mat-icon mat-card-avatar color="accent">account_tree</mat-icon>
+      <mat-card-title>
+        {{project.nameProject}}
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="track-card-content">
+      <p> {{project.snipCode}} </p>
+      <br>
+      <p> {{track.activity}} </p>
+      <hr>
+
+      <mat-tab-group mat-align-tabs="center" color="accent">
+
+        <mat-tab label="Seguimiento">
+          <ngx-simplebar class="project" fxLayout="column" fxLayoutGap="16px">
+            <br>
+            <br>
+            <p> <b> A 55%: </b>
+              <label> {{track.iapa}} </label>
+            </p>
+            <br>
+            <p> <b> B 25%: </b>
+              <label> {{track.iapb}} </label>
+            </p>
+            <br>
+            <p> <b> C 20%: </b>
+              <label> {{track.iapc}} </label>
+            </p>
+            <br>
+            <p> <b> Actividad: </b>
+              <label> {{track.activity}} </label>
+            </p>
+            <br>
+            <p> <b> Fecha: </b>
+              <label> {{track.reportDate}} </label>
+            </p>
+            <br>
+          </ngx-simplebar>
+        </mat-tab>
+
+        <mat-tab label="Actividad">
+          <ngx-simplebar class="generalProject">
+
+            <div *ngIf="track.activity === epi.id">
+              <br>
+              <p> <b> Meta POA: </b> <label> {{epi.goal}} </label> </p>
+              <br>
+              <p> <b> Acción POA: </b> <label> {{epi.action}} </label> </p>
+              <br>
+              <p> <b> Entidad: </b> <label> {{epi.entity}} </label> </p>
+              <br>
+              <p> <b> Tema de la asesoría: </b> <label> {{epi.advTheme}} </label> </p>
+              <br>
+              <br>
+              <p class="mat-headline-6" fxLayoutAlign="space-around center">
+                CONTACTO DE LA ENTIDAD
+              </p>
+              <br>
+              <p> <b> Nombre completo: </b> <label> {{epi.participantName}} </label> </p>
+              <br>
+              <p> <b> Puesto: </b> <label> {{epi.participantPosition}} </label> </p>
+              <br>
+              <p> <b> Fecha de la asesoría: </b> <label> {{epi.advDate}} </label> </p>
+              <br>
+              <p> <b> Fecha de entrega del informe: </b> <label> {{epi.reportDate}} </label> </p>
+              <br>
+              <p> <b> Lugar: </b> <label> {{epi.place}} </label> </p>
+              <br>
+              <p> <b> Objetivo de la asesoría: </b> <label> {{epi.objective}} </label> </p>
+              <br>
+              <p> <b> Desarrollo de la asesoría: </b> <label> {{epi.devAdv}} </label> </p>
+              <br>
+              <p> <b> Conclusiones y recomendaciones: </b> <label> {{epi.conclusions}} </label> </p>
+              <br>
+              <p> <b> Compromisos: </b> <label> {{epi.commitments}} </label> </p>
+              <br>
+              <p> <b> Especialista de preinversión: </b> <label> {{epi.specialist}} </label> </p>
+              <br>
+              <p> <b> Medios de verificación: </b> <label> {{epi.doc}} </label> </p>
+              <br>
+            </div>
+
+            <div *ngIf="track.activity === doc.id">
+              <br>
+              <p> <b> Meta POA: </b> <label> {{doc.goal}} </label> </p>
+              <br>
+              <p> <b> Acción POA: </b> <label> {{doc.action}} </label> </p>
+              <br>
+              <p> <b> Sectorización del sector público: </b> <label> {{sectors.name}} </label> </p>   <!-- corregir propiedad sectorization -->
+              <br>
+              <p> <b> Entidad: </b> <label> {{subSectors.name}} </label> </p>
+              <br>
+              <p> <b> Entidad pública de inversión: </b> <label> {{doc.entity}} </label> </p>
+              <br>
+              <p> <b> Tema de la asesoría: </b> <label> {{doc.advTheme}} </label> </p>
+              <br>
+              <p> <b> Código SNIP: </b> <label> {{doc.snipCode}} </label> </p>
+              <br>
+              <p> <b> Nombre del proyecto: </b> <label> {{doc.projectName}} </label> </p>
+              <br>
+              <p> <b> Participante de la entidad: </b> <label> {{doc.participant}} </label> </p>
+              <br>
+              <p> <b> Fecha de análisis de documento: </b> <label> {{doc.analysisDate}} </label> </p>
+              <br>
+              <p> <b> Fecha de asesoría: </b> <label> {{doc.advDate}} </label> </p>
+              <br>
+              <p> <b> Atendido por: </b> <label> {{doc.assistant}} </label> </p>
+              <br>
+              <p> <b> Documento del proyecto: </b> <label>  </label> </p> <!-- pendiente(validacion) linea 192 de trackDocument-->
+              <br>
+              <p> <b> Observaciones: </b> <label> {{comment.description}} </label> </p>
+              <br>
+              <p> <b> Conclusiones: </b> <label> {{doc.conclusions}} </label> </p>
+              <br>
+              <p> <b> Recomendaciones: </b> <label> {{doc.recomend}} </label> </p>
+              <br>
+            </div>
+
+            <div *ngIf="track.activity === visit.id">
+              <br>
+              <p> <b> Código preinversión: </b> <label> {{visit.codePreinv}} </label> </p>
+              <br>
+              <p> <b> Fecha de visita: </b> <label> {{visit.visitDate}} </label> </p>
+              <br>
+              <p> <b> Delegación departamental: </b> <label> {{visit.deptoDel}} </label> </p>
+              <br>
+              <p> <b> Especialista de preinversión: </b> <label> {{visit.specialistName}} </label> </p>
+              <br>
+              <p> <b> Nombre del proyecto: </b> <label> {{visit.proposalName}} </label> </p>
+              <br>
+              <p> <b> Monto aproximado: </b> <label> {{visit.mountAprox | number}} </label> </p>
+              <br>
+              <p class="mat-headline-6" fxLayoutAlign="space-around center">
+                1.1 CARACTERIZACIÓN DEL ÁREA DE INFLUENCIA
+              </p>
+              <br>
+              <p> <b> Región: </b> <label> {{visit.region}} </label> </p>
+              <br>
+              <p> <b> Departamento: </b> <label> {{visit.depto}} </label> </p>
+              <br>
+              <p> <b> Municipio: </b> <label> {{visit.municip}} </label> </p>
+              <br>
+              <p> <b> Dirección: </b> <label> {{visit.address}} </label> </p>
+              <br>
+              <p> <b> Tipo de dirección: </b> <label> {{visit.typeAddress}} </label> </p>
+              <br>
+              <p> <b> Categoría del lugar poblado: </b> <label> {{visit.catLocation}} </label> </p>
+              <br>
+              <p> <b> Clima predominante: </b> <label> {{visit.typeClimate}} </label> </p>
+              <br>
+              <p> <b> Temperatura promedio: </b> <label> {{visit.avgTemperature | number}} </label> </p>
+              <br>
+              <p class="mat-headline-6" fxLayoutAlign="space-around center">
+                1.2 ACCESIBILIDAD AL ÁREA DE INFLUENCIA
+              </p>
+              <br>
+              <p> <b> Vías de acceso utilizadas por época: </b> <label> {{accessRoads.name}} </label> </p>
+              <br>
+              <p> <b> Distancia a la cabecera municipal más cercana: </b> <label> {{visit.distanceKm | number}} </label> </p>
+              <br>
+              <p> <b> Medios de transporte que llegan al área de influencia por época: </b> <label> {{meanstransport.name}} </label> </p>
+              <br>
+              <p class="mat-headline-6" fxLayoutAlign="space-around center">
+                1.3 SERVICIOS BÁSICOS EN EL ÁREA DE INFLUENCIA
+              </p>
+              <br>
+              <p> <b> Existe red de drenajes: </b> <label> {{visit.isDrainageNetwork}} </label> </p>
+              <br>
+              <p> <b> Hay electricidad: </b> <label> {{visit.isElectricity}} </label> </p>
+              <br>
+              <p> <b> Hay servicio de telefonía: </b> <label> {{visit.isPhoneService}} </label> </p>
+              <br>
+              <p> <b> Existe red de agua potable: </b> <label> {{visit.isDrinkableWhater}} </label> </p>
+              <br>
+              <p> <b> Desechos sólidos: </b> <label> {{visit.garbageDisposal}} </label> </p>
+              <br>
+              <p> <b> El agua es apta para consumo humano: </b> <label> {{visit.isDrinkingWater}} </label> </p>
+              <br>
+              <p> <b> Infraestructura de servicios: </b> <label> {{serviceInf.name}} </label> </p>
+              <br>
+              <p class="mat-headline-6" fxLayoutAlign="space-around center">
+                1.4 REFERENCIA GEOGRÁFICA
+              </p>
+              <br>
+              <p> <b> Coordenada X: </b> <label> {{visit.gtmx | number}} </label> </p>
+              <br>
+              <p> <b> Coordenada Y: </b> <label> {{visit.gtmy | number}} </label> </p>
+              <br>
+              <p> <b> Altitud: </b> <label> {{visit.elevation | number}} </label> </p>
+              <br>
+              <p> <b> Msnm: </b> <label> {{visit.msnm | number}} </label> </p>
+              <br>
+              <p class="mat-headline-6" fxLayoutAlign="space-around center">
+                1.5 DESASTRES MÁS RECIENTES EN EL ÁREA DE INFLUENCIA
+              </p>
+              <br>
+              <p> <b> Fecha: </b> <label> {{disaster.date | date: 'dd/MM/YYYY'}} </label> </p>
+              <br>
+              <p> <b> Hora: </b> <label> {{disaster.hour}} h </label> </p>
+              <br>
+              <p> <b> Tipo de evento: </b> <label> {{disaster.eventType}} </label> </p>
+              <br>
+              <p> <b> Causas: </b> <label> {{disaster.causes}} </label> </p>
+              <br>
+              <p> <b> Consecuencias: </b> <label> {{disaster.impact}} </label> </p>
+              <br>
+              <p> <b> Recurrencia: </b> <label> {{disaster.recurrence}} </label> </p>
+              <br>
+              <p class="mat-headline-6" fxLayoutAlign="space-around center">
+                1.7 INFORMACIÓN TÉCNICA DEL BIEN INMUEBLE
+              </p>
+              <br>
+              <p> <b> Tipo: </b> <label> {{visit.infRealEstate}} </label> </p>
+              <br>
+              <p> <b> Condiciones del terreno: </b> <label> {{visit.groundConditions}} </label> </p>
+              <br>
+              <p> <b> % aproximado de pendiente: </b> <label> {{visit.approximateSlope}} </label> </p>
+              <br>
+              <p> <b> Tipo de suelo en el terreno: </b> <label> {{visit.soilType}} </label> </p>
+              <br>
+              <p> <b> Área del bien inmueble: </b> <label> {{visit.realEstateArea}} </label> </p>
+              <br>
+              <p class="mat-headline-6" fxLayoutAlign="space-around center">
+                1.7.1 MEDIDAS Y COLINDANCIAS
+              </p>
+              <br>
+              <p> <b> Norte (m): </b> <label> {{visit.northMeasure}} </label> </p>
+              <br>
+              <p> <b> Uso del suelo en colindancia: </b> <label> {{visit.northBorder}} </label> </p>
+              <br>
+              <p> <b> Sur (m): </b> <label> {{visit.southMeasure}} </label> </p>
+              <br>
+              <p> <b> Uso del suelo en colindancia: </b> <label> {{visit.southBorder}} </label> </p>
+              <br>
+              <p> <b> Este (m): </b> <label> {{visit.eastMeasure}} </label> </p>
+              <br>
+              <p> <b> Uso del suelo en colindancia: </b> <label> {{visit.eastBorder}} </label> </p>
+              <br>
+              <p> <b> Oeste (m): </b> <label> {{visit.westMeasure}} </label> </p>
+              <br>
+              <p> <b> Uso del suelo en colindancia: </b> <label> {{visit.westBorder}} </label> </p>
+              <br>
+              <p class="mat-headline-6" fxLayoutAlign="space-around center">
+                1.7.2 SITUACIÓN LEGAL ACTUAL DEL INMUEBLE
+              </p>
+              <br>
+              <p> <b> Situación legal: </b> <label> {{visit.legalSituation}} </label> </p>
+              <br>
+              <p class="mat-headline-6" fxLayoutAlign="space-around center">
+                1.7.3 SERVICIOS BÁSICOS EN EL INMUEBLE
+              </p>
+              <br>
+              <p> <b> Bien inmueble: </b> <label> {{visit.basicServRS}} </label> </p>
+              <br>
+              <p> <b> Existe red de drenajes: </b> <label> {{visit.isDrainageRS}} </label> </p>
+              <br>
+              <p> <b> Hay electricidad: </b> <label> {{visit.isElectricityRS}} </label> </p>
+              <br>
+              <p> <b> Hay servicio de telefonía: </b> <label> {{visit.isPhoneRS}} </label> </p>
+              <br>
+              <p> <b> Existe red de agua potable: </b> <label> {{visit.isDrinkingWRS}} </label> </p>
+              <br>
+              <p> <b> Desechos sólidos: </b> <label> {{visit.garbageRS}} </label> </p>
+              <br>
+              <p class="mat-headline-6" fxLayoutAlign="space-around center">
+                1.8 TIPOS DE AMENAZAS
+              </p>
+              <br>
+              <p class="mat-subheading-2" fxLayoutAlign="start center">
+                NATURALES
+              </p>
+              <br>
+              <div *ngIf="threatTypes.name === 'Naturales'">
+                <p> <b> Deslizamientos: </b> <label> {{threatTypes.name}} </label> </p>
+                <br>
+                <p> <b> Inundaciones: </b> <label> {{threatTypes.name}} </label> </p>
+                <br>
+                <p> <b> Sismos: </b> <label> {{threatTypes.name}} </label> </p>
+                <br>
+                <p> <b> Actividad volcánica: </b> <label> {{threatTypes.name}} </label> </p>
+                <br>
+                <p> <b> Huracanes: </b> <label> {{threatTypes.name}} </label> </p>
+                <br>
+                <p> <b> Hundimientos: </b> <label> {{threatTypes.name}} </label> </p>
+                <br>
+                <p> <b> Barrancos: </b> <label> {{threatTypes.name}} </label> </p>
+                <br>
+                <p> <b> Rios/Quebradas: </b> <label> {{threatTypes.name}} </label> </p>
+              </div>
+              <br>
+              <p class="mat-subheading-2" fxLayoutAlign="start center">
+                ANTROPOGENICAS
+              </p>
+              <br>
+              <div *ngIf="threatTypes.name === 'Antropogenicas'">
+                <p> <b> Contaminación: </b> <label> {{threatTypes.name}} </label> </p>
+                <br>
+                <p> <b> Incendios: </b> <label> {{threatTypes.name}} </label> </p>
+                <br>
+                <p> <b> Cementerios: </b> <label> {{threatTypes.name}} </label> </p>
+                <br>
+                <p> <b> Basureros: </b> <label> {{threatTypes.name}} </label> </p>
+                <br>
+                <p> <b> Mala práctica constructiva: </b> <label> {{threatTypes.name}} </label> </p>
+                <br>
+                <p> <b> Daño provocado por terceros: </b> <label> {{threatTypes.name}} </label> </p>
+                <br>
+                <p> <b> Inadecuado uso del suelo: </b> <label> {{threatTypes.name}} </label> </p>
+              </div>
+              <br>
+              <p class="mat-headline-6" fxLayoutAlign="space-around center">
+                2.0 SOLICITUD DE FINANCIAMIENTO
+              </p>
+              <br>
+              <p> <b> Ha solicitado financiamiento para la ejecución de la propuesta: </b> <label> {{visit.isReqFinance}} </label> </p>
+              <br>
+              <p> <b> Institución: </b> <label> {{visit.desReqFinance}} </label> </p>
+              <br>
+              <p> <b> Estado de la solicitud: </b> <label> {{visit.appStatus}} </label> </p>
+              <br>
+              <p class="mat-headline-6" fxLayoutAlign="space-around center">
+                3.0 ANÁLISIS DE ORGANIZACIONES COMUNALES
+              </p>
+              <br>
+              <p> <b> Organizaciones: </b> <label> {{availableOrg.name}} </label> </p>
+              <br>
+              <p> <b> Están de acuerdo con la implementación de la propuesta: </b> <label> {{visit.theirAgree}} </label> </p>
+              <br>
+              <p> <b> Especifique: </b> <label> {{visit.specifyAnswer}} </label> </p>
+              <br>
+              <p class="mat-headline-6" fxLayoutAlign="space-around center">
+                4.0 DATOS PERSONAL TÉCNICO EPI
+              </p>
+              <br>
+              <p> <b> Nombre: </b> <label> {{visit.techNameEpi}} </label> </p>
+              <br>
+              <p> <b> Puesto: </b> <label> {{visit.techPosEpi}} </label> </p>
+              <br>
+              <p> <b> Profesión: </b> <label> {{visit.techProfEpi}} </label> </p>
+              <br>
+              <p> <b> Observaciones: </b> <label> {{visit.observationsGeneral}} </label> </p>
+              <br>
+              <p class="mat-headline-6" fxLayoutAlign="space-around center">
+                FOTOGRAFÍAS DEL BIEN INMUEBLE
+              </p>
+              <br>
+              <p> <b> Fotografías: </b> </p>
+              <br>
+              <div class="img-content" fxLayout="row">
+                <img class="img-1" src="{{imgVisit.url}}" >
+              </div>
+              <br>
+            </div>
+
+          </ngx-simplebar>
+        </mat-tab>
+
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+</div>

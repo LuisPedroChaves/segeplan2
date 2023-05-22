@@ -171,11 +171,20 @@
                     <label *ngIf="terrain?.secondsy"><b> Segydis Y: </b> {{terrain.secondsy}}</label> <br>
                     <br>
                     <br>
-
-                  </p>
-                </mat-tab>
-              </mat-tab-group>
-            </div>
+                    </p>
+                    <p *ngIf="terrain?.imageUrl">
+                      <b>Imagen:</b>
+                    </p>
+                    <div *ngIf="terrain?.imageUrl">
+                      <a mat-button color="warn" mat-line [href]="terrain?.imageUrl" target="_blank">Abrir
+                        <mat-icon>launch</mat-icon></a>
+                    </div>
+                    <div *ngIf="!terrain?.imageUrl">
+                      <label> No se Adjunto imagen</label>
+                    </div>
+                    </mat-tab>
+                    </mat-tab-group>
+                    </div>
           </div>
         </mat-tab>
 
