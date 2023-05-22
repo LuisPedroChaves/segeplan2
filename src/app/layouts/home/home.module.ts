@@ -24,12 +24,12 @@ import { NewInitiativeComponent } from 'src/app/core/components/sinafip/new-init
 import { NewActivityComponent } from 'src/app/core/components/sinafip/new-activity/new-activity.component';
 import { InitiativeDetailsComponent } from 'src/app/core/components/sinafip/initiative-details/initiative-details.component';
 import { AdmitionMatrixComponent } from 'src/app/core/components/sinafip/admition-matrix/admition-matrix.component';
-import { NewProjectComponent } from 'src/app/core/components/check-project/new-project/new-project.component';
 import { ModalGuideComponent } from 'src/app/core/components/check-project/modal-guide/modal-guide.component';
 import { TrackDetailsComponent } from 'src/app/core/components/check-project/track-details/track-details.component';
 import { TrackEpiComponent } from 'src/app/core/components/check-project/track-epi/track-epi.component';
 import { TrackDocumentComponent } from 'src/app/core/components/check-project/track-document/track-document.component';
 import { TrackVisitComponent } from 'src/app/core/components/check-project/track-visit/track-visit.component';
+import { NewProjectComponent } from 'src/app/core/components/check-project/new-project/new-project.component';
 
 
 

@@ -130,7 +130,73 @@ export class NewProjectComponent  implements OnInit, OnDestroy{
     });
   }
 
-  openDrawer2(width2: string, component2: string, track: ITrack) {
+  openDrawer2(width2: string, component2: string, activity: string) {
+
+      // if (this.newProject.invalid) {
+      //   const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      //     width: '250px',
+      //     data: { title: 'Completar información', description: 'Primero debe completar toda la información del proyecto', confirmation: false }
+      //   });
+      //   return;
+      // }
+
+      // if (!this.project) {
+
+      //   const {
+      //     process,
+      //     sector,
+      //     nameProject,
+      //     departament,
+      //     municipality,
+      //     observations,
+      //     agripManage,
+      //     legalLand,
+      //     snipCode, ministry } = this.newProject.value;
+
+      //   console.log(this.newProject)
+
+      //   this.project = {
+      //     process,
+      //     sector,
+      //     nameProject,
+      //     isMinistry: this.isMinistry,
+      //     depto: departament,
+      //     munic: municipality,
+      //     observations,
+      //     agripManage,
+      //     legalLand,
+      //     snipCode,
+      //     ministry
+      //   }
+      //   console.log("🚀 ~ file: new-project.component.ts:160 ~ NewProjectComponent ~ openFormDrawer ~ project", this.project)
+
+      //   this.checkProjectStore.dispatch(CREATE_CHECK_PROJECT({ checkProject: this.project }))
+      //   this.checkProjectStore.dispatch(OPEN_FORM_DRAWER({ formTitle, formComponent }))
+      //   this.checkProjectStore.dispatch(SET_TRACK({
+      //     track: {
+      //       iapa: null,
+      //       iapb: null,
+      //       iapc: null,
+      //       activity,
+      //       reportDate: null
+      //     }
+      //   }))
+      //   return
+      // }
+
+      // //TODO: Actualizar proyecto si existe el ID
+
+      // this.checkProjectStore.dispatch(OPEN_FORM_DRAWER({ formTitle, formComponent }))
+      // this.checkProjectStore.dispatch(SET_TRACK({
+      //   track: {
+      //     iapa: null,
+      //     iapb: null,
+      //     iapc: null,
+      //     activity,
+      //     reportDate: null
+      //   }
+      // }))
+
     this.checkProjectStore.dispatch(OPEN_DRAWER2({ width2, component2 }))
   }
 

@@ -1,0 +1,230 @@
+
+<ngx-simplebar ngClass.gt-sm="content-desktop" ngClass.lt-md="content-desktop">
+  <mat-toolbar fxLayoutGap="8px" class="active-elevation">
+    <button mat-icon-button (click)="closeDrawer1()" matTooltip="Cancelar" type="button">
+      <mat-icon>close</mat-icon>
+    </button>
+    <span>Nuevo proyecto</span>
+  </mat-toolbar>
+
+  <div fxLayout="row" fxLayoutAlign="center center" class="form">
+    <div fxFlex="90">
+      <mat-stepper #stepper fxFill linear="true">
+
+        <mat-step [stepControl]="newProject">
+          <ng-template matStepLabel>Paso 1</ng-template>
+
+          <form [formGroup]="newProject" autocomplete="off">
+            <ngx-simplebar class="content-stepper">
+              <div fxLayout="column" fxLayoutGap="15px">
+                <br>
+                <div fxLayout="column" fxLayoutAlign="space-around center">
+                  <p class="mat-headline-6">INFORMACIÓN DEL PROYECTO</p>
+                </div>
+
+                <mat-form-field fxFill appearance="outline">
+                  <mat-label>Nombre del proyecto</mat-label>
+                  <input matInput formControlName="nameProject" type="text">
+                  <mat-error *ngIf="newProject.get('nameProject')?.hasError('required')">
+                    El nombre del proyecto es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <div fxFill fxLayout="row wrap" fxLayoutGap.gt-sm="10px">
+                  <div fxFlex fxLayout="column">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Proceso</mat-label>
+                      <mat-select formControlName="process">
+                        <mat-option *ngFor="let opt of process" [value]="opt.name">
+                          {{opt.name}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="newProject.get('process')?.hasError('required')">
+                        El proceso del proyecto es <strong>requerido</strong>
+                      </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Departamento</mat-label>
+                      <mat-select formControlName="departament" (selectionChange)="selecDepartament()">
+                        <mat-option *ngFor="let depto of departamentos" [value]="depto.NOMBRE">
+                          {{depto.NOMBRE}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="newProject.get('departament')?.hasError('required')">
+                        El departamento del proyecto es <strong>requerido</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div fxFlex fxLayout="column">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Sector</mat-label>
+                      <input matInput formControlName="sector" type="text">
+                      <mat-error *ngIf="newProject.get('sector')?.hasError('required')">
+                        El sector del proyecto es <strong>requerido</strong>
+                      </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Municipio</mat-label>
+                      <mat-select formControlName="municipality">
+                        <mat-option *ngFor="let mncpio of municipios" [value]="mncpio.NOMBRE">
+                          {{mncpio.NOMBRE}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="newProject.get('municipality')?.hasError('required')">
+                        El municipio del proyecto es <strong>requerido</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <mat-form-field *ngIf="isMinistry" fxFiill appearance="outline">
+                  <mat-label>Nombre de la entidad (Presidencia y Ministerios del Estado, Secretarias u otras dependencias)</mat-label>
+                  <mat-select formControlName="ministry">
+                    <mat-option *ngFor="let entity of entities" [value]="entity.name">
+                      {{entity.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="newProject.get('ministry')?.hasError('required')">
+                    El nombre de la entidad es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <div fxFlex fxLayout="row wrap" fxLayoutGap.gt-sm="10px">
+                  <div fxFlex fxLayout="column">
+                    <mat-radio-group formControlName="legalLand" aria-label="Select an option">
+                      <mat-label>Existe certeza juridica</mat-label>
+                      <br/>
+                      <mat-radio-button [value]="true"> Si </mat-radio-button> &nbsp;
+                      <mat-radio-button [value]="false"> No </mat-radio-button>
+                    </mat-radio-group>
+                    <br>
+                    <mat-radio-group formControlName="agripManage" aria-label="Select an option">
+                      <mat-label>Gestión de la AGRIP</mat-label>
+                      <br/>
+                      <mat-radio-button [value]="true"> Si </mat-radio-button> &nbsp;
+                      <mat-radio-button [value]="false"> No </mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+
+                  <mat-form-field fxFlex appearance="outline">
+                    <mat-label>Código SNIP</mat-label>
+                    <input matInput formControlName="snipCode" type="text">
+                  </mat-form-field>
+
+                </div>
+
+                <mat-form-field fxFill appearance="outline">
+                  <mat-label>Observaciones</mat-label>
+                  <textarea matInput formControlName="observations" placeholder="Máximo 200 caracteres..." rows="2"></textarea>
+                  <mat-error *ngIf="newProject.get('place')?.hasError('maxlength')"></mat-error>
+                </mat-form-field>
+
+                <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
+                  <button mat-raised-button color="accent" matStepperNext>
+                    Siguiente
+                    <mat-icon>navigate_next</mat-icon>
+                  </button>
+                </div>
+
+              </div>
+            </ngx-simplebar>
+          </form>
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>Paso 2</ng-template>
+
+            <ngx-simplebar class="content-stepper">
+              <div fxLayout="column" fxLayoutGap="15px">
+                <br>
+                <div fxLayout="column" fxLayoutAlign="space-around center">
+                  <p class="mat-headline-6">SEGUIMIENTOS</p>
+                  <p class="mat-subheading-2"> Índice análisis de la preinversión -IAP- </p>
+                </div>
+                <br>
+
+                <div class="mat-elevation-z8">
+                  <br>
+                  <div class="button-container" fxLayoutAlign="start center">
+                    <button mat-stroked-button [matMenuTriggerFor]="menu" type="submit" matTooltip="Agregar Seguimiento"
+                     class="add-button" color="primary">
+                      Agregar seguimiento
+                    </button>
+
+                    <mat-menu #menu="matMenu">
+                      <button mat-menu-item (click)="openDrawer2('50%', 'TRACK_EPI', null)">ASESORÍA A LA EPI</button>
+                      <button mat-menu-item (click)="openDrawer2('50%', 'TRACK_DOCUMENT', null)">ASESORÍA AL DOCUMENTO</button>
+                      <button mat-menu-item (click)="openDrawer2('50%', 'TRACK_VISIT', null)">VISITA DE CAMPO</button>
+                    </mat-menu>
+
+                  </div>
+                  <mat-divider></mat-divider>
+                  <table mat-table fxFill [dataSource]="dataSource">
+
+                    <ng-container matColumnDef="iapa">
+                      <th mat-header-cell *matHeaderCellDef> A 55 % </th>
+                      <td mat-cell *matCellDef="let element"> {{element.iapa}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="iapb">
+                      <th mat-header-cell *matHeaderCellDef> B 25 % </th>
+                      <td mat-cell *matCellDef="let element"> {{element.iapb}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="iapc">
+                      <th mat-header-cell *matHeaderCellDef> C 20 % </th>
+                      <td mat-cell *matCellDef="let element"> {{element.iapc}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="activity">
+                      <th mat-header-cell *matHeaderCellDef> Actividad </th>
+                      <td mat-cell *matCellDef="let element">{{element.activity}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="reportDate">
+                      <th mat-header-cell *matHeaderCellDef> Fecha </th>
+                      <td mat-cell *matCellDef="let element">{{element.reportDate | date: 'dd/MM/yyyy'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                      <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                      <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button (click)="openDrawer2('50%', 'TRACK_DETAILS', element)">
+                          <mat-icon>visibility</mat-icon>
+                        </button>
+                      </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  </table>
+
+                  <mat-paginator *ngIf="dataSource.data.length > 0" [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
+                  </mat-paginator>
+                </div>
+                <br>
+                <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
+                  <button mat-raised-button color="accent" matStepperPrevious>
+                    Volver
+                    <mat-icon>chevron_left</mat-icon>
+                  </button>
+                  <button mat-raised-button color="accent" (click)="stepper.reset()">
+                    Restablecer
+                    <mat-icon>settings_backup_restore</mat-icon>
+                  </button>
+                  <button mat-raised-button color="accent" (click)="saveTrack()">
+                    Finalizar
+                    <mat-icon>task_alt</mat-icon>
+                  </button>
+                </div>
+
+              </div>
+            </ngx-simplebar>
+        </mat-step>
+      </mat-stepper>
+    </div>
+  </div>
+</ngx-simplebar>
