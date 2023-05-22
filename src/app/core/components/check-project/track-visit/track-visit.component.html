@@ -1,0 +1,806 @@
+
+<ngx-simplebar ngClass.gt-sm="content-desktop" ngClass.lt-md="content-desktop">
+  <mat-toolbar fxLayoutGap="8px" class="active-elevation">
+    <button mat-icon-button (click)="closeDrawer2()" matTooltip="Cancelar" type="button">
+      <mat-icon>close</mat-icon>
+    </button>
+    <span> VISITA DE CAMPO </span>
+  </mat-toolbar>
+
+  <div fxLayout="row" fxLayoutAlign="center center" class="form">
+    <div fxFlex="90">
+
+      <mat-stepper #stepper fxFill linear="true">
+
+        <mat-step [stepControl]="track">
+          <ng-template matStepLabel>Paso 1</ng-template>
+
+          <form [formGroup]="track" autocomplete="off">
+            <ngx-simplebar class="content-stepper">
+              <div fxLayout="column" fxLayoutGap="15px">
+
+                <div fxLayout="column" fxLayoutAlign="space-around center">
+                  <p class="mat-headline-6"> SEGUIMIENTO </p>
+                </div>
+                <div fxLayout="row" class="container-guide">
+                  <button mat-stroked-button (click)="openDialog()" class="buttom-guide" color="primary">
+                    Ver guía de ponderaciones</button>
+                </div>
+                <br>
+                <mat-form-field fxFill appearance="outline">
+                  <mat-label>A 55 %</mat-label>
+                  <input matInput formControlName="iapa" type="number" (input)="verifyValue($event, 55)">
+                  <mat-error *ngIf="track.get('iapa')?.hasError('required')">
+                    A 55% es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFill appearance="outline">
+                  <mat-label>B 25 %</mat-label>
+                  <input formControlName="iapb" type="number" (input)="verifyValue($event, 25)" matInput>
+                  <mat-error *ngIf="track.get('iapb')?.hasError('required')">
+                    B 25% es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFill appearance="outline">
+                  <mat-label>C 20 % </mat-label>
+                  <input matInput formControlName="iapc" type="number" (input)="verifyValue($event, 20)">
+                  <mat-error *ngIf="track.get('iapc')?.hasError('required')">
+                    C 20% es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFill appearance="outline">
+                  <mat-label>Fecha</mat-label>
+                  <input matInput formControlName="reportDate" [matDatepicker]="datepicker">
+                  <mat-hint>DD/MM/YYYY</mat-hint>
+                  <mat-error *ngIf="track.get('reportDate')?.hasError('required')">
+                    La fecha es <strong>requerida</strong>
+                  </mat-error>
+                  <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                  <mat-datepicker #datepicker>
+                  </mat-datepicker>
+                </mat-form-field>
+                <br>
+                <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
+                  <button mat-raised-button color="accent" matStepperNext>
+                    Siguiente
+                    <mat-icon>navigate_next</mat-icon>
+                  </button>
+                </div>
+
+              </div>
+            </ngx-simplebar>
+          </form>
+        </mat-step>
+
+        <mat-step [stepControl]="visitCard">
+          <ng-template matStepLabel>Paso 2</ng-template>
+
+          <form [formGroup]="visitCard" (ngSubmit)="onSubmit()" autocomplete="off">
+            <ngx-simplebar class="content-stepper">
+              <div fxLayout="column" fxLayoutGap="15px">
+                <br>
+                <br>
+                <mat-form-field appearance="outline">
+                  <mat-label>Código preinversión</mat-label>
+                  <input matInput formControlName="codePreinv" type="text">
+                  <mat-hint>Hasta {{6 - visitCard.get('codePreinv')?.value?.length}} caracteres.
+                  </mat-hint>
+                  <mat-error *ngIf="visitCard.get('codePreinv')?.hasError('maxlength')">
+                    Máximo 6 caracteres.
+                  </mat-error>
+                  <mat-error *ngIf="visitCard.get('codePreinv')?.hasError('required')">
+                    El código es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFill appearance="outline">
+                  <mat-label>Fecha de visita</mat-label>
+                  <input matInput formControlName="visitDate" [matDatepicker]="visitDate">
+                  <mat-hint>DD/MM/YYYY</mat-hint>
+                  <mat-error *ngIf="visitCard.get('visitDate')?.hasError('required')">
+                    La fecha es <strong>requerida</strong>
+                  </mat-error>
+                  <mat-datepicker-toggle matSuffix [for]="visitDate"></mat-datepicker-toggle>
+                  <mat-datepicker #visitDate>
+                  </mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Delegación departamental</mat-label>
+                  <input matInput formControlName="deptoDel" type="text">
+                  <mat-error *ngIf="visitCard.get('deptoDel')?.hasError('required')">
+                    La delegación es <strong>requerida</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Especialista de preinversión</mat-label>
+                  <input matInput formControlName="specialistName" type="text">
+                  <mat-error *ngIf="visitCard.get('specialistName')?.hasError('required')">
+                    El especialista es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Nombre del proyecto</mat-label>
+                  <input matInput formControlName="proposalName" type="text">
+                  <mat-error *ngIf="visitCard.get('proposalName')?.hasError('required')">
+                    El nombre es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Monto aproximado</mat-label>
+                  <input formControlName="mountAprox" type="number" matInput placeholder="0.00">
+                  <mat-error *ngIf="visitCard.get('mountAprox')?.hasError('required')">
+                    El monto es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <br>
+                <mat-divider></mat-divider>
+                <br>
+                <div fxLayout="column" fxLayoutAlign="space-around center">
+                  <p class="mat-headline-6">1.1 CARACTERIZACIÓN DEL ÁREA DE INFLUENCIA</p>
+                </div>
+                <mat-divider></mat-divider>
+                <br>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Región</mat-label>
+                  <input formControlName="region" type="number" matInput placeholder="0">
+                  <mat-error *ngIf="visitCard.get('region')?.hasError('required')">
+                    La región es <strong>requerida</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFlex appearance="outline">
+                  <mat-label>Departamento</mat-label>
+                  <mat-select formControlName="depto" (selectionChange)="selecDepartament()">
+                    <mat-option *ngFor="let depto of departamentos" [value]="depto.NOMBRE">
+                      {{depto.NOMBRE}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="visitCard.get('depto')?.hasError('required')">
+                    El departamento es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFlex appearance="outline">
+                  <mat-label>Municipio</mat-label>
+                  <mat-select formControlName="municip">
+                    <mat-option *ngFor="let mncpio of municipios" [value]="mncpio.NOMBRE">
+                      {{mncpio.NOMBRE}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="visitCard.get('municip')?.hasError('required')">
+                    El municipio es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFill appearance="outline">
+                  <mat-label>Dirección</mat-label>
+                  <textarea matInput formControlName="address" placeholder="Dirección completa..." rows="2"></textarea>
+                  <mat-error *ngIf="visitCard.get('address')?.hasError('required')">
+                    La dirección es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-radio-group formControlName="typeAddress" fxLayoutGap="8px">
+                  <mat-radio-button [value]="false">Área rural</mat-radio-button>
+                  <mat-radio-button [value]="true">Área urbana</mat-radio-button>
+                </mat-radio-group>
+
+                <br>
+
+                <mat-form-field fxFlex appearance="outline">
+                  <mat-label>Categoría del lugar poblado</mat-label>
+                  <mat-select formControlName="catLocation">
+                    <mat-option *ngFor="let catLocation of catLocations" [value]="catLocation">
+                      {{catLocation}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field fxFlex appearance="outline">
+                  <mat-label>Clima predominante</mat-label>
+                  <mat-select formControlName="typeClimate">
+                    <mat-option *ngFor="let typeClimate of typeClimates" [value]="typeClimate">
+                      {{typeClimate}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Temperatura promedio</mat-label>
+                  <input formControlName="avgTemperature" type="number" matInput placeholder="18">
+                  <mat-hint>Grados centígrados</mat-hint>
+                  <mat-error *ngIf="visitCard.get('avgTemperature')?.hasError('required')">
+                    La temperatura es <strong>requerida</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <br>
+                <mat-divider></mat-divider>
+                <br>
+                <div fxLayout="column" fxLayoutAlign="space-around center">
+                  <p class="mat-headline-6">1.2 ACCESIBILIDAD AL ÁREA DE INFLUENCIA</p>
+                </div>
+                <mat-divider></mat-divider>
+                <br>
+
+                <p class="mat-subheading-2">Vías de acceso utilizadas por época</p>
+
+                <div fxLayout="row" fxLayoutGap="8px">
+                  <div *ngFor="let road of accessRoads">
+                    {{road.name}}
+                    <ul>
+                      <li *ngFor="let option of road.options">
+                        <mat-checkbox [(ngModel)]="option.active" [ngModelOptions]="{standalone: true}">
+                          {{option.name}}
+                        </mat-checkbox>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Distancia a la cabecera municipal más cercana</mat-label>
+                  <input formControlName="distanceKm" type="number" matInput placeholder="80">
+                  <mat-hint>Kilómetros</mat-hint>
+                  <mat-error *ngIf="visitCard.get('distanceKm')?.hasError('required')">
+                    La distancia es <strong>requerida</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <p class="mat-subheading-2">Medios de transporte que llegan al área de influencia por época</p>
+
+                <div fxLayout="row" fxLayoutGap="8px">
+                  <div *ngFor="let transport of meanstransport">
+                    {{transport.name}}
+                    <ul *ngFor="let type of transport.types">
+                      <li>{{ type.name }}</li>
+                      <li *ngFor="let option of type.options">
+                        <mat-checkbox [(ngModel)]="option.active" [ngModelOptions]="{standalone: true}">
+                          {{option.name}}
+                        </mat-checkbox>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <br>
+                <mat-divider></mat-divider>
+                <br>
+                <div fxLayout="column" fxLayoutAlign="space-around center">
+                  <p class="mat-headline-6">1.3 SERVICIOS BÁSICOS EN EL ÁREA DE INFLUENCIA</p>
+                </div>
+                <mat-divider></mat-divider>
+                <br>
+
+                <mat-slide-toggle formControlName="isDrainageNetwork">Existe red de drenajes</mat-slide-toggle>
+                <mat-slide-toggle formControlName="isElectricity">Hay electricidad</mat-slide-toggle>
+                <mat-slide-toggle formControlName="isPhoneService">Hay servicio de telefonía</mat-slide-toggle>
+                <mat-slide-toggle formControlName="isDrinkableWhater">Existe red de agua potable</mat-slide-toggle>
+                <br>
+
+                <mat-form-field fxFlex appearance="outline">
+                  <mat-label>Desechos sólidos</mat-label>
+                  <mat-select formControlName="garbageDisposal">
+                    <mat-option *ngFor="let garbageDisposal of garbageDisposals" [value]="garbageDisposal">
+                      {{garbageDisposal}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-hint>¿Cómo se elimina regularmente los desechos sólidos?</mat-hint>
+                </mat-form-field>
+
+                <mat-slide-toggle formControlName="isDrinkingWater">El agua es apta para consumo humano</mat-slide-toggle>
+                <br>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Infraestructura de servicios</mat-label>
+                  <mat-select formControlName="serviceInf" multiple>
+                    <mat-option *ngFor="let service of serviceInf" [value]="service">{{service}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <br>
+                <mat-divider></mat-divider>
+                <br>
+                <div fxLayout="column" fxLayoutAlign="space-around center">
+                  <p class="mat-headline-6">1.4 REFERENCIA GEOGRÁFICA</p>
+                </div>
+                <mat-divider></mat-divider>
+                <br>
+
+                <div fxLayout="row" fxLayoutGap="8px">
+                  <mat-form-field fxFlex appearance="outline">
+                    <mat-label>Coordenadas GTM</mat-label>
+                    <input formControlName="gtmx" type="number" matInput placeholder="123456">
+                    <mat-hint>Coordenada X</mat-hint>
+                    <mat-error *ngIf="visitCard.get('gtmx')?.hasError('required')">
+                      La coordenada x es <strong>requerida</strong>
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex appearance="outline">
+                    <mat-label>Coordenadas GTM</mat-label>
+                    <input formControlName="gtmy" type="number" matInput placeholder="123456">
+                    <mat-hint>Coordenada Y</mat-hint>
+                    <mat-error *ngIf="visitCard.get('gtmy')?.hasError('required')">
+                      La coordenada y es <strong>requerida</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutGap="8px">
+                  <mat-form-field fxFlex appearance="outline">
+                    <mat-label>Altitud</mat-label>
+                    <input formControlName="elevation" type="number" matInput placeholder="1800">
+                    <mat-hint>Altitud sobre el nivel del mar</mat-hint>
+                    <mat-error *ngIf="visitCard.get('elevation')?.hasError('required')">
+                      La altitud y es <strong>requerida</strong>
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex appearance="outline">
+                    <mat-label>Msnm</mat-label>
+                    <input formControlName="msnm" type="number" matInput>
+                    <mat-hint>Msnm</mat-hint>
+                    <mat-error *ngIf="visitCard.get('msnm')?.hasError('required')">
+                      Msnm es <strong>requerido</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <br>
+                <mat-divider></mat-divider>
+                <br>
+                <div fxLayout="column" fxLayoutAlign="space-around center">
+                  <p class="mat-headline-6">1.5 DESASTRES MÁS RECIENTES EN EL ÁREA DE INFLUENCIA</p>
+                </div>
+                <mat-divider></mat-divider>
+                <br>
+
+                <div fxLayout="column" fxLayoutGap="10px" class="comments">
+                  <mat-form-field fxFill appearance="outline">
+                    <mat-label>Fecha</mat-label>
+                    <input matInput [formControl]="date" [matDatepicker]="dateDisaster">
+                    <mat-hint>DD/MM/YYYY</mat-hint>
+                    <mat-error *ngIf="date?.hasError('required')">
+                      La fecha es <strong>requerida</strong>
+                    </mat-error>
+                    <mat-datepicker-toggle matSuffix [for]="dateDisaster"></mat-datepicker-toggle>
+                    <mat-datepicker #dateDisaster>
+                    </mat-datepicker>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Hora</mat-label>
+                    <input matInput [formControl]="hour" type="text">
+                    <mat-error *ngIf="hour?.hasError('required')">
+                      La hora es <strong>requerida</strong>
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex appearance="outline">
+                    <mat-label>Tipo de evento</mat-label>
+                    <mat-select [formControl]="eventType">
+                      <mat-option *ngFor="let eventType of typeEvents" [value]="eventType">
+                        {{eventType}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Causas</mat-label>
+                    <input matInput [formControl]="causes" type="text">
+                    <mat-error *ngIf="causes?.hasError('required')">
+                      Las causas son <strong>requeridas</strong>
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Consecuencias</mat-label>
+                    <input matInput [formControl]="impact" type="text">
+                    <mat-error *ngIf="impact?.hasError('required')">
+                      Las consecuencias son <strong>requeridas</strong>
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex appearance="outline">
+                    <mat-label>Recurrencia</mat-label>
+                    <mat-select [formControl]="recurrence">
+                      <mat-option *ngFor="let recurrence of recurrences" [value]="recurrence">
+                        {{recurrence}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <div fxLayout="row" fxLayoutAlign="center center">
+                    <button mat-stroked-button (click)="addDisaster()" color="primary" type="button">Agregar</button>
+                  </div>
+                  <br>
+                  <mat-divider></mat-divider>
+                  <mat-list-item *ngFor="let disaster of disasters, let i = index">
+                    <br>
+                    <div mat-line>
+                      No. <strong>{{disaster.no}}</strong>
+                      <span fxFlex></span>
+                      <button mat-icon-button (click)="removeDisaster(i)"><mat-icon>close</mat-icon></button>
+                    </div>
+                    <div mat-line>Fecha y hora: <strong>{{disaster.date | date: 'dd/MM/YYYY'}} | {{disaster.hour}} h</strong>
+                    </div>
+                    <div mat-line>Evento: <strong>{{disaster.eventType}}</strong></div>
+                    <div mat-line>Causas: <strong>{{disaster.causes}}</strong></div>
+                    <div mat-line>Consecuencias: <strong>{{disaster.impact}}</strong></div>
+                    <div mat-line>Recurrencia: <strong>{{disaster.recurrence}}</strong></div>
+                  </mat-list-item>
+                  <br>
+                </div>
+
+                <br>
+                <mat-divider></mat-divider>
+                <br>
+                <div fxLayout="column" fxLayoutAlign="space-around center">
+                  <p class="mat-headline-6">1.7 INFORMACIÓN TÉCNICA DEL BIEN INMUEBLE</p>
+                </div>
+                <mat-divider></mat-divider>
+                <br>
+
+                <div fxLayout="row" fxLayoutGap="8px">
+                  <mat-form-field fxFlex appearance="outline">
+                    <mat-label>Tipo</mat-label>
+                    <mat-select formControlName="infRealEstate">
+                      <mat-option *ngFor="let infRealEstate of infRealEstates" [value]="infRealEstate">
+                        {{infRealEstate}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex appearance="outline">
+                    <mat-label>Condiciones del terreno</mat-label>
+                    <mat-select formControlName="groundConditions">
+                      <mat-option *ngFor="let groundConditions of groundConditions" [value]="groundConditions">
+                        {{groundConditions}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutGap="8px">
+                  <mat-form-field fxFlex appearance="outline">
+                    <mat-label>% aproxímado de pendiente</mat-label>
+                    <input formControlName="approximateSlope" type="number" matInput placeholder="50%">
+                    <mat-error *ngIf="visitCard.get('approximateSlope')?.hasError('required')">
+                      El porcentaje es <strong>requerido</strong>
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex appearance="outline">
+                    <mat-label>Tipo de suelo en el terreno</mat-label>
+                    <mat-select formControlName="soilType">
+                      <mat-option *ngFor="let soilType of soilType" [value]="soilType">
+                        {{soilType}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <mat-form-field fxFlex appearance="outline">
+                  <mat-label>Área del bien inmueble</mat-label>
+                  <input formControlName="realEstateArea" type="number" matInput placeholder="40">
+                  <mat-hint>Metros cuadrados</mat-hint>
+                  <mat-error *ngIf="visitCard.get('realEstateArea')?.hasError('required')">
+                    El área es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <br>
+                <mat-divider></mat-divider>
+                <br>
+                <div fxLayout="column" fxLayoutAlign="space-around center">
+                  <p class="mat-headline-6">1.7.1 MEDIDAS Y COLINDANCIAS</p>
+                </div>
+                <mat-divider></mat-divider>
+                <br>
+
+                <div fxLayout="row" fxLayoutGap="8px">
+                  <mat-form-field fxFlex="30" appearance="outline">
+                    <mat-label>Norte</mat-label>
+                    <input formControlName="northMeasure" type="number" matInput placeholder="50">
+                    <mat-hint>Metros</mat-hint>
+                    <mat-error *ngIf="visitCard.get('northMeasure')?.hasError('required')">
+                      La medida es <strong>requerida</strong>
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex appearance="outline">
+                    <mat-label>Uso del suelo en colindancia</mat-label>
+                    <input matInput formControlName="northBorder" type="text">
+                    <mat-error *ngIf="visitCard.get('northBorder')?.hasError('required')">
+                      El uso es <strong>requerido</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutGap="8px">
+                  <mat-form-field fxFlex="30" appearance="outline">
+                    <mat-label>Sur</mat-label>
+                    <input formControlName="southMeasure" type="number" matInput placeholder="50">
+                    <mat-hint>Metros</mat-hint>
+                    <mat-error *ngIf="visitCard.get('southMeasure')?.hasError('required')">
+                      La medida es <strong>requerida</strong>
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex appearance="outline">
+                    <mat-label>Uso del suelo en colindancia</mat-label>
+                    <input matInput formControlName="southBorder" type="text">
+                    <mat-error *ngIf="visitCard.get('southBorder')?.hasError('required')">
+                      El uso es <strong>requerido</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutGap="8px">
+                  <mat-form-field fxFlex="30" appearance="outline">
+                    <mat-label>Este</mat-label>
+                    <input formControlName="eastMeasure" type="number" matInput placeholder="50">
+                    <mat-hint>Metros</mat-hint>
+                    <mat-error *ngIf="visitCard.get('eastMeasure')?.hasError('required')">
+                      La medida es <strong>requerida</strong>
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex appearance="outline">
+                    <mat-label>Uso del suelo en colindancia</mat-label>
+                    <input matInput formControlName="eastBorder" type="text">
+                    <mat-error *ngIf="visitCard.get('eastBorder')?.hasError('required')">
+                      El uso es <strong>requerido</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxLayoutGap="8px">
+                  <mat-form-field fxFlex="30" appearance="outline">
+                    <mat-label>Oeste</mat-label>
+                    <input formControlName="westMeasure" type="number" matInput placeholder="50">
+                    <mat-hint>Metros</mat-hint>
+                    <mat-error *ngIf="visitCard.get('westMeasure')?.hasError('required')">
+                      La medida es <strong>requerida</strong>
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex appearance="outline">
+                    <mat-label>Uso del suelo en colindancia</mat-label>
+                    <input matInput formControlName="westBorder" type="text">
+                    <mat-error *ngIf="visitCard.get('westBorder')?.hasError('required')">
+                      El uso es <strong>requerido</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <br>
+                <mat-divider></mat-divider>
+                <br>
+                <div fxLayout="column" fxLayoutAlign="space-around center">
+                  <p class="mat-headline-6">1.7.2 SITUACIÓN LEGAL ACTUAL DEL INMUEBLE</p>
+                </div>
+                <mat-divider></mat-divider>
+                <br>
+
+                <mat-form-field fxFlex appearance="outline">
+                  <mat-select formControlName="legalSituation">
+                    <mat-option *ngFor="let legalSituation of legalSituations" [value]="legalSituation">
+                      {{legalSituation}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <br>
+                <mat-divider></mat-divider>
+                <br>
+                <div fxLayout="column" fxLayoutAlign="space-around center">
+                  <p class="mat-headline-6">1.7.3 SERVICIOS BÁSICOS EN EL INMUEBLE</p>
+                </div>
+                <mat-divider></mat-divider>
+                <br>
+
+                <mat-form-field fxFlex appearance="outline">
+                  <mat-label>Bien inmueble</mat-label>
+                  <input matInput formControlName="basicServRS" type="text">
+                  <mat-error *ngIf="visitCard.get('basicServRS')?.hasError('required')">
+                    El inmueble es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-slide-toggle formControlName="isDrainageRS">Existe red de drenajes</mat-slide-toggle>
+                <mat-slide-toggle formControlName="isElectricityRS">Hay electricidad</mat-slide-toggle>
+                <mat-slide-toggle formControlName="isPhoneRS">Hay servicio de telefonía</mat-slide-toggle>
+                <mat-slide-toggle formControlName="isDrinkingWRS">Existe red de agua potable</mat-slide-toggle>
+                <br>
+
+                <mat-form-field fxFlex appearance="outline">
+                  <mat-label>Desechos sólidos</mat-label>
+                  <mat-select formControlName="garbageRS">
+                    <mat-option *ngFor="let garbageRS of garbageRS" [value]="garbageRS">
+                      {{garbageRS}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-hint>¿Cómo se elimina regularmente la basura?</mat-hint>
+                </mat-form-field>
+
+                <br>
+                <mat-divider></mat-divider>
+                <br>
+                <div fxLayout="column" fxLayoutAlign="space-around center">
+                  <p class="mat-headline-6">1.8 TIPOS DE AMENAZAS</p>
+                </div>
+                <mat-divider></mat-divider>
+                <br>
+
+                <div fxLayout="row" fxLayoutGap="8px">
+                  <div *ngFor="let threatType of threatTypes">
+                    {{threatType.name}}
+                    <ul>
+                      <li *ngFor="let option of threatType.options">
+                        <mat-form-field fxFlex appearance="outline">
+                          <mat-select [(ngModel)]="option.value" [ngModelOptions]="{standalone: true}">
+                            <mat-option [value]="1">
+                              Alto
+                            </mat-option>
+                            <mat-option [value]="2">
+                              Medio
+                            </mat-option>
+                            <mat-option [value]="3">
+                              Bajo
+                            </mat-option>
+                          </mat-select>
+                          <mat-hint>{{option.name}}</mat-hint>
+                        </mat-form-field>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <br>
+                <mat-divider></mat-divider>
+                <br>
+                <div fxLayout="column" fxLayoutAlign="space-around center">
+                  <p class="mat-headline-6">2.0 SOLICITUD DE FINANCIAMIENTO</p>
+                </div>
+                <mat-divider></mat-divider>
+                <br>
+
+                <mat-slide-toggle formControlName="isReqFinance">Ha solicitado financiamiento para la ejecución de la
+                  propuesta</mat-slide-toggle>
+                <br>
+
+                <mat-form-field fxFlex appearance="outline">
+                  <mat-label>Institución</mat-label>
+                  <input matInput formControlName="desReqFinance" type="text">
+                  <mat-hint>Aplica solo si ha solicitado financiamiento</mat-hint>
+                </mat-form-field>
+
+                <mat-form-field fxFlex appearance="outline">
+                  <mat-label>Estado de la solicitud</mat-label>
+                  <mat-select formControlName="appStatus">
+                    <mat-option *ngFor="let appStatus of appStatus" [value]="appStatus">
+                      {{appStatus}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-hint>Aplica solo si ha solicitado financiamiento</mat-hint>
+                </mat-form-field>
+
+                <br>
+                <mat-divider></mat-divider>
+                <br>
+                <div fxLayout="column" fxLayoutAlign="space-around center">
+                  <p class="mat-headline-6">3.0 ANÁLISIS DE ORGANIZACIONES COMUNALES</p>
+                </div>
+                <mat-divider></mat-divider>
+                <br>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Organizaciones</mat-label>
+                  <mat-select formControlName="availableOrg" multiple>
+                    <mat-option *ngFor="let availableOrg of orgs" [value]="availableOrg">{{availableOrg}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-slide-toggle formControlName="theirAgree">Están de acuerdo con la implementación de la
+                  propuesta</mat-slide-toggle>
+                <br>
+
+                <mat-form-field fxFlex appearance="outline">
+                  <mat-label>Especifique</mat-label>
+                  <input matInput formControlName="specifyAnswer" type="text">
+                </mat-form-field>
+
+                <br>
+                <mat-divider></mat-divider>
+                <br>
+                <div fxLayout="column" fxLayoutAlign="space-around center">
+                  <p class="mat-headline-6">4.0 DATOS PERSONAL TÉCNICO EPI</p>
+                </div>
+                <mat-divider></mat-divider>
+                <br>
+
+                <mat-form-field fxFlex appearance="outline">
+                  <mat-label>Nombre</mat-label>
+                  <input matInput formControlName="techNameEpi" type="text">
+                  <mat-error *ngIf="visitCard.get('techNameEpi')?.hasError('required')">
+                    El nombre es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFlex appearance="outline">
+                  <mat-label>Puesto</mat-label>
+                  <input matInput formControlName="techPosEpi" type="text">
+                  <mat-error *ngIf="visitCard.get('techPosEpi')?.hasError('required')">
+                    El puesto es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFlex appearance="outline">
+                  <mat-label>Profesión</mat-label>
+                  <input matInput formControlName="techProfEpi" type="text">
+                  <mat-error *ngIf="visitCard.get('techProfEpi')?.hasError('required')">
+                    La profesión es <strong>requerida</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFill appearance="outline">
+                  <mat-label>Observaciones</mat-label>
+                  <textarea matInput formControlName="observationsGeneral" rows="4"></textarea>
+                </mat-form-field>
+
+                <br>
+                <mat-divider></mat-divider>
+                <br>
+                <div fxLayout="column" fxLayoutAlign="space-around center">
+                  <p class="mat-headline-6">ANEXO FOTOGRÁFICO: BIEN INMUEBLE</p>
+                  <br>
+                  <p class="center-text">Para efectos prácticos, se recomienda que las fotografías tengan una configuración no
+                    mayor a 1024x768 pixeles.</p>
+                </div>
+                <mat-divider></mat-divider>
+                <br>
+
+                <mat-form-field fxFill appearance="outline">
+                  <mat-label>Fotografías</mat-label>
+                  <ngx-mat-file-input #removableInput formControlName="images" accept="image/*"
+                    placeholder="Seleccionar imagenes" multiple="true">
+                  </ngx-mat-file-input>
+                  <mat-hint>Bien Inmueble</mat-hint>
+                </mat-form-field>
+
+                <br>
+                <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
+                  <button mat-raised-button color="accent" matStepperPrevious>
+                    Volver
+                    <mat-icon>chevron_left</mat-icon>
+                  </button>
+                  <button mat-raised-button color="accent" (click)="stepper.reset()">
+                    Restablecer
+                    <mat-icon>settings_backup_restore</mat-icon>
+                  </button>
+                  <button mat-raised-button color="accent" type="submit">
+                    Finalizar
+                    <mat-icon>task_alt</mat-icon>
+                  </button>
+                </div>
+
+              </div>
+            </ngx-simplebar>
+          </form>
+        </mat-step>
+
+      </mat-stepper>
+    </div>
+  </div>
+</ngx-simplebar>

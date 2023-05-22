@@ -1,0 +1,19 @@
+.buttom-guide{
+  margin: 10px;
+}
+
+.container-guide {
+  display: flex;
+  justify-content: center;
+}
+
+.content-stepper {
+  height: calc(100vh - 145px);
+  padding: 0 12px;
+}
+
+.comments {
+  border-radius: 8px;
+  border-style: solid;
+  padding: 10px;
+}
