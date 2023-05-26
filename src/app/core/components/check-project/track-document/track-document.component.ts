@@ -5,19 +5,19 @@ import { Component, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 
-import { ModalGuideComponent } from '../modal-guide/modal-guide.component';
+import { READ_ENTITIES, READ_SECTORSADVISED, SET_EDIT_PROJECT, SET_TRACKING } from 'src/app/modules/check-project/store/actions';
 import { CheckProjectStore, EntityStore, SectorAdvisedStore } from 'src/app/modules/check-project/store/reducers';
+import { IAdvisoryDoc, IComment, IProject, ITrack } from 'src/app/core/models/seguimiento';
 import { ISectorAdvised, IsbSector } from 'src/app/core/models/sinafip/sectorAdvised';
+import { ModalGuideComponent } from '../modal-guide/modal-guide.component';
+import { ChekProjectService } from 'src/app/modules/check-project/services/chek-project.service';
+import { MatSelectChange } from '@angular/material/select';
 import { CLOSE_DRAWER2 } from 'src/app/core/store/actions';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { MatSelectChange } from '@angular/material/select';
-import { Entity } from 'src/app/core/models/sinafip';
-import { IAdvisoryDoc, IComment, IProject, ITrack } from 'src/app/core/models/seguimiento';
-import { READ_ENTITIES, READ_SECTORSADVISED, SET_EDIT_PROJECT, SET_TRACKING } from 'src/app/modules/check-project/store/actions';
 import { MatStepper } from '@angular/material/stepper';
-import { ChekProjectService } from 'src/app/modules/check-project/services/chek-project.service';
-import { User } from 'src/app/core/models/adicionales';
 import { AppState } from 'src/app/core/store/app.reducer';
+import { Entity } from 'src/app/core/models/sinafip';
+import { User } from 'src/app/core/models/adicionales';
 
 @Component({
   selector: 'app-track-document',

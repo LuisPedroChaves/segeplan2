@@ -15,6 +15,8 @@ import { DenominationReducer, FinancingReducer, ReferencePopulationReducer } fro
 import { EffectsModule } from '@ngrx/effects';
 import { effectsArray } from './store/effects';
 import { FilterComponent } from 'src/app/core/components/filter/filter.component';
+import { RevelanceMatrixComponent } from './pages/revelance-matrix/revelance-matrix.component';
+import { AdmitionMatrixComponent } from './pages/admition-matrix/admition-matrix.component';
 
 
 
@@ -26,6 +28,8 @@ import { FilterComponent } from 'src/app/core/components/filter/filter.component
     ReferencePopulationsComponent,
     FinancingsComponent,
     ProjectTypesComponent,
+    RevelanceMatrixComponent,
+    AdmitionMatrixComponent,
   ],
   imports: [
     CommonModule,

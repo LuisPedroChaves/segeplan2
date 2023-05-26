@@ -5,5 +5,5 @@ import { ReferencePopulationEffects } from "./reference-population.effects";
 export const effectsArray: any[] = [
   DenominationsEffects,
   ReferencePopulationEffects,
-  FinancingEffects
+  FinancingEffects,
 ];

@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
+import { CREATE_CHECK_PROJECT, READ_ENTITIES, SET_PROJECT, SET_TRACK } from 'src/app/modules/check-project/store/actions';
 import { CheckProjectStore, EntityStore, GeograficoStore } from 'src/app/modules/check-project/store/reducers';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -13,7 +14,6 @@ import { CLOSE_DRAWER1, OPEN_DRAWER2, READ_GEOGRAFICOS } from 'src/app/core/stor
 import { Departament } from 'src/app/core/models/adicionales';
 import { Entity } from 'src/app/core/models/sinafip';
 import { IProject, ITrack } from 'src/app/core/models/seguimiento';
-import { CREATE_CHECK_PROJECT, READ_ENTITIES } from 'src/app/modules/check-project/store/actions';
 
 @Component({
   selector: 'app-new-project',
@@ -26,7 +26,7 @@ export class NewProjectComponent  implements OnInit, OnDestroy{
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   displayedColumns = ['iapa', 'iapb', 'iapc', 'activity', 'reportDate', 'actions'];
-  dataSource = new MatTableDataSource<ITrack>([])
+  dataSource = new MatTableDataSource<ITrack>()
 
   departamentos: Departament[] = [];
   municipios: Departament[] = [];
@@ -36,7 +36,7 @@ export class NewProjectComponent  implements OnInit, OnDestroy{
   entityStoreSubscription = new Subscription();
 
   checkProjectSubscription = new Subscription();
-  project: IProject = null;
+  project: IProject;
   isMinistry = false;
 
   newProject = new FormGroup({
@@ -131,73 +131,68 @@ export class NewProjectComponent  implements OnInit, OnDestroy{
   }
 
   openDrawer2(width2: string, component2: string, activity: string) {
+      if (this.newProject.invalid) {
+        const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+          width: '250px',
+          data: { title: 'Completar información', description: 'Primero debe completar toda la información del proyecto', confirmation: false }
+        });
+        return;
+      }
 
-      // if (this.newProject.invalid) {
-      //   const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      //     width: '250px',
-      //     data: { title: 'Completar información', description: 'Primero debe completar toda la información del proyecto', confirmation: false }
-      //   });
-      //   return;
-      // }
+      if (!this.project) {
+        const {
+          process,
+          sector,
+          nameProject,
+          departament,
+          municipality,
+          observations,
+          agripManage,
+          legalLand,
+          snipCode, ministry } = this.newProject.value;
 
-      // if (!this.project) {
+        console.log(this.newProject)
 
-      //   const {
-      //     process,
-      //     sector,
-      //     nameProject,
-      //     departament,
-      //     municipality,
-      //     observations,
-      //     agripManage,
-      //     legalLand,
-      //     snipCode, ministry } = this.newProject.value;
+        this.project = {
+          process,
+          sector,
+          nameProject,
+          isMinistry: this.isMinistry,
+          depto: departament,
+          munic: municipality,
+          observations,
+          agripManage,
+          legalLand,
+          snipCode,
+          ministry
+        }
+        console.log("🚀 ~ file: new-project.component.ts:160 ~ NewProjectComponent ~ openFormDrawer ~ project", this.project)
 
-      //   console.log(this.newProject)
+        this.checkProjectStore.dispatch(SET_PROJECT({ checkProject: this.project }))
+        this.checkProjectStore.dispatch(OPEN_DRAWER2({ width2, component2 }))
+        this.checkProjectStore.dispatch(SET_TRACK({
+          track: {
+            iapa: null,
+            iapb: null,
+            iapc: null,
+            activity,
+            reportDate: null
+          }
+        }))
+        return
+      }
 
-      //   this.project = {
-      //     process,
-      //     sector,
-      //     nameProject,
-      //     isMinistry: this.isMinistry,
-      //     depto: departament,
-      //     munic: municipality,
-      //     observations,
-      //     agripManage,
-      //     legalLand,
-      //     snipCode,
-      //     ministry
-      //   }
-      //   console.log("🚀 ~ file: new-project.component.ts:160 ~ NewProjectComponent ~ openFormDrawer ~ project", this.project)
-
-      //   this.checkProjectStore.dispatch(CREATE_CHECK_PROJECT({ checkProject: this.project }))
-      //   this.checkProjectStore.dispatch(OPEN_FORM_DRAWER({ formTitle, formComponent }))
-      //   this.checkProjectStore.dispatch(SET_TRACK({
-      //     track: {
-      //       iapa: null,
-      //       iapb: null,
-      //       iapc: null,
-      //       activity,
-      //       reportDate: null
-      //     }
-      //   }))
-      //   return
-      // }
-
-      // //TODO: Actualizar proyecto si existe el ID
-
-      // this.checkProjectStore.dispatch(OPEN_FORM_DRAWER({ formTitle, formComponent }))
-      // this.checkProjectStore.dispatch(SET_TRACK({
-      //   track: {
-      //     iapa: null,
-      //     iapb: null,
-      //     iapc: null,
-      //     activity,
-      //     reportDate: null
-      //   }
-      // }))
-
-    this.checkProjectStore.dispatch(OPEN_DRAWER2({ width2, component2 }))
+      //TODO: Actualizar proyecto si existe el ID
+      this.checkProjectStore.dispatch(OPEN_DRAWER2({ width2, component2 }))
+      this.checkProjectStore.dispatch(SET_TRACK({
+        track: {
+          iapa: null,
+          iapb: null,
+          iapc: null,
+          activity,
+          reportDate: null
+        }
+      }))
   }
 
   selecDepartament(): void {

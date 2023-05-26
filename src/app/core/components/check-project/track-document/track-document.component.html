@@ -211,16 +211,22 @@
                   </div>
                   <br>
                   <mat-divider></mat-divider>
-                  <mat-list-item *ngFor="let comment of comments, let i = index">
-                    <br>
-                    <div mat-line>
-                      <b>{{comment.theme}}</b>
-                      <span fxFlex></span>
-                      <button mat-icon-button (click)="removeComment(i)"><mat-icon>close</mat-icon></button>
-                    </div>
-                    <div mat-line> {{comment.description}} </div>
-                  </mat-list-item>
-                  <br>
+                  <mat-list>
+                    <mat-list-item *ngFor="let comment of comments, let i = index">
+                      <div matListItemLine>
+                        <div matListItemLine>
+                          <span matListItemLine> <strong> {{comment.theme}} </strong></span>
+                            <span fxFlex></span>
+                            <mat-action-list>
+                              <button mat-icon-button (click)="removeComment(i)"> <mat-icon matListItemIcon>close</mat-icon> </button>
+                            </mat-action-list>
+                        </div>
+                        <span matListItemLine> {{comment.description}} </span>
+                        <br>
+                        <mat-divider></mat-divider>
+                      </div>
+                    </mat-list-item>
+                  </mat-list>
                 </div>
                 <br>
                 <br>
