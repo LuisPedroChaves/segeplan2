@@ -1,0 +1,114 @@
+<ngx-simplebar ngClass.gt-sm="content-index" ngClass.lt-md="content-index">
+
+  <header fxLayout="row" fxLayoutGap="12px" fxLayoutAlign="start center" class="active-elevation">
+    <mat-icon fontIcon="timeline"></mat-icon>
+    <p class="mat-headline-6"> Matriz de pertinencia </p>
+  </header>
+
+  <form [formGroup]="matrixValues" (ngSubmit)="saveMatrix()" autocomplete="off">
+    <mat-card fxLayoutGap="12px" fxLayoutAlign="center center" class="active-elevation" class="radius">
+      <div fxLayout="column" fxFlex="30">
+        <mat-card-header>
+          <mat-card-title> Rango de inversión </mat-card-title>
+        </mat-card-header>
+        <br>
+        <mat-card-content>
+          <mat-form-field fxFill appearance="outline">
+            <mat-label> Rango minimo </mat-label>
+            <input matInput formControlName="investmentRangeMin" type="number">
+            <mat-error *ngIf="matrixValues.get('investmentRangeMin')?.hasError('required')">
+              Valor requerido
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field fxFill appearance="outline">
+            <mat-label> Rango máximo</mat-label>
+            <input matInput formControlName="investmentRangeMax" type="number">
+            <mat-error *ngIf="matrixValues.get('investmentRangeMax')?.hasError('required')">
+              Valor requerido
+            </mat-error>
+          </mat-form-field>
+        </mat-card-content>
+
+        <mat-card-header >
+          <mat-card-title> Estimación de beneficiarios </mat-card-title>
+        </mat-card-header>
+        <br>
+        <mat-card-content>
+          <mat-form-field fxFill appearance="outline">
+            <mat-label> Rango minimo </mat-label>
+            <input matInput formControlName="beneficiariesRangeMin" type="number">
+            <mat-error *ngIf="matrixValues.get('beneficiariesRangeMin')?.hasError('required')">
+              Valor requerido
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field fxFill appearance="outline">
+            <mat-label> Rango máximo</mat-label>
+            <input matInput formControlName="beneficiariesRangeMax" type="number">
+            <mat-error *ngIf="matrixValues.get('beneficiariesRangeMax')?.hasError('required')">
+              Valor requerido
+            </mat-error>
+          </mat-form-field>
+        </mat-card-content>
+      </div>
+
+      <div fxLayout="column" fxFlex="30">
+        <mat-card-header >
+          <mat-card-title> Complejidad </mat-card-title>
+        </mat-card-header>
+        <br>
+        <mat-card-content>
+          <mat-form-field fxFill appearance="outline">
+            <mat-label> Rango minimo </mat-label>
+            <input matInput formControlName="complexyRangeMin" type="number">
+            <mat-error *ngIf="matrixValues.get('complexyRangeMin')?.hasError('required')">
+              Valor requerido
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field fxFill appearance="outline">
+            <mat-label> Rango máximo</mat-label>
+            <input matInput formControlName="complexyRangeMax" type="number">
+            <mat-error *ngIf="matrixValues.get('complexyRangeMax')?.hasError('required')">
+              Valor requerido
+            </mat-error>
+          </mat-form-field>
+        </mat-card-content>
+
+        <mat-card-header >
+          <mat-card-title> Etapa </mat-card-title>
+        </mat-card-header>
+        <br>
+        <mat-card-content>
+          <mat-form-field fxFill appearance="outline">
+            <mat-label> Rango minimo </mat-label>
+            <input matInput formControlName="stageRangeMin" type="number">
+            <mat-error *ngIf="matrixValues.get('stageRangeMin')?.hasError('required')">
+              Valor requerido
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field fxFill appearance="outline">
+            <mat-label> Rango máximo</mat-label>
+            <input matInput formControlName="stageRangeMax" type="number">
+            <mat-error *ngIf="matrixValues.get('stageRangeMax')?.hasError('required')">
+              Valor requerido
+            </mat-error>
+          </mat-form-field>
+        </mat-card-content>
+      </div>
+    </mat-card>
+    <br>
+    <mat-divider></mat-divider>
+    <br>
+    <mat-card-actions fxLayoutAlign="end end">
+      <button mat-raised-button color="accent">
+        <mat-icon fontIcon="save"></mat-icon>
+        Guardar
+      </button>
+    </mat-card-actions>
+    <br>
+  </form>
+</ngx-simplebar>
+

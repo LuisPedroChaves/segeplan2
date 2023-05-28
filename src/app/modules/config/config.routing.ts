@@ -5,6 +5,9 @@ import { DesignationsComponent } from './pages/designations/designations.compone
 import { ReferencePopulationsComponent } from './pages/reference-populations/reference-populations.component';
 import { FinancingsComponent } from './pages/financings/financings.component';
 import { ProjectTypesComponent } from "./pages/project-types/project-types.component";
+import { RoleGuard } from "src/app/core/auth/guards/role.guard";
+import { RevelanceMatrixComponent } from "./pages/revelance-matrix/revelance-matrix.component";
+import { AdmitionMatrixComponent } from "./pages/admition-matrix/admition-matrix.component";
 
 export const ConfigRoutes: Routes = [
   {
@@ -17,35 +20,51 @@ export const ConfigRoutes: Routes = [
       },
       {
         path: 'designations',
-        // canActivate: [ RoleGuard ],
+        canActivate: [ RoleGuard ],
         data: {
-          allowedRoles: ['USER_ROLE']
+          allowedRoles: ['ADMIN_ROLE']
         },
         component: DesignationsComponent,
       },
       {
         path: 'referencePopulations',
-        // canActivate: [ RoleGuard ],
+        canActivate: [ RoleGuard ],
         data: {
-          allowedRoles: ['USER_ROLE']
+          allowedRoles: ['ADMIN_ROLE']
         },
         component: ReferencePopulationsComponent,
       },
       {
         path: 'financings',
-        // canActivate: [ RoleGuard ],
+        canActivate: [ RoleGuard ],
         data: {
-          allowedRoles: ['USER_ROLE']
+          allowedRoles: ['ADMIN_ROLE']
         },
         component: FinancingsComponent,
       },
       {
         path: 'projectTypes',
-        // canActivate: [ RoleGuard ],
+        canActivate: [ RoleGuard ],
         data: {
-          allowedRoles: ['USER_ROLE']
+          allowedRoles: ['ADMIN_ROLE']
         },
         component: ProjectTypesComponent,
+      },
+      {
+        path: 'revelanceMatrix',
+        canActivate: [RoleGuard],
+        data: {
+          allowedRoles: ['ADMIN_ROLE']
+        },
+        component: RevelanceMatrixComponent
+      },
+      {
+        path: 'admitionMatrix',
+        canActivate: [RoleGuard],
+        data: {
+          allowedRoles: ['ADMIN_ROLE']
+        },
+        component: AdmitionMatrixComponent
       },
     ]
   }

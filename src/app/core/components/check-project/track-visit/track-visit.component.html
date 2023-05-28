@@ -232,18 +232,21 @@
                 <mat-divider></mat-divider>
                 <br>
 
-                <p class="mat-subheading-2">Vías de acceso utilizadas por época</p>
+                <h3> <p>Vías de acceso utilizadas por época</p> </h3>
 
                 <div fxLayout="row" fxLayoutGap="8px">
                   <div *ngFor="let road of accessRoads">
                     {{road.name}}
-                    <ul>
-                      <li *ngFor="let option of road.options">
-                        <mat-checkbox [(ngModel)]="option.active" [ngModelOptions]="{standalone: true}">
-                          {{option.name}}
-                        </mat-checkbox>
-                      </li>
-                    </ul>
+                    <section class="visit-section">
+                        <ul>
+                          <li *ngFor="let option of road.options">
+                            <mat-checkbox [(ngModel)]="option.active" [ngModelOptions]="{standalone: true}"
+                              class="visit-margin">
+                              {{option.name}}
+                            </mat-checkbox>
+                          </li>
+                        </ul>
+                    </section>
                   </div>
                 </div>
 
@@ -256,7 +259,7 @@
                   </mat-error>
                 </mat-form-field>
 
-                <p class="mat-subheading-2">Medios de transporte que llegan al área de influencia por época</p>
+                <h3> <p>Medios de transporte que llegan al área de influencia por época</p> </h3>
 
                 <div fxLayout="row" fxLayoutGap="8px">
                   <div *ngFor="let transport of meanstransport">
@@ -425,20 +428,26 @@
                   </div>
                   <br>
                   <mat-divider></mat-divider>
-                  <mat-list-item *ngFor="let disaster of disasters, let i = index">
-                    <br>
-                    <div mat-line>
-                      No. <strong>{{disaster.no}}</strong>
-                      <span fxFlex></span>
-                      <button mat-icon-button (click)="removeDisaster(i)"><mat-icon>close</mat-icon></button>
-                    </div>
-                    <div mat-line>Fecha y hora: <strong>{{disaster.date | date: 'dd/MM/YYYY'}} | {{disaster.hour}} h</strong>
-                    </div>
-                    <div mat-line>Evento: <strong>{{disaster.eventType}}</strong></div>
-                    <div mat-line>Causas: <strong>{{disaster.causes}}</strong></div>
-                    <div mat-line>Consecuencias: <strong>{{disaster.impact}}</strong></div>
-                    <div mat-line>Recurrencia: <strong>{{disaster.recurrence}}</strong></div>
-                  </mat-list-item>
+                  <mat-list>
+                    <mat-list-item *ngFor="let disaster of disasters, let i = index">
+                      <div matListItemLine>
+                        <div matListItemLine>
+                          <span matListItemLine> No. <strong>{{disaster.no}}</strong></span>
+                          <span fxFlex></span>
+                          <mat-action-list>
+                            <button mat-icon-button (click)="removeDisaster(i)"> <mat-icon matListItemIcon>close</mat-icon> </button>
+                          </mat-action-list>
+                        </div>
+                        <span matListItemLine> Fecha y hora: <strong>{{disaster.date | date: 'dd/MM/YYYY'}} | {{disaster.hour}} h</strong> </span>
+                        <span matListItemLine> Evento: <strong>{{disaster.eventType}}</strong> </span>
+                        <span matListItemLine> Causas: <strong>{{disaster.causes}}</strong> </span>
+                        <span matListItemLine> Consecuencias: <strong>{{disaster.impact}}</strong> </span>
+                        <span matListItemLine> Recurrencia: <strong>{{disaster.recurrence}}</strong> </span>
+                      <br>
+                      <mat-divider></mat-divider>
+                      </div>
+                    </mat-list-item>
+                  </mat-list>
                   <br>
                 </div>
 

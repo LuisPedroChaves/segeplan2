@@ -216,55 +216,57 @@
             <div fxLayout="column">
               <div fxLayout="row" fxLayoutAlign="space-between center">
                 <span class="mat-subheading-2">Planteamiento de la necesidad, problemas u oportunidades</span>
-                <span class="mat-title">{{ admissionResume?.statementNeedValue}} / 20</span>
+                <span class="mat-title"> {{ admissionResume?.statementNeedValue}} /
+                  {{admissionValues.statementMaxValue}} </span>
               </div>
 
-              <mat-progress-bar mode="determinate" [value]="(admissionResume?.statementNeedValue * 100) / 20" color="primary">
+              <mat-progress-bar mode="determinate" [value]="(admissionResume?.statementNeedValue * 100) / admissionValues.statementMaxValue" color="primary">
               </mat-progress-bar>
             </div>
 
             <div fxLayout="column">
               <div fxLayout="row" fxLayoutAlign="space-between center">
                 <span class="mat-subheading-2">Número de beneficiarios</span>
-                <span class="mat-title">{{ admissionResume?.numberBeneficiariesValue}} / 10</span>
+                <span class="mat-title"> {{ admissionResume?.numberBeneficiariesValue}} /
+                  {{admissionValues.beneficiariestMaxValue}} </span>
               </div>
-              <mat-progress-bar mode="determinate" [value]="(admissionResume?.numberBeneficiariesValue * 100) / 10" color="primary">
+              <mat-progress-bar mode="determinate" [value]="(admissionResume?.numberBeneficiariesValue * 100) / admissionValues.beneficiariestMaxValue" color="primary">
               </mat-progress-bar>
             </div>
 
             <div fxLayout="column">
               <div fxLayout="row" fxLayoutAlign="space-between center">
                 <span class="mat-subheading-2">Objetivos y metas del documento de preinversión</span>
-                <span class="mat-title">{{ admissionResume?.objetivesGoalsValue}} / 20</span>
+                <span class="mat-title"> {{ admissionResume?.objetivesGoalsValue}} / {{admissionValues.goalsMaxValue}} </span>
               </div>
-              <mat-progress-bar mode="determinate" [value]="(admissionResume?.objetivesGoalsValue * 100) / 20" color="primary">
+              <mat-progress-bar mode="determinate" [value]="(admissionResume?.objetivesGoalsValue * 100) / admissionValues.goalsMaxValue" color="primary">
               </mat-progress-bar>
             </div>
 
             <div fxLayout="column">
               <div fxLayout="row" fxLayoutAlign="space-between center">
                 <span class="mat-subheading-2">TDR</span>
-                <span class="mat-title">{{ admissionResume?.tdrValue}} / 30</span>
+                <span class="mat-title"> {{ admissionResume?.tdrValue}} / {{admissionValues.tdrMaxValue }} </span>
               </div>
-              <mat-progress-bar mode="determinate" [value]="(admissionResume?.tdrValue * 100) / 30" color="primary">
+              <mat-progress-bar mode="determinate" [value]="(admissionResume?.tdrValue * 100) / admissionValues.tdrMaxValue" color="primary">
               </mat-progress-bar>
             </div>
 
             <div fxLayout="column">
               <div fxLayout="row" fxLayoutAlign="space-between center">
                 <span class="mat-subheading-2">Costo estimado del documento preinversión</span>
-                <span class="mat-title">{{ admissionResume?.estimatedCostValue}} / 10</span>
+                <span class="mat-title"> {{ admissionResume?.estimatedCostValue}} / {{admissionValues.costMaxValue }} </span>
               </div>
-              <mat-progress-bar mode="determinate" [value]="(admissionResume?.estimatedCostValue * 100) / 10" color="primary">
+              <mat-progress-bar mode="determinate" [value]="(admissionResume?.estimatedCostValue * 100) / admissionValues.costMaxValue" color="primary">
               </mat-progress-bar>
             </div>
 
             <div fxLayout="column">
               <div fxLayout="row" fxLayoutAlign="space-between center">
                 <span class="mat-subheading-2">Cronograma general del estudio</span>
-                <span class="mat-title">{{ admissionResume?.generalScheduleValue}} / 10</span>
+                <span class="mat-title"> {{ admissionResume?.generalScheduleValue}} / {{admissionValues.scheduleMaxValue}} </span>
               </div>
-              <mat-progress-bar mode="determinate" [value]="(admissionResume?.generalScheduleValue * 100) / 10" color="primary">
+              <mat-progress-bar mode="determinate" [value]="(admissionResume?.generalScheduleValue * 100) / admissionValues.scheduleMaxValue" color="primary">
               </mat-progress-bar>
             </div>
             <br>

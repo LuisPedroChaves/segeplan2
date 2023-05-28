@@ -20,11 +20,11 @@
     </mat-card-header>
 
     <mat-card-content class="track-card-content">
-      <p> {{project.snipCode}} </p>
+      <h3> <p> <strong> SNIP:  </strong> {{project.snipCode | number}} </p> </h3>
       <br>
       <p> {{track.activity}} </p>
       <hr>
-
+      <br>
       <mat-tab-group mat-align-tabs="center" color="accent">
 
         <mat-tab label="Seguimiento">
@@ -54,10 +54,10 @@
           </ngx-simplebar>
         </mat-tab>
 
-        <mat-tab label="Actividad">
+        <!-- <mat-tab label="Actividad">
           <ngx-simplebar class="generalProject">
 
-            <div *ngIf="track.activity === epi.id">
+            <div *ngIf="track.activity === track.advisoryEpi.trackId">
               <br>
               <p> <b> Meta POA: </b> <label> {{epi.goal}} </label> </p>
               <br>
@@ -96,13 +96,13 @@
               <br>
             </div>
 
-            <div *ngIf="track.activity === doc.id">
+            <div *ngIf="track.activity === track.advisoryDoc.trackId">
               <br>
               <p> <b> Meta POA: </b> <label> {{doc.goal}} </label> </p>
               <br>
               <p> <b> Acción POA: </b> <label> {{doc.action}} </label> </p>
               <br>
-              <p> <b> Sectorización del sector público: </b> <label> {{sectors.name}} </label> </p>   <!-- corregir propiedad sectorization -->
+              <p> <b> Sectorización del sector público: </b> <label> {{sectors}} </label> </p>
               <br>
               <p> <b> Entidad: </b> <label> {{subSectors.name}} </label> </p>
               <br>
@@ -122,7 +122,7 @@
               <br>
               <p> <b> Atendido por: </b> <label> {{doc.assistant}} </label> </p>
               <br>
-              <p> <b> Documento del proyecto: </b> <label>  </label> </p> <!-- pendiente(validacion) linea 192 de trackDocument-->
+              <p> <b> Documento del proyecto: </b> <label> {{comment.theme}} </label> </p>
               <br>
               <p> <b> Observaciones: </b> <label> {{comment.description}} </label> </p>
               <br>
@@ -132,7 +132,7 @@
               <br>
             </div>
 
-            <div *ngIf="track.activity === visit.id">
+            <div *ngIf="track.activity === track.visitCard.trackId">
               <br>
               <p> <b> Código preinversión: </b> <label> {{visit.codePreinv}} </label> </p>
               <br>
@@ -338,7 +338,7 @@
                 3.0 ANÁLISIS DE ORGANIZACIONES COMUNALES
               </p>
               <br>
-              <p> <b> Organizaciones: </b> <label> {{availableOrg.name}} </label> </p>
+              <p> <b> Organizaciones: </b> <label> {{visit.availableOrg}} </label> </p>
               <br>
               <p> <b> Están de acuerdo con la implementación de la propuesta: </b> <label> {{visit.theirAgree}} </label> </p>
               <br>
@@ -369,7 +369,7 @@
             </div>
 
           </ngx-simplebar>
-        </mat-tab>
+        </mat-tab> -->
 
       </mat-tab-group>
     </mat-card-content>

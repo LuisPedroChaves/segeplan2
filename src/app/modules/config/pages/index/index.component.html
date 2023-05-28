@@ -51,6 +51,24 @@
           <mat-icon matListItemIcon fontIcon="account_balance"></mat-icon>
           <span matListItemTitle>Financiamientos</span>
         </mat-list-item>
+
+        <mat-list-item
+          routerLink="revelanceMatrix"
+          [activated]="router.url === '/configs/revelanceMatrix'"
+          class="menu-option"
+        >
+          <mat-icon matListItemIcon fontIcon="timeline"></mat-icon>
+          <span matListItemTitle>M. Pertinencia</span>
+        </mat-list-item>
+
+        <mat-list-item
+          routerLink="admitionMatrix"
+          [activated]="router.url === '/configs/admitionMatrix'"
+          class="menu-option"
+        >
+          <mat-icon matListItemIcon fontIcon="assignment_turned_in"></mat-icon>
+          <span matListItemTitle>M. Admisión</span>
+        </mat-list-item>
       </mat-nav-list>
     </ngx-simplebar>
 

@@ -1,0 +1,111 @@
+
+  <ngx-simplebar ngClass.gt-sm="content-index" ngClass.lt-md="content-index">
+
+    <header fxLayout="row" fxLayoutGap="12px" fxLayoutAlign="start center" class="active-elevation">
+      <mat-icon fontIcon="timeline"></mat-icon>
+      <p class="mat-headline-6"> Matriz de admisión </p>
+    </header>
+
+    <form [formGroup]="matrixValues" (ngSubmit)="saveMatrix()" autocomplete="off">
+      <mat-card fxLayoutGap="12px" fxLayoutAlign="center center" class="active-elevation" class="radius">
+        <div fxLayout="column" fxFlex="40">
+          <mat-card-header>
+            <mat-card-title> Número máximo para el planteamiento </mat-card-title>
+          </mat-card-header>
+          <br>
+          <mat-card-content>
+            <mat-form-field fxFill appearance="outline">
+              <mat-label> Valor </mat-label>
+              <input matInput formControlName="statementMaxValue" type="number">
+              <mat-error *ngIf="matrixValues.get('statementMaxValue')?.hasError('required')">
+                Valor requerido
+              </mat-error>
+            </mat-form-field>
+          </mat-card-content>
+
+          <mat-card-header >
+            <mat-card-title> Número máximo para los beneficiarios </mat-card-title>
+          </mat-card-header>
+          <br>
+          <mat-card-content>
+            <mat-form-field fxFill appearance="outline">
+              <mat-label> Valor </mat-label>
+              <input matInput formControlName="beneficiariestMaxValue" type="number">
+              <mat-error *ngIf="matrixValues.get('beneficiariestMaxValue')?.hasError('required')">
+                Valor requerido
+              </mat-error>
+            </mat-form-field>
+          </mat-card-content>
+
+          <mat-card-header >
+            <mat-card-title> Número máximo para los objetivos </mat-card-title>
+          </mat-card-header>
+          <br>
+          <mat-card-content>
+            <mat-form-field fxFill appearance="outline">
+              <mat-label> Valor </mat-label>
+              <input matInput formControlName="goalsMaxValue" type="number">
+              <mat-error *ngIf="matrixValues.get('goalsMaxValue')?.hasError('required')">
+                Valor requerido
+              </mat-error>
+            </mat-form-field>
+          </mat-card-content>
+        </div>
+
+        <div fxLayout="column" fxFlex="40">
+          <mat-card-header >
+            <mat-card-title> Número máximo para el TDR </mat-card-title>
+          </mat-card-header>
+          <br>
+          <mat-card-content>
+            <mat-form-field fxFill appearance="outline">
+              <mat-label> Valor </mat-label>
+              <input matInput formControlName="tdrMaxValue" type="number">
+              <mat-error *ngIf="matrixValues.get('tdrMaxValue')?.hasError('required')">
+                Valor requerido
+              </mat-error>
+            </mat-form-field>
+          </mat-card-content>
+
+          <mat-card-header >
+            <mat-card-title> Número máximo para el costo del documento </mat-card-title>
+          </mat-card-header>
+          <br>
+          <mat-card-content>
+            <mat-form-field fxFill appearance="outline">
+              <mat-label> Valor </mat-label>
+              <input matInput formControlName="costMaxValue" type="number">
+              <mat-error *ngIf="matrixValues.get('costMaxValue')?.hasError('required')">
+                Valor requerido
+              </mat-error>
+            </mat-form-field>
+          </mat-card-content>
+
+          <mat-card-header >
+            <mat-card-title> Número máximo para el cronograma </mat-card-title>
+          </mat-card-header>
+          <br>
+          <mat-card-content>
+            <mat-form-field fxFill appearance="outline">
+              <mat-label> Valor </mat-label>
+              <input matInput formControlName="scheduleMaxValue" type="number">
+              <mat-error *ngIf="matrixValues.get('scheduleMaxValue')?.hasError('required')">
+                Valor requerido
+              </mat-error>
+            </mat-form-field>
+          </mat-card-content>
+        </div>
+      </mat-card>
+      <br>
+      <mat-divider></mat-divider>
+      <br>
+      <mat-card-actions fxLayoutAlign="end end">
+        <button mat-raised-button color="accent" type="submit">
+          <mat-icon fontIcon="save"></mat-icon>
+          Guardar
+        </button>
+      </mat-card-actions>
+      <br>
+    </form>
+  </ngx-simplebar>
+
