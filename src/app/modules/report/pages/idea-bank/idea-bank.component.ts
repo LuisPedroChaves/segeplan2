@@ -5,12 +5,14 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmationDialogComponent } from 'src/app/core/components/confirmation-dialog/confirmation-dialog.component';
 import { XlsxService } from 'src/app/core/services/xlsx.service';
-import { Departament, IObject, Procesos, Process } from '../../../../core/models/adicionales';
-import { Subscription } from 'rxjs';
-import { GeograficoStore, ObjectStore, ProcesoStore } from '../../../idea-bank/store/reducers';
+import { Departament, IObject, IProduct, Procesos, Process } from '../../../../core/models/adicionales';
+import { Observable, Subscription } from 'rxjs';
+import { GeograficoStore, IdeaStore, ObjectStore, ProcesoStore } from '../../../idea-bank/store/reducers';
 import { Store } from '@ngrx/store';
 import { FiltroIdeaReport } from '../../models/filterToReport';
 import { ReportService } from '../../services/report.service';
+import { IInstitution } from '../../models/Institucion';
+import { READ_PRODUCTS } from '../../../../core/store/actions';
 
 @Component({
   selector: 'app-idea-bank',
@@ -28,20 +30,20 @@ export class IdeaBankComponent implements OnInit {
 
   filtroReport: FiltroIdeaReport;
 
-    /* #region catálogos */
+  /* #region catálogos */
 
-    departamentos: Departament[] = [];
-    municipios: Departament[] = [];
-    departamentoStoreSubscription = new Subscription();
-  
-    objetos: IObject[] = [];
-    objetoStoreSubscription = new Subscription();
-  
-    processes: Procesos = { noFormaCapital: [], formaCapital: [] };
-    processStoreSubscription = new Subscription();
-  
-    dataSourceProcesos: Process[] = [];
-    /* #endregion */
+  departamentos: Departament[] = [];
+  municipios: Departament[] = [];
+  departamentoStoreSubscription = new Subscription();
+
+  objetos: IObject[] = [];
+  objetoStoreSubscription = new Subscription();
+
+  processes: Procesos = { noFormaCapital: [], formaCapital: [] };
+  processStoreSubscription = new Subscription();
+
+  dataSourceProcesos: Process[] = [];
+  /* #endregion */
 
 
 
@@ -49,6 +51,7 @@ export class IdeaBankComponent implements OnInit {
   idEntity = '';
   state = 'TODAS';
   registerCode = '';
+  productName = '';
   typeIdea = 'TODAS';
   proccess = '';
   object = '';
@@ -76,6 +79,12 @@ export class IdeaBankComponent implements OnInit {
   objectIsDisabled = true;
   municipioIsDisabled = true;
 
+  institutions: IInstitution[] = [];
+
+  products: IProduct[] = [];
+  filteredProducts: Observable<IProduct[]>;
+  productStoreSubscription = new Subscription();
+
   constructor(
     private geograficoStore: Store<GeograficoStore>,
     private objectStore: Store<ObjectStore>,
@@ -83,15 +92,17 @@ export class IdeaBankComponent implements OnInit {
     private xlsxService: XlsxService,
     private dialog: MatDialog,
     private reportService: ReportService,
-  ) {}
+    private ideaStore: Store<IdeaStore>,
+
+  ) { }
 
   ngOnInit(): void {
 
     this.departamentoStoreSubscription = this.geograficoStore.select('geografico')
-    .subscribe(state => {
-      this.departamentos = state.geograficos;
-      console.log("🚀 ~ file: idea-bank.component.ts:91 ~ IdeaBankComponent ~ ngOnInit ~ this.departamentos:", this.departamentos)
-    })
+      .subscribe(state => {
+        this.departamentos = state.geograficos;
+        console.log("🚀 ~ file: idea-bank.component.ts:91 ~ IdeaBankComponent ~ ngOnInit ~ this.departamentos:", this.departamentos)
+      })
     this.objetoStoreSubscription = this.objectStore.select('object')
       .subscribe(state => {
         this.objetos = state.objects;
@@ -106,6 +117,8 @@ export class IdeaBankComponent implements OnInit {
 
       })
 
+    this.getInstituciones()
+
     setTimeout(() => this.dataSource.paginator = this.paginator)
   }
 
@@ -113,6 +126,13 @@ export class IdeaBankComponent implements OnInit {
     this.departamentoStoreSubscription?.unsubscribe()
     this.objetoStoreSubscription?.unsubscribe()
     this.processStoreSubscription?.unsubscribe()
+  }
+
+  getInstituciones() {
+    this.reportService.getInstitutions().subscribe((res: any) => {
+      console.log(res);
+      this.institutions = res
+    })
   }
 
   enableTypeProject(): void {
@@ -128,21 +148,39 @@ export class IdeaBankComponent implements OnInit {
     console.log("🚀 ~ file: idea-bank.component.ts:123 ~ IdeaBankComponent ~ enableTypeProject ~ this.dataSourceProcesos:", this.dataSourceProcesos)
   }
 
+  filterProduct(idEntity: string): void {
+    if (idEntity != '') {
+
+      this.productStoreSubscription = this.ideaStore.select('product')
+        .subscribe(state => {
+          this.products = state.products;
+          if (this.products.length > 0) {
+            this.productIsDisabled = false
+          } else {
+            this.productIsDisabled = true;
+          }
+        })
+      this.ideaStore.dispatch(READ_PRODUCTS({ filtro: idEntity }))
+      console.log("🚀 ~ file: idea-bank.component.ts:163 ~ IdeaBankComponent ~ filterProduct ~ this.productIsDisabled:", this.productIsDisabled)
+    }
+
+  }
+
   sendFilter(): void {
 
     this.filtroReport = { state: this.state };
-    if (this.yearCreated && this.yearCreated != ''){
+    if (this.yearCreated && this.yearCreated != '') {
       this.filtroReport.yearCreated = this.yearCreated
     }
-    if (this.idEntity && this.idEntity != ''){
+    if (this.idEntity && this.idEntity != '') {
       this.filtroReport.idEntity = this.idEntity;
     }
-    if (this.registerCode && this.registerCode != ''){
+    if (this.registerCode && this.registerCode != '') {
       this.filtroReport.registerCode = this.registerCode;
     }
 
-    const result = this.reportService.getIdeasReport(this.filtroReport).subscribe((res: any) =>{
-      if (res){
+    const result = this.reportService.getIdeasReport(this.filtroReport).subscribe((res: any) => {
+      if (res) {
         console.log("🚀 ~ file: idea-bank.component.ts:146 ~ IdeaBankComponent ~ result ~ res:", res)
         this.data = res;
         this.dataSource = new MatTableDataSource<any>(this.data)
@@ -178,6 +216,14 @@ export class IdeaBankComponent implements OnInit {
     ];
 
     const rowFree: any[] = [];
+
+    const rowHead: any[] = [
+      'Idea',
+      'Producto',
+      'Institución',
+      'Problemática'
+    ];
+
 
     const ArrayToPrint: any[] = [];
 
@@ -217,7 +263,7 @@ export class IdeaBankComponent implements OnInit {
       ArrayToPrint.push(rowFree);
       ArrayToPrint.push(row2);
 
-      c.alternatives.forEach((alter: any) =>{
+      c.alternatives.forEach((alter: any) => {
         const rowAlter: any[] = [
           alter.typeProject,
           alter.proccess,
@@ -242,7 +288,7 @@ export class IdeaBankComponent implements OnInit {
       })
       ArrayToPrint.push(rowFree);
       ArrayToPrint.push(rowFree);
-      ArrayToPrint.push(body);
+      ArrayToPrint.push(rowHead);
 
     });
 

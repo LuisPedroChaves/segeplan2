@@ -75,6 +75,7 @@ export class TrackEpiComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.entityStoreSubscription = this.entityStore.select('entity')
       .subscribe(state => {
+      console.log("🚀 ~ file: track-epi.component.ts:92 ~ TrackEpiComponent ~ ngOnInit ~ state:", state)
         this.entities = state.entities;
       })
     this.entityStore.dispatch(READ_ENTITIES())

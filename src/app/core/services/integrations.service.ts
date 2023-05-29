@@ -66,8 +66,23 @@ export class IntegrationsService {
   }
 
   getProductos(idEntidad: string): Observable<any> {
-    console.log('Hoola')
     const url = this.API_URL + this.urlIntegrations + `productos?idEntidad=${idEntidad}`;
+    let snackBarRef = this.snackBarService.loading()
+
+    return this.http.get(url).pipe(
+      finalize(() => snackBarRef.dismiss()),
+      map((res: any) => {
+        return res.data;
+      }),
+      catchError((err, caught) => {
+        this.snackBarService.show('DANGER', err.error.message ? err.error.message : err.message, 5000)
+        return throwError(() => new Error('err'));
+      }),
+    );
+  }
+
+  getTypeProjects(): Observable<any> {
+    const url = this.API_URL + 'api/sinafip/type-projects';
     let snackBarRef = this.snackBarService.loading()
 
     return this.http.get(url).pipe(

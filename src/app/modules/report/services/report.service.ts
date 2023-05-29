@@ -11,6 +11,7 @@ import { Observable, catchError, finalize, map, throwError } from 'rxjs';
 export class ReportService {
   private API_URL = environment.root;
   private urlReport = 'api/report/';
+  private urlSinafip = 'api/sinafip/';
 
 
   constructor(
@@ -30,6 +31,23 @@ export class ReportService {
       finalize(() => snackBarRef.dismiss()),
       map((res: any) => {
         console.log("🚀 ~ file: report.service.ts:33 ~ ReportService ~ map ~ res:", res)
+        return res.data;
+      }),
+      catchError((err) => {
+        this.snackBarService.show('DANGER', err.error.message ? err.error.message : err.message, 5000)
+        return throwError(() => new Error('err'));
+      }),
+    )
+  }
+
+  getInstitutions(): Observable<any> {
+    const url = this.API_URL + this.urlSinafip + 'entidades';
+    let snackBarRef = this.snackBarService.loading()
+
+    return this.http.get(url).pipe(
+      finalize(() => snackBarRef.dismiss()),
+      map((res: any) => {
+        console.log("🚀 ~ file: report.service.ts:33 ~ getInstitutions ~ map ~ res:", res)
         return res.data;
       }),
       catchError((err) => {

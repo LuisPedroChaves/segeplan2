@@ -10,9 +10,10 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ProjectTableComponent } from './components/project-table/project-table.component';
 import { StoreFeatureModule, StoreModule } from '@ngrx/store';
-import { CheckProjectReducer, EntityReducer, GeograficoReducer } from './store/reducers';
+import { CheckProjectReducer, EntityReducer, GeograficoReducer, SectorAdvisedReducer } from './store/reducers';
 import { EffectsModule } from '@ngrx/effects';
-import { CheckProjectEffects } from './store/effects';
+import { CheckProjectEffects, EntityEffects } from './store/effects';
+import { SectorAdvisedEffects } from './store/effects/sectorAdvised.effects';
 
 
 
@@ -31,7 +32,10 @@ import { CheckProjectEffects } from './store/effects';
     StoreModule.forFeature('checkProject', CheckProjectReducer ),
     StoreModule.forFeature('entity', EntityReducer),
     StoreModule.forFeature('geografico', GeograficoReducer),
+    StoreModule.forFeature('sectorAdvised', SectorAdvisedReducer),
     EffectsModule.forFeature(CheckProjectEffects),
+    EffectsModule.forFeature(EntityEffects),
+    EffectsModule.forFeature(SectorAdvisedEffects),
     //components
     LogoComponent,
   ],

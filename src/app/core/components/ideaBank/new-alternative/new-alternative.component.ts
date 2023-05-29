@@ -18,6 +18,7 @@ import { IPopulationAlt } from 'src/app/core/models/alternative/populationAlt';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 import { CLOSE_DRAWER2, OPEN_DRAWER3 } from 'src/app/core/store/actions';
 import { UploadService } from '../../../services/upload.service';
+import { ITypeProject } from '../../../models/adicionales/typeProject';
 
 @Component({
   selector: 'app-new-alternative',
@@ -37,6 +38,10 @@ export class NewAlternativeComponent implements OnInit, OnDestroy {
 
   denominations: Denomination[] = [];
   denominationStoreSubscription = new Subscription();
+
+  typeProjects: ITypeProject[] = [];
+  typeProjectStoreSubscription = new Subscription();
+
 
   departamentos: Departament[] = [];
   municipios: Departament[] = [];
