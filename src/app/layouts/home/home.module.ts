@@ -30,6 +30,7 @@ import { TrackEpiComponent } from 'src/app/core/components/check-project/track-e
 import { TrackDocumentComponent } from 'src/app/core/components/check-project/track-document/track-document.component';
 import { TrackVisitComponent } from 'src/app/core/components/check-project/track-visit/track-visit.component';
 import { NewProjectComponent } from 'src/app/core/components/check-project/new-project/new-project.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -39,31 +40,32 @@ import { NewProjectComponent } from 'src/app/core/components/check-project/new-p
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     RouterModule.forChild(HomeRoutes),
     SharedModule,
     // components
+    AdmitionMatrixComponent,
+    AlternativeDetailsComponent,
+    IdeaDetailsComponent,
+    InitiativeDetailsComponent,
     LogoComponent,
-    ThemeButtonComponent,
-    NewIdeaComponent,
-    NewProjectTypeComponent,
+    ModalGuideComponent,
+    NewActivityComponent,
+    NewAlternativeComponent,
+    NewDataGeoComponent,
     NewDesignationComponent,
     NewFinancingComponent,
-    NewPopulationComponent,
-    NewAlternativeComponent,
-    IdeaDetailsComponent,
-    NewDataGeoComponent,
-    AlternativeDetailsComponent,
-    NewRevelanceMatrixComponent,
+    NewIdeaComponent,
     NewInitiativeComponent,
-    NewActivityComponent,
-    InitiativeDetailsComponent,
-    AdmitionMatrixComponent,
+    NewPopulationComponent,
     NewProjectComponent,
-    ModalGuideComponent,
+    NewProjectTypeComponent,
+    NewRevelanceMatrixComponent,
+    ThemeButtonComponent,
     TrackDetailsComponent,
-    TrackEpiComponent,
     TrackDocumentComponent,
-    TrackVisitComponent
+    TrackEpiComponent,
+    TrackVisitComponent,
   ]
 })
 export class HomeModule { }

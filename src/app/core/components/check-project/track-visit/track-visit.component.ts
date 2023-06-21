@@ -431,7 +431,7 @@ export class TrackVisitComponent implements OnInit, OnDestroy{
           this.project = state.project
         }
         if (state.track) {
-          this.currentActivity = state.track.activity
+          this.currentActivity = 'VISITA DE CAMPO'
         }
       })
 

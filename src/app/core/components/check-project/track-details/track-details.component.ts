@@ -53,16 +53,16 @@ export class TrackDetailsComponent implements OnInit, OnDestroy {
           this.project = state.project
         }
         if (state.track) {
-          this.track = state.track
+          this.track = state.track.activity
         }
         if (state.track) {
-          this.epi = state.track.advisoryEpi
+          this.epi = state.track.activity.advisoryEpi
         }
         if (state.track) {
-          this.doc = state.track.advisoryDoc
+          this.doc = state.track.activity.advisoryDoc
         }
         if (state.track) {
-          this.visit = state.track.visitCard
+          this.visit = state.track.activity.visitCard
         }
       })
 

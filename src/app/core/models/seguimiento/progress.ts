@@ -7,7 +7,7 @@ export interface ITrack {
     iapa: number;
     iapb: number;
     iapc: number;
-    activity: string;
+    activity: any;
     reportDate: string | moment.Moment;
     projectId?: string;
     advisoryEpi?: IAdvisoryEpi;

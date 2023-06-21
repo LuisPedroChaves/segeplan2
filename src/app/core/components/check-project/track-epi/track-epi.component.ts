@@ -75,19 +75,18 @@ export class TrackEpiComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.entityStoreSubscription = this.entityStore.select('entity')
       .subscribe(state => {
-      console.log("🚀 ~ file: track-epi.component.ts:92 ~ TrackEpiComponent ~ ngOnInit ~ state:", state)
+        console.log("🚀 ~ file: track-epi.component.ts:92 ~ TrackEpiComponent ~ ngOnInit ~ state:", state)
         this.entities = state.entities;
       })
     this.entityStore.dispatch(READ_ENTITIES())
 
     this.checkProjectSubscription = this.checkProjectStore.select('checkProject')
       .subscribe(state => {
+        console.log("🚀 ~ file: track-epi.component.ts:93 ~ TrackEpiComponent ~ ngOnInit ~ state:", state)
         if (state.project) {
           this.project = state.project
         }
-        if (state.track) {
-          this.currentActivity = state.track.activity
-        }
+        this.currentActivity = 'ASESORÍA A LA EPI'
       })
   }
 
@@ -112,6 +111,8 @@ export class TrackEpiComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
+    console.log('Hola onSubmit');
+
     const {
       iapa,
       iapb,
@@ -130,6 +131,7 @@ export class TrackEpiComponent implements OnInit, OnDestroy {
       advisoryDoc: null
     }
 
+    console.log("🚀 ~ file: track-epi.component.ts:136 ~ TrackEpiComponent ~ onSubmit ~ this.currentActivity:", this.currentActivity)
     if (this.currentActivity === 'ASESORÍA A LA EPI') {
       const {
         goal,
@@ -171,10 +173,9 @@ export class TrackEpiComponent implements OnInit, OnDestroy {
 
       this.checkProjectService.addTrack(NEW_TRACK, this.project.id)
         .subscribe(project => {
-
+          console.log("🚀 ~ file: track-epi.component.ts:190 ~ TrackEpiComponent ~ onSubmit ~ project:", project)
           this.checkProjectStore.dispatch(SET_TRACKING({ tracking: project.tracking }))
           this.checkProjectStore.dispatch(SET_EDIT_PROJECT({ checkProject: project }))
-
         })
 
       this.stepper.reset()

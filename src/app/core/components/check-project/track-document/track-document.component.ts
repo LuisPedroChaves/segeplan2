@@ -118,7 +118,7 @@ export class TrackDocumentComponent {
           this.project = state.project
         }
         if (state.track) {
-          this.currentActivity = state.track.activity
+          this.currentActivity = 'ASESORÍA AL DOCUMENTO'
         }
       })
   }
