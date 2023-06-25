@@ -5,7 +5,13 @@ export interface IAdvisoryDoc {
     trackId?: string;
     goal: string;
     action: string;
-    entity: string;
+    unitSpecific: string;
+    sectorization: string;
+    subSectorization: string;
+    menAttended: number;
+    womenAttended: number;
+    totalAttended: number;
+    counselingModality: string;
     advTheme: string;
     snipCode: string;
     projectName: string;

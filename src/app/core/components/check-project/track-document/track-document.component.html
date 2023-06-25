@@ -1,4 +1,3 @@
-
 <ngx-simplebar ngClass.gt-sm="content-desktop" ngClass.lt-md="content-desktop">
   <mat-toolbar fxLayoutGap="8px" class="active-elevation">
     <button mat-icon-button (click)="closeDrawer2()" matTooltip="Cancelar" type="button">
@@ -95,12 +94,12 @@
 
                 <mat-form-field fxFill appearance="outline">
                   <mat-label>Sectorización del sector público</mat-label>
-                  <mat-select formControlName="sectorization" (selectionChange)="sectorSelected($event)"  >
+                  <mat-select formControlName="sectorization" (selectionChange)="sectorSelected($event)">
                     <mat-option *ngFor="let sector of sectors" [value]="sector.name">
                       {{sector.name}}
                     </mat-option>
                   </mat-select>
-                  <mat-error *ngIf="advisoryDoc.get('entity')?.hasError('required')">
+                  <mat-error *ngIf="advisoryDoc.get('sectorization')?.hasError('required')">
                     El nombre de la entidad es <strong>requerido</strong>
                   </mat-error>
                 </mat-form-field>
@@ -112,26 +111,57 @@
                       {{sector.name}}
                     </mat-option>
                   </mat-select>
-                  <mat-error *ngIf="advisoryDoc.get('entity')?.hasError('required')">
+                  <mat-error *ngIf="advisoryDoc.get('subSectorization')?.hasError('required')">
                     El nombre de la entidad es <strong>requerido</strong>
                   </mat-error>
                 </mat-form-field>
 
-                <mat-form-field fxFill appearance="outline">
-                  <mat-label>Entidad pública de inversión</mat-label>
-                  <mat-select formControlName="entity">
-                    <mat-option *ngFor="let entity of entities" [value]="entity.name">
-                      {{entity.name}}
-                    </mat-option>
+                <mat-form-field appearance="outline">
+                  <mat-label>Dirección de Unidad Específica</mat-label>
+                  <input matInput formControlName="entity" type="text">
+                </mat-form-field>
+
+                <br>
+                <mat-divider></mat-divider>
+                <br>
+                <div fxLayout="column" fxLayoutAlign="space-around center">
+                  <p class="mat-headline-6">Personas Atendidas</p>
+                </div>
+                <mat-divider></mat-divider>
+                <br>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Hombres</mat-label>
+                  <input matInput formControlName="menAttended" type="number">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Mujeres</mat-label>
+                  <input matInput formControlName="womenAttended" type="number">
+                </mat-form-field>
+
+                <p class="mat-headline-6">Total: <small> {{totalAttended}} </small></p>
+
+                <mat-divider></mat-divider>
+                <br>
+
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Modalidad de la asesoría </mat-label>
+                  <mat-select formControlName="counselingModality">
+                    <mat-option value="presencial">Reunión de trabajo presencial</mat-option>
+                    <mat-option value="virtual">Reunión virtual</mat-option>
                   </mat-select>
-                  <mat-error *ngIf="advisoryDoc.get('entity')?.hasError('required')">
-                    El nombre de la entidad es <strong>requerido</strong>
+                  <mat-error *ngIf="advisoryDoc.get('counselingModality')?.hasError('required')">
+                    La Modalidad de la asesoría  es <strong>requerido</strong>
                   </mat-error>
                 </mat-form-field>
+
 
                 <mat-form-field fxFill appearance="outline">
                   <mat-label>Tema de la asesoría</mat-label>
-                  <textarea matInput formControlName="advTheme" placeholder="Máximo 200 caracteres..." rows="4"></textarea>
+                  <textarea matInput formControlName="advTheme" placeholder="Máximo 200 caracteres..."
+                    rows="4"></textarea>
                   <mat-hint>Hasta {{200 - advisoryDoc.get('advTheme')?.value?.length}} caracteres.
                   </mat-hint>
                   <mat-error *ngIf="advisoryDoc.get('advTheme')?.hasError('maxlength')">
@@ -198,7 +228,8 @@
 
                   <mat-form-field fxFill appearance="outline">
                     <mat-label>Observaciones</mat-label>
-                    <textarea matInput [formControl]="description" placeholder="Máximo 200 caracteres..." rows="4"></textarea>
+                    <textarea matInput [formControl]="description" placeholder="Máximo 200 caracteres..."
+                      rows="4"></textarea>
                     <mat-hint>Hasta {{200 - description?.value?.length}} caracteres.
                     </mat-hint>
                     <mat-error *ngIf="description?.hasError('maxlength')">
@@ -216,10 +247,11 @@
                       <div matListItemLine>
                         <div matListItemLine>
                           <span matListItemLine> <strong> {{comment.theme}} </strong></span>
-                            <span fxFlex></span>
-                            <mat-action-list>
-                              <button mat-icon-button (click)="removeComment(i)"> <mat-icon matListItemIcon>close</mat-icon> </button>
-                            </mat-action-list>
+                          <span fxFlex></span>
+                          <mat-action-list>
+                            <button mat-icon-button (click)="removeComment(i)"> <mat-icon
+                                matListItemIcon>close</mat-icon> </button>
+                          </mat-action-list>
                         </div>
                         <span matListItemLine> {{comment.description}} </span>
                         <br>
@@ -232,7 +264,8 @@
                 <br>
                 <mat-form-field fxFill appearance="outline">
                   <mat-label>Conclusiones</mat-label>
-                  <textarea matInput formControlName="conclusions" placeholder="Máximo 400 caracteres..." rows="4"></textarea>
+                  <textarea matInput formControlName="conclusions" placeholder="Máximo 400 caracteres..."
+                    rows="4"></textarea>
                   <mat-hint>Hasta {{400 - advisoryDoc.get('conclusions')?.value?.length}} caracteres.
                   </mat-hint>
                   <mat-error *ngIf="advisoryDoc.get('conclusions')?.hasError('maxlength')">
@@ -242,7 +275,8 @@
                 <br>
                 <mat-form-field fxFill appearance="outline">
                   <mat-label>Recomendaciones</mat-label>
-                  <textarea matInput formControlName="recomend" placeholder="Máximo 400 caracteres..." rows="4"></textarea>
+                  <textarea matInput formControlName="recomend" placeholder="Máximo 400 caracteres..."
+                    rows="4"></textarea>
                   <mat-hint>Hasta {{400 - advisoryDoc.get('recomend')?.value?.length}} caracteres.
                   </mat-hint>
                   <mat-error *ngIf="advisoryDoc.get('recomend')?.hasError('maxlength')">

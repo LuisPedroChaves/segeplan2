@@ -341,11 +341,11 @@
 
                 <div fxLayout="row" fxLayoutGap="8px">
                   <mat-form-field fxFlex appearance="outline">
-                    <mat-label>Altitud</mat-label>
+                    <mat-label>Elevación</mat-label>
                     <input formControlName="elevation" type="number" matInput placeholder="1800">
-                    <mat-hint>Altitud sobre el nivel del mar</mat-hint>
+                    <mat-hint>Elevación</mat-hint>
                     <mat-error *ngIf="visitCard.get('elevation')?.hasError('required')">
-                      La altitud y es <strong>requerida</strong>
+                      La Elevación y es <strong>requerida</strong>
                     </mat-error>
                   </mat-form-field>
 

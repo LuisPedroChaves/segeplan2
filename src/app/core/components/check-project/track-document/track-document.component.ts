@@ -4,6 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Component, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
+import { startWith } from 'rxjs/operators';
+
 
 import { READ_ENTITIES, READ_SECTORSADVISED, SET_EDIT_PROJECT, SET_TRACKING } from 'src/app/modules/check-project/store/actions';
 import { CheckProjectStore, EntityStore, SectorAdvisedStore } from 'src/app/modules/check-project/store/reducers';
@@ -42,6 +44,9 @@ export class TrackDocumentComponent {
     entity: new FormControl(''),
     sectorization: new FormControl(''),
     subSectorization: new FormControl(''),
+    menAttended: new FormControl(0),
+    womenAttended: new FormControl(0),
+    counselingModality: new FormControl(''),
     advTheme: new FormControl('', [Validators.maxLength(200)]),
     snipCode: new FormControl(''),
     projectName: new FormControl(''),
@@ -80,6 +85,9 @@ export class TrackDocumentComponent {
   sessionSubscription: Subscription;
   usuario: User;
 
+  totalAttended = 0;
+
+
   constructor(
     private entityStore: Store<EntityStore>,
     private checkProjectService: ChekProjectService,
@@ -90,7 +98,7 @@ export class TrackDocumentComponent {
   ) {}
 
   ngOnInit(): void {
-    this.advisoryDoc.controls.subSectorization.disable();
+    // this.advisoryDoc.controls.subSectorization.disable();
 
     this.sessionSubscription = this.store.select('session').subscribe(session => {
       this.usuario = session.session.usuario;
@@ -121,6 +129,19 @@ export class TrackDocumentComponent {
           this.currentActivity = 'ASESORÍA AL DOCUMENTO'
         }
       })
+
+      this.advisoryDoc.valueChanges
+      .pipe(startWith(this.advisoryDoc.value))
+      .subscribe((value) => {
+        const menAttended = value.menAttended;
+        const womenAttended = value.womenAttended;
+
+        const total = menAttended + womenAttended;
+
+        this.totalAttended = total;
+        console.log('Total:', total);
+        // Actualiza la variable o realiza la lógica que desees con el total
+      });
   }
 
   ngOnDestroy(): void {
@@ -199,6 +220,11 @@ export class TrackDocumentComponent {
         goal,
         action,
         entity,
+        sectorization,
+        subSectorization,
+        menAttended,
+        womenAttended,
+        counselingModality,
         advTheme,
         snipCode,
         projectName,
@@ -213,7 +239,13 @@ export class TrackDocumentComponent {
       const NEW_ADVISORY_DOC: IAdvisoryDoc = {
         goal,
         action,
-        entity,
+        unitSpecific: entity,
+        sectorization,
+        subSectorization,
+        menAttended,
+        womenAttended,
+        totalAttended: this.totalAttended,
+        counselingModality,
         advTheme,
         snipCode,
         projectName,

@@ -5,6 +5,8 @@ import { MatStepper } from '@angular/material/stepper';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
+import { startWith } from 'rxjs/operators';
+
 
 import { CheckProjectStore, EntityStore, GeograficoStore, SectorAdvisedStore } from 'src/app/modules/check-project/store/reducers';
 import { IAdvisoryEpi, IProject, ITrack } from 'src/app/core/models/seguimiento';
@@ -15,7 +17,8 @@ import { CLOSE_DRAWER2 } from 'src/app/core/store/actions';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AppState } from 'src/app/core/store/app.reducer';
 import { Entity } from 'src/app/core/models/sinafip';
-import { ISectorAdvised } from 'src/app/core/models/sinafip/sectorAdvised';
+import { ISectorAdvised, IsbSector } from 'src/app/core/models/sinafip/sectorAdvised';
+import { MatSelectChange } from '@angular/material/select';
 
 
 @Component({
@@ -40,11 +43,15 @@ export class TrackEpiComponent implements OnInit, OnDestroy {
     action: new FormControl(''),
     entity: new FormControl(''),
     sectorization: new FormControl(''),
+    subSectorization: new FormControl(''),
     advTheme: new FormControl('', [Validators.maxLength(200)]),
     participantName: new FormControl(''),
     participantPosition: new FormControl(''),
+    menAttended: new FormControl(0),
+    womenAttended: new FormControl(0),
     advDate: new FormControl(''),
     reportDate: new FormControl(''),
+    counselingModality: new FormControl(''),
     place: new FormControl('', [Validators.maxLength(200)]),
     objective: new FormControl('', [Validators.maxLength(200)]),
     devAdv: new FormControl('', [Validators.maxLength(400)]),
@@ -61,6 +68,11 @@ export class TrackEpiComponent implements OnInit, OnDestroy {
   entityStoreSubscription = new Subscription();
   project: IProject = null;
   currentActivity: string; // cambiar
+
+  totalAttended = 0;
+
+  subSectors: IsbSector[] = [];
+  isDisableSubSectorControl: boolean = true;
 
   constructor(
     private entityStore: Store<EntityStore>,
@@ -79,7 +91,12 @@ export class TrackEpiComponent implements OnInit, OnDestroy {
         this.entities = state.entities;
       })
     this.entityStore.dispatch(READ_ENTITIES())
+    this.sectosStoreSubscription = this.sectorStore.select('sectorAdvised')
+      .subscribe(state => {
 
+        this.sectors = state.sectorsAdvised;
+      })
+    this.sectorStore.dispatch(READ_SECTORSADVISED())
     this.checkProjectSubscription = this.checkProjectStore.select('checkProject')
       .subscribe(state => {
         console.log("🚀 ~ file: track-epi.component.ts:93 ~ TrackEpiComponent ~ ngOnInit ~ state:", state)
@@ -88,6 +105,19 @@ export class TrackEpiComponent implements OnInit, OnDestroy {
         }
         this.currentActivity = 'ASESORÍA A LA EPI'
       })
+
+    this.advisoryEpi.valueChanges
+      .pipe(startWith(this.advisoryEpi.value))
+      .subscribe((value) => {
+        const menAttended = value.menAttended;
+        const womenAttended = value.womenAttended;
+
+        const total = menAttended + womenAttended;
+
+        this.totalAttended = total;
+        console.log('Total:', total);
+        // Actualiza la variable o realiza la lógica que desees con el total
+      });
   }
 
   ngOnDestroy(): void {
@@ -137,11 +167,16 @@ export class TrackEpiComponent implements OnInit, OnDestroy {
         goal,
         action,
         entity,
+        sectorization,
+        subSectorization,
+        menAttended,
+        womenAttended,
         advTheme,
         participantName,
         participantPosition,
         advDate,
         reportDate,
+        counselingModality,
         place,
         objective,
         devAdv,
@@ -154,12 +189,18 @@ export class TrackEpiComponent implements OnInit, OnDestroy {
       const NEW_ADVISORY_EPI: IAdvisoryEpi = {
         goal,
         action,
-        entity,
+        unitSpecific: entity,
+        sectorization,
+        subSectorization,
         advTheme,
         participantName,
         participantPosition,
+        menAttended,
+        womenAttended,
+        totalAttended: this.totalAttended,
         advDate,
         reportDate,
+        counselingModality,
         place,
         objective,
         devAdv,
@@ -185,6 +226,20 @@ export class TrackEpiComponent implements OnInit, OnDestroy {
       this.checkProjectStore.dispatch(CLOSE_DRAWER2())
 
       return
+    }
+  }
+
+  sectorSelected(event: MatSelectChange): void {
+    let SSECTOR: ISectorAdvised = this.sectors.find((sector: ISectorAdvised) => sector.name == event.value);
+    if (SSECTOR.subSectorizations && SSECTOR.subSectorizations.length > 0) {
+      this.subSectors = SSECTOR.subSectorizations;
+      this.isDisableSubSectorControl = false;
+      this.advisoryEpi.controls.subSectorization.enable();
+    } else {
+      this.subSectors = []
+      this.isDisableSubSectorControl = true;
+      this.advisoryEpi.controls.subSectorization.reset();
+      this.advisoryEpi.controls.subSectorization.disable();
     }
   }
 }
