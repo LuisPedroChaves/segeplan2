@@ -168,7 +168,7 @@ export class NewProjectComponent  implements OnInit, OnDestroy{
         }
         console.log("🚀 ~ file: new-project.component.ts:160 ~ NewProjectComponent ~ openFormDrawer ~ project", this.project)
 
-        this.checkProjectStore.dispatch(SET_PROJECT({ checkProject: this.project }))
+        this.checkProjectStore.dispatch(CREATE_CHECK_PROJECT({ checkProject: this.project }))
         this.checkProjectStore.dispatch(OPEN_DRAWER2({ width2, component2 }))
         this.checkProjectStore.dispatch(SET_TRACK({
           track: {
