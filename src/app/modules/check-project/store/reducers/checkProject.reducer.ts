@@ -68,6 +68,12 @@ const _CHECK_REDUCER_REDUCER = createReducer(CHECK_PROJECT_STATE,
     })
   })),
 
+
+  on(actions.REMOVE_PROJECT, (state, { id }) => ({
+    ...state,
+    projects: state.projects.filter(p => p.id !== id)
+  })),
+
   // track
   on(actions.SET_TRACK, (state, { track }) => ({
     ...state,
