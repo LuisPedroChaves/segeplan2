@@ -56,6 +56,18 @@ export class ConvertService {
     return null;
   }
 
+  static convertDateToShow(dateString: any): string {
+    const fecha = new Date(dateString);
+    const dia = fecha.getUTCDate();
+    const mes = fecha.getUTCMonth() + 1; // Se suma 1 ya que los meses en JavaScript son base 0 (enero es 0).
+    const anio = fecha.getUTCFullYear();
+  
+    // Asegúrate de que los componentes tengan dos dígitos (agregando un cero inicial si es necesario).
+    const diaFormateado = dia.toString().padStart(2, '0');
+    const mesFormateado = mes.toString().padStart(2, '0');
+  
+    return `${diaFormateado}/${mesFormateado}/${anio}`;
+  }
   static async getBase64ImageFromURL(url: string) {
     return new Promise((resolve, reject) => {
       var img = new Image();

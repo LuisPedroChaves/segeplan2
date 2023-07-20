@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
-import { CREATE_CHECK_PROJECT, READ_ENTITIES, SET_PROJECT, SET_TRACK } from 'src/app/modules/check-project/store/actions';
+import { CREATE_CHECK_PROJECT, DELETE_PROJECT, READ_ENTITIES, SET_PROJECT, SET_TRACK } from 'src/app/modules/check-project/store/actions';
 import { CheckProjectStore, EntityStore, GeograficoStore } from 'src/app/modules/check-project/store/reducers';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -23,7 +23,7 @@ import { PrintAdvisoryService } from '../../../services/printAdvisory.service';
   templateUrl: './new-project.component.html',
   styleUrls: ['./new-project.component.scss']
 })
-export class NewProjectComponent  implements OnInit, OnDestroy{
+export class NewProjectComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   displayedColumns = ['iapa', 'iapb', 'iapc', 'activity', 'reportDate', 'actions'];
@@ -54,9 +54,9 @@ export class NewProjectComponent  implements OnInit, OnDestroy{
   })
 
   process = [
-    {value: 1, name: 'CONSTRUCCIÓN'}, {value: 2, name: 'MEJORAMIENTO'},
-    {value: 3, name: 'AMPLIACIÓN'}, {value: 4, name: 'REPOSICIÓN'},
-    {value: 5, name: 'OTRA'}
+    { value: 1, name: 'CONSTRUCCIÓN' }, { value: 2, name: 'MEJORAMIENTO' },
+    { value: 3, name: 'AMPLIACIÓN' }, { value: 4, name: 'REPOSICIÓN' },
+    { value: 5, name: 'OTRA' }
   ]
 
   constructor(
@@ -91,7 +91,7 @@ export class NewProjectComponent  implements OnInit, OnDestroy{
       .subscribe(state => {
         this.entities = state.entities;
       })
-      this.entityStore.dispatch(READ_ENTITIES())
+    this.entityStore.dispatch(READ_ENTITIES())
   }
 
   ngOnDestroy(): void {
@@ -133,58 +133,44 @@ export class NewProjectComponent  implements OnInit, OnDestroy{
   }
 
   openDrawer2(width2: string, component2: string, activity: string) {
-      if (this.newProject.invalid) {
-        const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-          width: '250px',
-          data: { title: 'Completar información', description: 'Primero debe completar toda la información del proyecto', confirmation: false }
-        });
-        return;
+    if (this.newProject.invalid) {
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '250px',
+        data: { title: 'Completar información', description: 'Primero debe completar toda la información del proyecto', confirmation: false }
+      });
+      return;
+    }
+
+    if (!this.project) {
+      const {
+        process,
+        sector,
+        nameProject,
+        departament,
+        municipality,
+        observations,
+        agripManage,
+        legalLand,
+        snipCode, ministry } = this.newProject.value;
+
+      console.log(this.newProject)
+
+      this.project = {
+        process,
+        sector,
+        nameProject,
+        isMinistry: this.isMinistry,
+        depto: departament,
+        munic: municipality,
+        observations,
+        agripManage,
+        legalLand,
+        snipCode,
+        ministry
       }
+      console.log("🚀 ~ file: new-project.component.ts:160 ~ NewProjectComponent ~ openFormDrawer ~ project", this.project)
 
-      if (!this.project) {
-        const {
-          process,
-          sector,
-          nameProject,
-          departament,
-          municipality,
-          observations,
-          agripManage,
-          legalLand,
-          snipCode, ministry } = this.newProject.value;
-
-        console.log(this.newProject)
-
-        this.project = {
-          process,
-          sector,
-          nameProject,
-          isMinistry: this.isMinistry,
-          depto: departament,
-          munic: municipality,
-          observations,
-          agripManage,
-          legalLand,
-          snipCode,
-          ministry
-        }
-        console.log("🚀 ~ file: new-project.component.ts:160 ~ NewProjectComponent ~ openFormDrawer ~ project", this.project)
-
-        this.checkProjectStore.dispatch(CREATE_CHECK_PROJECT({ checkProject: this.project }))
-        this.checkProjectStore.dispatch(OPEN_DRAWER2({ width2, component2 }))
-        this.checkProjectStore.dispatch(SET_TRACK({
-          track: {
-            iapa: null,
-            iapb: null,
-            iapc: null,
-            activity,
-            reportDate: null
-          }
-        }))
-        return
-      }
-
-      //TODO: Actualizar proyecto si existe el ID
+      this.checkProjectStore.dispatch(CREATE_CHECK_PROJECT({ checkProject: this.project }))
       this.checkProjectStore.dispatch(OPEN_DRAWER2({ width2, component2 }))
       this.checkProjectStore.dispatch(SET_TRACK({
         track: {
@@ -195,6 +181,20 @@ export class NewProjectComponent  implements OnInit, OnDestroy{
           reportDate: null
         }
       }))
+      return
+    }
+
+    //TODO: Actualizar proyecto si existe el ID
+    this.checkProjectStore.dispatch(OPEN_DRAWER2({ width2, component2 }))
+    this.checkProjectStore.dispatch(SET_TRACK({
+      track: {
+        iapa: null,
+        iapb: null,
+        iapc: null,
+        activity,
+        reportDate: null
+      }
+    }))
   }
 
   selecDepartament(): void {
@@ -265,42 +265,52 @@ export class NewProjectComponent  implements OnInit, OnDestroy{
       return
     }
 
-    this.project = {
-      ...this.project,
-      process,
-      sector,
-      nameProject,
-      depto: departament,
-      munic: municipality,
-      observations,
-      agripManage,
-      legalLand,
-      snipCode
-    }
+    // this.project = {
+    //   ...this.project,
+    //   process,
+    //   sector,
+    //   nameProject,
+    //   depto: departament,
+    //   munic: municipality,
+    //   observations,
+    //   agripManage,
+    //   legalLand,
+    //   snipCode
+    // }
 
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '250px',
-      data: { title: 'Actualizar proyecto', description: '¿Esta Seguro que desea actualizar los datos del Proyecto?', confirmation: true }
-    });
+    // const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    //   width: '250px',
+    //   data: { title: 'Actualizar proyecto', description: '¿Esta Seguro que desea actualizar los datos del Proyecto?', confirmation: true }
+    // });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === true) {
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (result === true) {
 
-        this.checkProjectStore.dispatch(CREATE_CHECK_PROJECT({ checkProject: this.project }))
-        this.checkProjectStore.dispatch(CLOSE_DRAWER1())
-        this.resetNewProject()
+    //     this.checkProjectStore.dispatch(CREATE_CHECK_PROJECT({ checkProject: this.project }))
+    //     this.checkProjectStore.dispatch(CLOSE_DRAWER1())
+    //     this.resetNewProject()
 
-      } else {
-        return;
-      }
-    });
+    //   } else {
+    //     return;
+    //   }
+    // });
+    this.checkProjectStore.dispatch(CLOSE_DRAWER1())
+    this.resetNewProject()
+    return;
   }
 
-  printAdvisory(track: ITrack): void {
+  printAdvisory(isEpi: boolean, track: ITrack): void {
     console.log("🚀 ~ file: new-project.component.ts:300 ~ NewProjectComponent ~ printAdvisory ~ element:", track)
-    if(track.advisoryDoc){
-      this.printDocumentService.advisoryDocument(track);
+    if (track.advisoryDoc) {
+      this.printDocumentService.advisoryDocument(isEpi, track);
     }
+  }
+
+  deleteProject() {
+    console.log("🚀 ~ file: new-project.component.ts:41 ~ NewProjectComponent ~ project:", this.project)
+    this.checkProjectStore.dispatch(DELETE_PROJECT({ id: this.project.id }))
+    this.checkProjectStore.dispatch(CLOSE_DRAWER1())
+    this.resetNewProject()
   }
 
 }

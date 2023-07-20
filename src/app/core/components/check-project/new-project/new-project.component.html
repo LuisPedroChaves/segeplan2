@@ -128,6 +128,10 @@
                 </mat-form-field>
 
                 <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
+                  <button mat-raised-button color="warn" (click)="deleteProject()">
+                    Eliminar
+                    <mat-icon>delete</mat-icon>
+                  </button>
                   <button mat-raised-button color="accent" matStepperNext>
                     Siguiente
                     <mat-icon>navigate_next</mat-icon>
@@ -200,7 +204,10 @@
                         <button mat-icon-button (click)="openDrawer2('50%', 'TRACK_DETAILS', element)">
                           <mat-icon>visibility</mat-icon>
                         </button>
-                        <button *ngIf="element.advisoryDoc" mat-icon-button (click)="printAdvisory(element)">
+                        <button *ngIf="element.advisoryDoc" matTooltip="Informe EPI" matTooltipPosition="above" mat-icon-button (click)="printAdvisory(false, element)">
+                          <mat-icon>print</mat-icon>
+                        </button>
+                        <button *ngIf="element.advisoryDoc" matTooltip="Informe EPI (EXTERNO)" matTooltipPosition="above" mat-icon-button (click)="printAdvisory(true, element)">
                           <mat-icon>print</mat-icon>
                         </button>
                       </td>

@@ -46,13 +46,12 @@ export class PrintAdvisoryService {
   constructor() { }
 
 
-  async advisoryDocument(track: ITrack) {
+  async advisoryDocument(isEpi: boolean, track: ITrack) {
     // playground requires you to assign document definition to a variable called dd
     let imageLogo = await ConvertService.getBase64ImageFromURL('assets/img/background.jpg');
-    console.log("🚀 ~ file: printAdvisory.service.ts:57 ~ PrintAdvisoryService ~ advisoryDocument ~ imageLogo:", imageLogo)
     let tableComments: string[][] = []
 
-    if (track.advisoryDoc.comments.length > 0){
+    if (track.advisoryDoc.comments.length > 0) {
       track.advisoryDoc.comments.forEach((comment: IComment) => {
         const cm = [
           `${comment.theme}`, `${comment.description}`
@@ -61,9 +60,10 @@ export class PrintAdvisoryService {
       })
     }
 
+    const rowsGeneral = this.returnFirstTable(isEpi, track);
 
 
-    const advisoryDocument: any =  {
+    const advisoryDocument: any = {
       pageSize: { width: 612, height: 792 },
       background: [
         {
@@ -75,153 +75,240 @@ export class PrintAdvisoryService {
       pageMargins: [70, 120, 72, 72], // Margen superior, derecho, inferior, izquierdo en unidades de PDF (72 unidades = 1 pulgada)
       content: [
         {
-          text: 'Informe de Asesoria',
+          text: 'Informe de asesoria técnica',
           fontSize: 15, bold: true, alignment: 'center',
           margin: [0, 0, 0, 20]
         },
         {
           table: {
             widths: [80, '*'],
+            body: rowsGeneral
+          }
+        },
+        {
+          text: 'Descripción de la actividad',
+          fontSize: 15, bold: true, alignment: 'center',
+          margin: [20, 20, 0, 20]
+        },
+        {
+          table: {
+            body: tableComments
+          }
+        },
+        {
+          text: '',
+          fontSize: 15, bold: true, alignment: 'center',
+          margin: [20, 20, 0, 20]
+        },
+        {
+          table: {
+            margin: [0, 20, 0, 0],
             body: [
               [
                 {
-                  text: 'META POA',
+                  text: 'Conclusiones',
                   bold: true
                 },
                 {
-                  text: `${track.advisoryDoc.goal}`
+                  text: `${track.advisoryDoc.conclusions}`
                 },
               ],
               [
                 {
-                  text: 'Accion POA',
+                  text: 'Recomendaciones',
                   bold: true
                 },
                 {
-                  text: `${track.advisoryDoc.action}`
+                  text: `${track.advisoryDoc.recomend}`
                 },
               ],
               [
                 {
-                  text: 'Sectorización del Sector Público',
+                  text: 'Conclusiones',
                   bold: true
                 },
                 {
-                  text: `${track.advisoryDoc.sectorization}`
+                  text: `${track.advisoryDoc.conclusions}`
                 },
-              ],
-              [
-                {
-                  text: 'Entidad',
-                  bold: true
-                },
-                {
-                  text: `${track.advisoryDoc.subSectorization ?? ''}`
-                },
-              ],
-              [
-                {
-                  text: 'Dirección unidad especifica',
-                  bold: true
-                },
-                {
-                  text: `${track.advisoryDoc.unitSpecific}`
-                },
-              ],
-              [
-                {
-                  text: 'Tema',
-                  bold: true
-                },
-                {
-                  text: `${track.advisoryDoc.advTheme}`
-                },
-              ],
-              [
-                {
-                  text: 'Contacto de la Entidad',
-                  bold: true
-                },
-                {
-                  text: `${track.advisoryDoc.participant}`
-                },
-              ],
-              [
-                {
-                  text: 'Cantidad de Personas atendidas',
-                  bold: true
-                },
-                {
-                  text: `Hombres: ${track.advisoryDoc.menAttended}, Mujeres: ${track.advisoryDoc.womenAttended}, Total: ${track.advisoryDoc.totalAttended}`
-                },
-              ],
-              [
-                {
-                  text: 'Fecha de Actividad',
-                  bold: true
-                },
-                {
-                  text: `${track.advisoryDoc.analysisDate}`
-                },
-              ],
-              [
-                {
-                  text: 'Fecha de Informe',
-                  bold: true
-                },
-                {
-                  text: `${track.advisoryDoc.advDate}`
-                },
-              ],
-              [
-                {
-                  text: 'Modalidad de la Asesoria',
-                  bold: true
-                },
-                {
-                  text: `${track.advisoryDoc.counselingModality}`
-                },
-              ],
-              [
-                {
-                  text: 'Atendido por:',
-                  bold: true
-                },
-                {
-                  text: `${track.advisoryDoc.assistant}`
-                },
-              ],
-              [
-                {
-                  text: 'Observaciones:',
-                  bold: true
-                },
-                {
-                  table: {
-                    body: tableComments
-                  },
-                }
               ],
             ]
           }
-        },
+        }
       ],
 
     }
 
 
-    {
-      table: {
-        body: [
-          ['Col1', 'Col2'],
-          ['1', '2', ],
-          ['1', '2', ]
-        ]
-      }
+
+    const print = pdfMake.createPdf(advisoryDocument, null, null, pdfFonts.pdfMake.vfs).open();
+
+
+  }
+
+  returnFirstTable(isEpi: boolean, track: ITrack) {
+    const rowsGeneral = [
+      [
+        {
+          text: 'Meta POA',
+          bold: true
+        },
+        {
+          text: `${track.advisoryDoc.goal}`
+        },
+      ],
+      [
+        {
+          text: 'Acción POA',
+          bold: true
+        },
+        {
+          text: `${track.advisoryDoc.action}`
+        },
+      ],
+      [
+        {
+          text: 'Sectorización del Sector Público',
+          bold: true
+        },
+        {
+          text: `${track.advisoryDoc.sectorization}`
+        },
+      ],
+      [
+        {
+          text: 'Entidad',
+          bold: true
+        },
+        {
+          text: `${track.advisoryDoc.subSectorization ?? ''}`
+        },
+      ],
+      [
+        {
+          text: 'Dirección unidad especifica',
+          bold: true
+        },
+        {
+          text: `${track.advisoryDoc.unitSpecific}`
+        },
+      ],
+      [
+        {
+          text: 'Tema',
+          bold: true
+        },
+        {
+          text: `${track.advisoryDoc.advTheme}`
+        },
+      ],
+      [
+        {
+          text: 'Nombre del Proyecto',
+          bold: true
+        },
+        {
+          text: `${track.advisoryDoc.projectName}`
+        },
+      ],
+      [
+        {
+          text: 'Contacto de la Entidad',
+          bold: true
+        },
+        {
+          text: `${track.advisoryDoc.participant ?? ''}`
+        },
+      ],
+      [
+        {
+          text: 'Cantidad de Personas atendidas',
+          bold: true
+        },
+        {
+          text: `Hombres: ${track.advisoryDoc.menAttended}, Mujeres: ${track.advisoryDoc.womenAttended}, Total: ${track.advisoryDoc.totalAttended}`
+        },
+      ],
+      [
+        {
+          text: 'Fecha de Actividad',
+          bold: true
+        },
+        {
+          text: `${track.advisoryDoc.analysisDate ? ConvertService.convertDateToShow(track.advisoryDoc.analysisDate) : ''}`
+        },
+      ],
+      [
+        {
+          text: 'Fecha de Informe',
+          bold: true
+        },
+        {
+          text: `${track.advisoryDoc.advDate ? ConvertService.convertDateToShow(track.advisoryDoc.advDate) : ''}`
+        },
+      ],
+      [
+        {
+          text: 'Modalidad de la Asesoria',
+          bold: true
+        },
+        {
+          text: `${track.advisoryDoc.counselingModality}`
+        },
+      ],
+      [
+        {
+          text: 'Atendido por:',
+          bold: true
+        },
+        {
+          text: `${track.advisoryDoc.assistant}`
+        },
+      ],
+    ]
+
+    const epiRows = [
+      [
+        {
+          text: 'Entidad',
+          bold: true
+        },
+        {
+          text: `${track.advisoryDoc.subSectorization ?? ''}`
+        },
+      ],
+      [
+        {
+          text: 'Dirección unidad especifica',
+          bold: true
+        },
+        {
+          text: `${track.advisoryDoc.unitSpecific}`
+        },
+      ],
+      [
+        {
+          text: 'Tema',
+          bold: true
+        },
+        {
+          text: `${track.advisoryDoc.advTheme}`
+        },
+      ],
+      [
+        {
+          text: 'Nombre del Proyecto',
+          bold: true
+        },
+        {
+          text: `${track.advisoryDoc.projectName}`
+        },
+      ],
+    ]
+
+    if (isEpi){
+      return epiRows
     }
-
-    const print = pdfMake.createPdf(advisoryDocument,null,null,pdfFonts.pdfMake.vfs).open();
-
+    return rowsGeneral
 
   }
 
