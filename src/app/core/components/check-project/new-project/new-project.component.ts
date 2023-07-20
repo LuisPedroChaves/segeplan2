@@ -14,6 +14,7 @@ import { CLOSE_DRAWER1, OPEN_DRAWER2, READ_GEOGRAFICOS } from 'src/app/core/stor
 import { Departament } from 'src/app/core/models/adicionales';
 import { Entity } from 'src/app/core/models/sinafip';
 import { IProject, ITrack } from 'src/app/core/models/seguimiento';
+import { PrintAdvisoryService } from '../../../services/printAdvisory.service';
 
 @Component({
   selector: 'app-new-project',
@@ -45,7 +46,7 @@ export class NewProjectComponent  implements OnInit, OnDestroy{
     nameProject: new FormControl(null, Validators.required),
     departament: new FormControl(null, Validators.required),
     municipality: new FormControl(null, Validators.required),
-    observations: new FormControl(null, Validators.required),
+    observations: new FormControl('', Validators.required),
     agripManage: new FormControl(false, Validators.required),
     legalLand: new FormControl(false, Validators.required),
     snipCode: new FormControl(null),
@@ -62,6 +63,7 @@ export class NewProjectComponent  implements OnInit, OnDestroy{
     public checkProjectStore: Store<CheckProjectStore>,
     private geograficoStore: Store<GeograficoStore>,
     private dialog: MatDialog,
+    private printDocumentService: PrintAdvisoryService,
     private entityStore: Store<EntityStore>,
 
   ) { }
@@ -292,6 +294,13 @@ export class NewProjectComponent  implements OnInit, OnDestroy{
         return;
       }
     });
+  }
+
+  printAdvisory(track: ITrack): void {
+    console.log("🚀 ~ file: new-project.component.ts:300 ~ NewProjectComponent ~ printAdvisory ~ element:", track)
+    if(track.advisoryDoc){
+      this.printDocumentService.advisoryDocument(track);
+    }
   }
 
 }

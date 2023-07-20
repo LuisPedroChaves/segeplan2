@@ -31,7 +31,7 @@ export class ChekProjectService {
       .pipe(
         finalize(() => snackBarRef.dismiss()),
         map((res: any) => {
-          return res.projects;
+          return res?.projects;
         }),
         catchError((err, caught) => {
           this.snackBarService.show('DANGER', err.error.message ? err.error.message : err.message, 5000) //cambio se elimino null
@@ -74,6 +74,7 @@ export class ChekProjectService {
   }
 
   addTrack(track: ITrack, idProject: string): Observable<IProject> {
+    console.log("🚀 ~ file: chek-project.service.ts:77 ~ ChekProjectService ~ addTrack ~ track:", track)
     const url = this.API_URL + this.url + 'project/track/' + idProject;
     let snackBarRef = this.snackBarService.loading()
 

@@ -252,7 +252,7 @@ export class TrackDocumentComponent {
         participant,
         analysisDate,
         advDate,
-        assistant,
+        assistant: this.usuario.name,
         conclusions,
         recomend,
         comments: this.comments
