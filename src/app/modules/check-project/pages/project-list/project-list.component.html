@@ -24,7 +24,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field *ngIf="isMinistry" appearance="outline" floatLabel="always" class="small-input no-hint">
+    <mat-form-field *ngIf="isMinistryState" appearance="outline" floatLabel="always" class="small-input no-hint">
       <mat-label> Entidad </mat-label>
       <mat-select [formControl]="entidadFilter">
         <mat-option *ngFor="let entity of entities" [value]="entity.name">

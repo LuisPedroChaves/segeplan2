@@ -18,7 +18,7 @@ import { READ_CHECK_PROJECTS } from '../../store/actions';
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.scss']
 })
-export class ProjectListComponent implements OnInit{
+export class ProjectListComponent implements OnInit {
 
   isMinistry = false;
   checkProjectSubscription = new Subscription();
@@ -40,6 +40,8 @@ export class ProjectListComponent implements OnInit{
     status: 'REGISTER',
   }
 
+  isMinistryState = false;
+
   months = [
     { value: 1, name: 'Enero' }, { value: 2, name: 'Febrero' }, { value: 3, name: 'Marzo' },
     { value: 4, name: 'Abril' }, { value: 5, name: 'Mayo' }, { value: 6, name: 'Junio' },
@@ -59,14 +61,22 @@ export class ProjectListComponent implements OnInit{
       .subscribe(state => {
         this.departamentos = state.geograficos;
       })
-      this.geograficoStore.dispatch(READ_GEOGRAFICOS());
+    this.geograficoStore.dispatch(READ_GEOGRAFICOS());
 
     //LISTADOS
     this.entityStoreSubscription = this.entityStore.select('entity')
       .subscribe(state => {
         this.entities = state.entities;
       })
-      this.entityStore.dispatch(READ_ENTITIES());
+    this.entityStore.dispatch(READ_ENTITIES());
+
+    this.checkProjectSubscription = this.checkProjectStore
+      .select('checkProject')
+      .subscribe((state) => {
+
+        this.isMinistryState = state.isMinistry;
+
+      });
   }
 
   selecDepartament(): void {
@@ -78,11 +88,12 @@ export class ProjectListComponent implements OnInit{
   }
 
   searchProjects() {
-    const newfiltros = {
-      isMinistry: false,
+
+    const newFilter = {
       status: 'REGISTER',
     }
-    this.filtros = newfiltros;
+    this.filtros = {...newFilter, isMinistry: this.isMinistryState}
+
     if (this.departamentoFilter.value) {
       this.filtros.departamento = this.departamentoFilter.value;
     }
@@ -105,7 +116,7 @@ export class ProjectListComponent implements OnInit{
     this.monthFilter.reset();
 
     this.filtros = {
-      isMinistry: false,
+      isMinistry: this.isMinistryState,
       status: 'REGISTER',
     }
     this.checkProjectStore.dispatch(READ_CHECK_PROJECTS({ filtros: this.filtros }))

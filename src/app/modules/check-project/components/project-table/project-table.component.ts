@@ -45,6 +45,7 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
     this.checkProjectSubscription = this.checkProjectStore
       .select('checkProject')
       .subscribe((state) => {
+      console.log("🚀 ~ file: project-table.component.ts:48 ~ ProjectTableComponent ~ .subscribe ~ state:", state)
 
         if (this.filtros.isMinistry != state.isMinistry) {
           this.filtros = {
