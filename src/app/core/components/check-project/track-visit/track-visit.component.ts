@@ -433,6 +433,7 @@ export class TrackVisitComponent implements OnInit, OnDestroy{
         if (state.track) {
           this.currentActivity = 'VISITA DE CAMPO'
         }
+        // this.visitCard.controls["municip"].setValue(state.track.visitCard.municip)
       })
 
     this.departamentoStoreSubscription = this.geograficoStore.select('geografico')

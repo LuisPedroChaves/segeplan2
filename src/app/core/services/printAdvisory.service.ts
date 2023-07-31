@@ -122,15 +122,6 @@ export class PrintAdvisoryService {
                   text: `${track.advisoryDoc.recomend}`
                 },
               ],
-              [
-                {
-                  text: 'Conclusiones',
-                  bold: true
-                },
-                {
-                  text: `${track.advisoryDoc.conclusions}`
-                },
-              ],
             ]
           }
         }

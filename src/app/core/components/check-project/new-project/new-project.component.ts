@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
-import { CREATE_CHECK_PROJECT, DELETE_PROJECT, READ_ENTITIES, SET_PROJECT, SET_TRACK } from 'src/app/modules/check-project/store/actions';
+import { CREATE_CHECK_PROJECT, DELETE_PROJECT, DELETE_TRACK, READ_ENTITIES, SET_PROJECT, SET_TRACK, UPDATE_PROJECT } from 'src/app/modules/check-project/store/actions';
 import { CheckProjectStore, EntityStore, GeograficoStore } from 'src/app/modules/check-project/store/reducers';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -265,38 +265,55 @@ export class NewProjectComponent implements OnInit, OnDestroy {
       return
     }
 
-    // this.project = {
-    //   ...this.project,
-    //   process,
-    //   sector,
-    //   nameProject,
-    //   depto: departament,
-    //   munic: municipality,
-    //   observations,
-    //   agripManage,
-    //   legalLand,
-    //   snipCode
-    // }
-
-    // const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-    //   width: '250px',
-    //   data: { title: 'Actualizar proyecto', description: '¿Esta Seguro que desea actualizar los datos del Proyecto?', confirmation: true }
-    // });
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (result === true) {
-
-    //     this.checkProjectStore.dispatch(CREATE_CHECK_PROJECT({ checkProject: this.project }))
-    //     this.checkProjectStore.dispatch(CLOSE_DRAWER1())
-    //     this.resetNewProject()
-
-    //   } else {
-    //     return;
-    //   }
-    // });
     this.checkProjectStore.dispatch(CLOSE_DRAWER1())
     this.resetNewProject()
     return;
+  }
+
+  editProject(){
+
+    const {
+      process,
+      sector,
+      nameProject,
+      departament,
+      municipality,
+      observations,
+      agripManage,
+      legalLand,
+      snipCode, ministry } = this.newProject.value;
+
+    this.project = {
+      ...this.project,
+      process,
+      sector,
+      nameProject,
+      depto: departament,
+      munic: municipality,
+      observations,
+      agripManage,
+      legalLand,
+      snipCode,
+      ministry
+
+    }
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '250px',
+      data: { title: 'Actualizar proyecto', description: '¿Esta Seguro que desea actualizar los datos del Proyecto?', confirmation: true }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+
+        this.checkProjectStore.dispatch(UPDATE_PROJECT({ checkProject: this.project }))
+        this.checkProjectStore.dispatch(CLOSE_DRAWER1())
+        this.resetNewProject()
+
+      } else {
+        return;
+      }
+    });
   }
 
   printAdvisory(isEpi: boolean, track: ITrack): void {
@@ -307,10 +324,46 @@ export class NewProjectComponent implements OnInit, OnDestroy {
   }
 
   deleteProject() {
-    console.log("🚀 ~ file: new-project.component.ts:41 ~ NewProjectComponent ~ project:", this.project)
-    this.checkProjectStore.dispatch(DELETE_PROJECT({ id: this.project.id }))
-    this.checkProjectStore.dispatch(CLOSE_DRAWER1())
-    this.resetNewProject()
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '250px',
+      data: { title: 'Eliminar proyecto', description: '¿Esta Seguro que desea eliminar este proyecto?', confirmation: true }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+
+        console.log("🚀 ~ file: new-project.component.ts:41 ~ NewProjectComponent ~ project:", this.project)
+        this.checkProjectStore.dispatch(DELETE_PROJECT({ id: this.project.id }))
+        this.checkProjectStore.dispatch(CLOSE_DRAWER1())
+        this.resetNewProject()
+      } else {
+        return;
+      }
+    });
+
+  }
+
+  deleteTrack(idTrack: string) {
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '250px',
+      data: { title: 'Eliminar asesoria', description: '¿Esta Seguro que desea eliminar esta asesoria?', confirmation: true }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+
+        this.checkProjectStore.dispatch(DELETE_TRACK({ id: idTrack }))
+
+      } else {
+        return;
+      }
+    });
+
+
+    // this.checkProjectStore.dispatch(CLOSE_DRAWER1())
+    // this.resetNewProject()
   }
 
 }

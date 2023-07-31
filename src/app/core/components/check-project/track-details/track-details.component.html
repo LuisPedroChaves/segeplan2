@@ -48,7 +48,7 @@
             </p>
             <br>
             <p> <b> Fecha: </b>
-              <label> {{track.reportDate }} </label>
+              <label> {{track.reportDate.toString() | date: 'dd/mm/yyyy' }} </label>
             </p>
             <br>
           </ngx-simplebar>
@@ -204,11 +204,11 @@
                 1.2 ACCESIBILIDAD AL ÁREA DE INFLUENCIA
               </p>
               <br>
-              <p> <b> Vías de acceso utilizadas por época: </b> <label> {{accessRoads.name}} </label> </p>
-              <br>
+              <!-- <p> <b> Vías de acceso utilizadas por época: </b> <label> {{accessRoads.name}} </label> </p>
+              <br> -->
               <p> <b> Distancia a la cabecera municipal más cercana: </b> <label> {{visit.distanceKm | number}} </label> </p>
               <br>
-              <p> <b> Medios de transporte que llegan al área de influencia por época: </b> <label> {{meanstransport.name}} </label> </p>
+              <!-- <p> <b> Medios de transporte que llegan al área de influencia por época: </b> <label> {{meanstransport.name}} </label> </p> -->
               <br>
               <p class="mat-headline-6" fxLayoutAlign="space-around center">
                 1.3 SERVICIOS BÁSICOS EN EL ÁREA DE INFLUENCIA
@@ -226,7 +226,7 @@
               <br>
               <p> <b> El agua es apta para consumo humano: </b> <label> {{visit.isDrinkingWater}} </label> </p>
               <br>
-              <p> <b> Infraestructura de servicios: </b> <label> {{serviceInf.name}} </label> </p>
+              <!-- <p> <b> Infraestructura de servicios: </b> <label> {{serviceInf.name}} </label> </p> -->
               <br>
               <p class="mat-headline-6" fxLayoutAlign="space-around center">
                 1.4 REFERENCIA GEOGRÁFICA
@@ -243,7 +243,7 @@
               <p class="mat-headline-6" fxLayoutAlign="space-around center">
                 1.5 DESASTRES MÁS RECIENTES EN EL ÁREA DE INFLUENCIA
               </p>
-              <br>
+              <!-- <br>
               <p> <b> Fecha: </b> <label> {{disaster.date | date: 'dd/MM/YYYY'}} </label> </p>
               <br>
               <p> <b> Hora: </b> <label> {{disaster.hour}} h </label> </p>
@@ -254,7 +254,7 @@
               <br>
               <p> <b> Consecuencias: </b> <label> {{disaster.impact}} </label> </p>
               <br>
-              <p> <b> Recurrencia: </b> <label> {{disaster.recurrence}} </label> </p>
+              <p> <b> Recurrencia: </b> <label> {{disaster.recurrence}} </label> </p> -->
               <br>
               <p class="mat-headline-6" fxLayoutAlign="space-around center">
                 1.7 INFORMACIÓN TÉCNICA DEL BIEN INMUEBLE
@@ -320,7 +320,7 @@
                 NATURALES
               </p>
               <br>
-              <div *ngIf="threatTypes.name === 'Naturales'">
+              <!-- <div *ngIf="threatTypes.name === 'Naturales'">
                 <p> <b> Deslizamientos: </b> <label> {{threatTypes.name}} </label> </p>
                 <br>
                 <p> <b> Inundaciones: </b> <label> {{threatTypes.name}} </label> </p>
@@ -337,8 +337,8 @@
                 <br>
                 <p> <b> Rios/Quebradas: </b> <label> {{threatTypes.name}} </label> </p>
               </div>
-              <br>
-              <p class="mat-subheading-2" fxLayoutAlign="start center">
+              <br> -->
+              <!-- <p class="mat-subheading-2" fxLayoutAlign="start center">
                 ANTROPOGENICAS
               </p>
               <br>
@@ -357,7 +357,7 @@
                 <br>
                 <p> <b> Inadecuado uso del suelo: </b> <label> {{threatTypes.name}} </label> </p>
               </div>
-              <br>
+              <br> -->
               <p class="mat-headline-6" fxLayoutAlign="space-around center">
                 2.0 SOLICITUD DE FINANCIAMIENTO
               </p>
@@ -396,9 +396,9 @@
               <br>
               <p> <b> Fotografías: </b> </p>
               <br>
-              <div class="img-content" fxLayout="row">
+              <!-- <div class="img-content" fxLayout="row">
                 <img class="img-1" src="{{imgVisit.url}}" >
-              </div>
+              </div> -->
               <br>
             </div>
 

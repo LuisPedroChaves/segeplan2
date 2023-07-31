@@ -54,8 +54,8 @@ export class TrackDocumentComponent {
     analysisDate: new FormControl(''),
     advDate: new FormControl(''),
     assistant: new FormControl(''),
-    conclusions: new FormControl('', [Validators.maxLength(400)]),
-    recomend: new FormControl('', [Validators.maxLength(400)]),
+    conclusions: new FormControl('', [Validators.maxLength(1000)]),
+    recomend: new FormControl('', [Validators.maxLength(1000)]),
   })
 
   comments: IComment[] = []

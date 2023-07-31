@@ -12,6 +12,7 @@ import {
 } from '../../store/actions/checkProject.actions';
 import { CheckProjectStore } from '../../store/reducers/checkProject.reducer';
 import { IFiltroCheckProjects } from 'src/app/core/models/adicionales';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-project-table',
@@ -20,6 +21,7 @@ import { IFiltroCheckProjects } from 'src/app/core/models/adicionales';
 })
 export class ProjectTableComponent implements OnInit, OnDestroy {
   @Input('component') component: string = 'NEW_PROJECT';
+  @ViewChild(MatSort) sort: MatSort;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   dataSource = new MatTableDataSource<IProject>([]);
@@ -40,7 +42,10 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
   };
 
   constructor(public checkProjectStore: Store<CheckProjectStore>) {}
-
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
   ngOnInit(): void {
     this.checkProjectSubscription = this.checkProjectStore
       .select('checkProject')

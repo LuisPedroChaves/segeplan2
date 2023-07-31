@@ -118,12 +118,12 @@
 
                 <mat-form-field fxFill appearance="outline">
                   <mat-label>Observaciones</mat-label>
-                  <textarea matInput formControlName="observations" placeholder="Máximo 200 caracteres..." rows="2"></textarea>
-                <mat-hint>Hasta {{255 - newProject.get('observations')?.value?.length}} caracteres.                  
+                  <textarea matInput formControlName="observations" placeholder="Máximo 1000 caracteres..." rows="2"></textarea>
+                <mat-hint>Hasta {{1000 - newProject.get('observations')?.value?.length}} caracteres.                  
                 </mat-hint>
 
                   <mat-error *ngIf="newProject.get('observations')?.hasError('maxlength')">
-                    Máximo 255 caracteres.
+                    Máximo 1000 caracteres.
                   </mat-error>
                 </mat-form-field>
 
@@ -131,6 +131,10 @@
                   <button mat-raised-button color="warn" (click)="deleteProject()">
                     Eliminar
                     <mat-icon>delete</mat-icon>
+                  </button>
+                  <button mat-raised-button color="accent" (click)="editProject()">
+                    Editar
+                    <mat-icon>edit</mat-icon>
                   </button>
                   <button mat-raised-button color="accent" matStepperNext>
                     Siguiente
@@ -204,11 +208,14 @@
                         <button mat-icon-button (click)="openDrawer2('50%', 'TRACK_DETAILS', element)">
                           <mat-icon>visibility</mat-icon>
                         </button>
-                        <button *ngIf="element.advisoryDoc" matTooltip="Informe EPI" matTooltipPosition="above" mat-icon-button (click)="printAdvisory(false, element)">
+                        <button *ngIf="element.advisoryDoc" matTooltip="Reporte POA" matTooltipPosition="above" mat-icon-button (click)="printAdvisory(false, element)">
                           <mat-icon>print</mat-icon>
                         </button>
-                        <button *ngIf="element.advisoryDoc" matTooltip="Informe EPI (EXTERNO)" matTooltipPosition="above" mat-icon-button (click)="printAdvisory(true, element)">
+                        <button *ngIf="element.advisoryDoc" matTooltip="Reporte EPI" matTooltipPosition="above" mat-icon-button (click)="printAdvisory(true, element)">
                           <mat-icon>print</mat-icon>
+                        </button>
+                        <button mat-icon-button matTooltip="Eliminar" matTooltipPosition="above" (click)="deleteTrack(element.id)">
+                          <mat-icon>delete</mat-icon>
                         </button>
                       </td>
                     </ng-container>

@@ -264,23 +264,23 @@
                 <br>
                 <mat-form-field fxFill appearance="outline">
                   <mat-label>Conclusiones</mat-label>
-                  <textarea matInput formControlName="conclusions" placeholder="Máximo 400 caracteres..."
+                  <textarea matInput formControlName="conclusions" placeholder="Máximo 1000 caracteres..."
                     rows="4"></textarea>
-                  <mat-hint>Hasta {{400 - advisoryDoc.get('conclusions')?.value?.length}} caracteres.
+                  <mat-hint>Hasta {{1000 - advisoryDoc.get('conclusions')?.value?.length}} caracteres.
                   </mat-hint>
                   <mat-error *ngIf="advisoryDoc.get('conclusions')?.hasError('maxlength')">
-                    Máximo 400 caracteres.
+                    Máximo 1000 caracteres.
                   </mat-error>
                 </mat-form-field>
                 <br>
                 <mat-form-field fxFill appearance="outline">
                   <mat-label>Recomendaciones</mat-label>
-                  <textarea matInput formControlName="recomend" placeholder="Máximo 400 caracteres..."
+                  <textarea matInput formControlName="recomend" placeholder="Máximo 1000 caracteres..."
                     rows="4"></textarea>
-                  <mat-hint>Hasta {{400 - advisoryDoc.get('recomend')?.value?.length}} caracteres.
+                  <mat-hint>Hasta {{1000 - advisoryDoc.get('recomend')?.value?.length}} caracteres.
                   </mat-hint>
                   <mat-error *ngIf="advisoryDoc.get('recomend')?.hasError('maxlength')">
-                    Máximo 400 caracteres.
+                    Máximo 1000 caracteres.
                   </mat-error>
                 </mat-form-field>
                 <br>

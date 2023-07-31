@@ -224,12 +224,12 @@
 
                 <mat-form-field fxFill appearance="outline">
                   <mat-label>Objetivo de la asesoría</mat-label>
-                  <textarea matInput formControlName="objective" placeholder="Máximo 200 caracteres..."
+                  <textarea matInput formControlName="objective" placeholder="Máximo 1000 caracteres..."
                     rows="4"></textarea>
-                  <mat-hint>Hasta {{200 - advisoryEpi.get('objective')?.value?.length}} caracteres.
+                  <mat-hint>Hasta {{1000 - advisoryEpi.get('objective')?.value?.length}} caracteres.
                   </mat-hint>
                   <mat-error *ngIf="advisoryEpi.get('objective')?.hasError('maxlength')">
-                    Máximo 200 caracteres.
+                    Máximo 1000 caracteres.
                   </mat-error>
                 </mat-form-field>
 
@@ -246,23 +246,23 @@
 
                 <mat-form-field fxFill appearance="outline">
                   <mat-label>Conclusiones y recomendaciones</mat-label>
-                  <textarea matInput formControlName="conclusions" placeholder="Máximo 200 caracteres..."
+                  <textarea matInput formControlName="conclusions" placeholder="Máximo 1000 caracteres..."
                     rows="4"></textarea>
-                  <mat-hint>Hasta {{200 - advisoryEpi.get('conclusions')?.value?.length}} caracteres.
+                  <mat-hint>Hasta {{1000 - advisoryEpi.get('conclusions')?.value?.length}} caracteres.
                   </mat-hint>
                   <mat-error *ngIf="advisoryEpi.get('conclusions')?.hasError('maxlength')">
-                    Máximo 200 caracteres.
+                    Máximo 1000 caracteres.
                   </mat-error>
                 </mat-form-field>
 
                 <mat-form-field fxFill appearance="outline">
                   <mat-label>Compromisos</mat-label>
-                  <textarea matInput formControlName="commitments" placeholder="Máximo 200 caracteres..."
+                  <textarea matInput formControlName="commitments" placeholder="Máximo 1000 caracteres..."
                     rows="4"></textarea>
-                  <mat-hint>Hasta {{200 - advisoryEpi.get('commitments')?.value?.length}} caracteres.
+                  <mat-hint>Hasta {{1000 - advisoryEpi.get('commitments')?.value?.length}} caracteres.
                   </mat-hint>
                   <mat-error *ngIf="advisoryEpi.get('commitments')?.hasError('maxlength')">
-                    Máximo 200 caracteres.
+                    Máximo 1000 caracteres.
                   </mat-error>
                 </mat-form-field>
 

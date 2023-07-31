@@ -66,3 +66,14 @@ export const SET_TRACK = createAction(
   '[TRACK] Asignar seguimiento',
   props<{ track: ITrack }>()
 );
+
+export const DELETE_TRACK = createAction(
+  '[TRACK] Eliminar track',
+  props<{ id: string }>()
+);
+
+export const REMOVE_TRACK = createAction(
+  '[TRACK] Quitar track',
+  props<{ id: string }>()
+);
+

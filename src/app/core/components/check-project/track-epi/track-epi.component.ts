@@ -53,10 +53,10 @@ export class TrackEpiComponent implements OnInit, OnDestroy {
     reportDate: new FormControl(''),
     counselingModality: new FormControl(''),
     place: new FormControl('', [Validators.maxLength(200)]),
-    objective: new FormControl('', [Validators.maxLength(200)]),
+    objective: new FormControl('', [Validators.maxLength(1000)]),
     devAdv: new FormControl('', [Validators.maxLength(400)]),
-    conclusions: new FormControl('', [Validators.maxLength(200)]),
-    commitments: new FormControl('', [Validators.maxLength(200)]),
+    conclusions: new FormControl('', [Validators.maxLength(1000)]),
+    commitments: new FormControl('', [Validators.maxLength(1000)]),
     specialist: new FormControl(''),
     doc: new FormControl(null),
   })

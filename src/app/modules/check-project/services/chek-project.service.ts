@@ -24,7 +24,7 @@ export class ChekProjectService {
   constructor(
     private http: HttpClient,
     private snackBarService: SnackBarService
-  ) {}
+  ) { }
 
   getAllProjects(filtros: IFiltroCheckProjects): Observable<any> {
     const url = this.API_URL + this.url + 'project/get-all';
@@ -91,6 +91,28 @@ export class ChekProjectService {
     );
   }
 
+  editProject(project: IProject): Observable<IProject> {
+    console.log("🚀 ~ file: chek-project.service.ts:95 ~ ChekProjectService ~ editProject ~ project:", project)
+    const url = this.API_URL + this.url + `project/${project.id}`;
+    let snackBarRef = this.snackBarService.loading();
+
+    return this.http.put(url, project).pipe(
+      map((res: any) => {
+        console.log("🚀 ~ file: chek-project.service.ts:101 ~ ChekProjectService ~ map ~ res:", res)
+        this.snackBarService.show('SUCCESS', 'Proyecto creado con éxito', 1500); //cambio se elimino null
+        return res.data;
+      }),
+      catchError((err, caught) => {
+        this.snackBarService.show(
+          'DANGER',
+          err.error.message ? err.error.message : err.message,
+          5000
+        ); //cambio se elimino null
+        return throwError(() => new Error('err'));
+      })
+    );
+  }
+
   addTrack(track: ITrack, idProject: string): Observable<IProject> {
     console.log("🚀 ~ file: chek-project.service.ts:77 ~ ChekProjectService ~ addTrack ~ track:", track)
     const url = this.API_URL + this.url + 'project/track/' + idProject;
@@ -119,6 +141,26 @@ export class ChekProjectService {
 
   delete(idProject: string): Observable<any> {
     const url = this.API_URL + this.url + 'project/' + idProject;
+    let snackBarRef = this.snackBarService.loading();
+
+    return this.http.delete(url).pipe(
+      finalize(() => snackBarRef.dismiss()),
+      map((res: any) => {
+        return res;
+      }),
+      catchError((err, caught) => {
+        this.snackBarService.show(
+          'DANGER',
+          err.error.message ? err.error.message : err.message,
+          5000
+        ); //cambio se elimino null
+        return throwError(() => new Error('err'));
+      })
+    );
+  }
+
+  deleteTrack(idTrack: string): Observable<any> {
+    const url = this.API_URL + this.url + 'track/' + idTrack;
     let snackBarRef = this.snackBarService.loading();
 
     return this.http.delete(url).pipe(

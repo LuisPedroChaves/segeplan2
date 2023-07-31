@@ -54,7 +54,8 @@ const _CHECK_REDUCER_REDUCER = createReducer(CHECK_PROJECT_STATE,
   on(actions.SET_EDIT_PROJECT, (state, { checkProject }) => ({
     ...state,
     projects: state.projects.map(p => {
-
+      console.log("🚀 ~ file: checkProject.reducer.ts:69 ~ on ~ checkProject:", checkProject)
+      console.log("🚀 ~ file: checkProject.reducer.ts:69 ~ on ~ p:", p)
       if (p.id === checkProject.id) {
         return {
           ...checkProject
@@ -78,8 +79,19 @@ const _CHECK_REDUCER_REDUCER = createReducer(CHECK_PROJECT_STATE,
   on(actions.SET_TRACK, (state, { track }) => ({
     ...state,
     track: track ? { ...track } : null
-  }))
+  })),
 
+  on(actions.REMOVE_TRACK, (state, { id }) => (
+    {
+      ...state,
+      projects: state.projects.map(project => {
+        // Filtramos los objetos de "tracking" para eliminar el que tiene el id específico
+        const updatedTracking = project.tracking.filter(tracking => tracking.id !== id);
+        // Retornamos el objeto de "projects" con el array de "tracking" actualizado
+        return { ...project, tracking: updatedTracking };
+      }),
+      project: { ...state.project, tracking: state.project.tracking.filter(tracking => tracking.id !== id) }
+    })),
 )
 
 export function CheckProjectReducer(state: CheckProjectState, action: Action) {

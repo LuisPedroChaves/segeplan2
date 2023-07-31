@@ -63,6 +63,7 @@ export class TrackDetailsComponent implements OnInit, OnDestroy {
         }
         if (state.track) {
           this.visit = state.track.activity.visitCard
+          console.log("🚀 ~ file: track-details.component.ts:66 ~ TrackDetailsComponent ~ ngOnInit ~ this.visit:", this.visit)
         }
       })
 

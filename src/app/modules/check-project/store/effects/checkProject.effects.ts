@@ -42,21 +42,21 @@ export class CheckProjectEffects {
     )
   );
 
-  // TODO: falta endpoint para editar proyecto
-  // editProject = createEffect(
-  //   () => this.actions$
-  //     .pipe(
-  //       ofType(actions.UPDATE_PROJECT),
-  //       mergeMap(
-  //         ({ checkProject }) => this.checkProjectService.create(checkProject)
-  //           .pipe(
-  //             map(checkProject => actions.SET_NEW_CHECK_PROJECT({ checkProject }))
-  //           )
-  //       )
-  //     )
-  // )
+  //TODO: falta endpoint para editar proyecto
+  editProject = createEffect(
+    () => this.actions$
+      .pipe(
+        ofType(actions.UPDATE_PROJECT),
+        mergeMap(
+          ({ checkProject }) => this.checkProjectService.editProject(checkProject)
+            .pipe(
+              map(checkProject => actions.SET_EDIT_PROJECT({ checkProject }))
+            )
+        )
+      )
+  )
 
-  editProject = createEffect(() =>
+  deleteProject = createEffect(() =>
     this.actions$.pipe(
       ofType(actions.DELETE_PROJECT),
       mergeMap(({ id }) =>
@@ -66,4 +66,15 @@ export class CheckProjectEffects {
       )
     )
   );
+
+  deleteTrack = createEffect(() =>
+  this.actions$.pipe(
+    ofType(actions.DELETE_TRACK),
+    mergeMap(({ id }) =>
+      this.checkProjectService
+        .deleteTrack(id)
+        .pipe(map((resp) => actions.REMOVE_TRACK({ id })))
+    )
+  )
+);
 }
