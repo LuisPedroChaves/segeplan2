@@ -32,11 +32,14 @@ export class TrackEpiComponent implements OnInit, OnDestroy {
 
   @ViewChild('stepper') stepper: MatStepper;
   track = new FormGroup({
-    iapa: new FormControl(2, Validators.required),
-    iapb: new FormControl(2, Validators.required),
-    iapc: new FormControl(2, Validators.required),
+    iapa: new FormControl(0, Validators.required),
+    iapb: new FormControl(0, Validators.required),
+    iapc: new FormControl(0, Validators.required),
     reportDate: new FormControl(moment(), Validators.required),
   })
+
+  isEditForm = false;
+  trackToEdit: ITrack;
 
   advisoryEpi = new FormGroup({
     goal: new FormControl(''),
@@ -103,6 +106,12 @@ export class TrackEpiComponent implements OnInit, OnDestroy {
         if (state.project) {
           this.project = state.project
         }
+        if (state.track) {
+          if (state.track.advisoryEpi) {
+            this.isEditForm = true;
+            this.loadValuesAdvisory(state.track)
+          }
+        }
         this.currentActivity = 'ASESORÍA A LA EPI'
       })
 
@@ -118,6 +127,37 @@ export class TrackEpiComponent implements OnInit, OnDestroy {
         console.log('Total:', total);
         // Actualiza la variable o realiza la lógica que desees con el total
       });
+  }
+
+  loadValuesAdvisory(trackLoad: ITrack) {
+    this.trackToEdit = trackLoad;
+    console.log("🚀 ~ file: track-document.component.ts:154 ~ TrackDocumentComponent ~ loadValuesAdvisory ~ trackLoad:", trackLoad)
+    this.track.controls["iapa"].setValue(trackLoad.iapa ?? 0)
+    this.track.controls["iapb"].setValue(trackLoad.iapb ?? 0)
+    this.track.controls["iapc"].setValue(trackLoad.iapc ?? 0)
+    this.track.controls["reportDate"].setValue(moment(trackLoad.reportDate.toString()))
+
+    this.advisoryEpi.controls["action"].setValue(trackLoad.advisoryEpi.action ?? '')
+    this.advisoryEpi.controls["advDate"].setValue(trackLoad.advisoryEpi.advDate ?? '')
+    this.advisoryEpi.controls["advTheme"].setValue(trackLoad.advisoryEpi.advTheme ?? '')
+    this.advisoryEpi.controls["commitments"].setValue(trackLoad.advisoryEpi.commitments ?? '')
+    this.advisoryEpi.controls["conclusions"].setValue(trackLoad.advisoryEpi.conclusions ?? '')
+    this.advisoryEpi.controls["counselingModality"].setValue(trackLoad.advisoryEpi.counselingModality ?? '')
+    this.advisoryEpi.controls["devAdv"].setValue(trackLoad.advisoryEpi.devAdv ?? '')
+    this.advisoryEpi.controls["doc"].setValue(trackLoad.advisoryEpi.doc ?? '')
+    this.advisoryEpi.controls["entity"].setValue(trackLoad.advisoryEpi.unitSpecific ?? '')
+    this.advisoryEpi.controls["goal"].setValue(trackLoad.advisoryEpi.goal ?? '')
+    this.advisoryEpi.controls["menAttended"].setValue(trackLoad.advisoryEpi.menAttended ?? 0)
+    this.advisoryEpi.controls["objective"].setValue(trackLoad.advisoryEpi.objective ?? '')
+    this.advisoryEpi.controls["participantName"].setValue(trackLoad.advisoryEpi.participantName ?? '')
+    this.advisoryEpi.controls["participantPosition"].setValue(trackLoad.advisoryEpi.participantPosition ?? '')
+    this.advisoryEpi.controls["place"].setValue(trackLoad.advisoryEpi.place ?? '')
+    this.advisoryEpi.controls["reportDate"].setValue(trackLoad.advisoryEpi.reportDate ?? '')
+    this.advisoryEpi.controls["sectorization"].setValue(trackLoad.advisoryEpi.sectorization ?? '')
+    this.advisoryEpi.controls["specialist"].setValue(trackLoad.advisoryEpi.specialist ?? '')
+    this.advisoryEpi.controls["subSectorization"].setValue(trackLoad.advisoryEpi.subSectorization ?? '')
+    this.advisoryEpi.controls["womenAttended"].setValue(trackLoad.advisoryEpi.womenAttended ?? 0)
+
   }
 
   ngOnDestroy(): void {
@@ -161,7 +201,6 @@ export class TrackEpiComponent implements OnInit, OnDestroy {
       advisoryDoc: null
     }
 
-    console.log("🚀 ~ file: track-epi.component.ts:136 ~ TrackEpiComponent ~ onSubmit ~ this.currentActivity:", this.currentActivity)
     if (this.currentActivity === 'ASESORÍA A LA EPI') {
       const {
         goal,
@@ -212,20 +251,41 @@ export class TrackEpiComponent implements OnInit, OnDestroy {
 
       NEW_TRACK.advisoryEpi = { ...NEW_ADVISORY_EPI }
 
-      this.checkProjectService.addTrack(NEW_TRACK, this.project.id)
-        .subscribe(project => {
-          console.log("🚀 ~ file: track-epi.component.ts:190 ~ TrackEpiComponent ~ onSubmit ~ project:", project)
-          this.checkProjectStore.dispatch(SET_TRACKING({ tracking: project.tracking }))
-          this.checkProjectStore.dispatch(SET_EDIT_PROJECT({ checkProject: project }))
+      if (!this.isEditForm) {
+
+        this.checkProjectService.addTrack(NEW_TRACK, this.project.id)
+          .subscribe(project => {
+            console.log("🚀 ~ file: track-epi.component.ts:190 ~ TrackEpiComponent ~ onSubmit ~ project:", project)
+            this.checkProjectStore.dispatch(SET_TRACKING({ tracking: project.tracking }))
+            this.checkProjectStore.dispatch(SET_EDIT_PROJECT({ checkProject: project }))
+          })
+
+        this.stepper.reset()
+        this.advisoryEpi.reset({
+          doc: null
         })
+        this.checkProjectStore.dispatch(CLOSE_DRAWER2())
 
-      this.stepper.reset()
-      this.advisoryEpi.reset({
-        doc: null
-      })
-      this.checkProjectStore.dispatch(CLOSE_DRAWER2())
+        return
+      }
+      else {
+        NEW_TRACK.id = this.trackToEdit.id
+        NEW_TRACK.projectId = this.trackToEdit.projectId
+        NEW_TRACK.advisoryEpi.id = this.trackToEdit.advisoryEpi.id
+        NEW_TRACK.advisoryEpi.trackId = this.trackToEdit.advisoryEpi.trackId
+        this.checkProjectService.editTrack(NEW_TRACK, this.project.id)
+          .subscribe(project => {
+            console.log("🚀 ~ file: track-document.component.ts:328 ~ TrackDocumentComponent ~ onSubmit ~ project:", project)
 
-      return
+            // this.checkProjectStore.dispatch(SET_TRACKING({ tracking: project.tracking }))
+            // this.checkProjectStore.dispatch(SET_EDIT_PROJECT({ checkProject: project }))
+
+          })
+
+        this.stepper.reset()
+        this.advisoryEpi.reset()
+        this.checkProjectStore.dispatch(CLOSE_DRAWER2())
+      }
     }
   }
 

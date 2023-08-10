@@ -168,7 +168,6 @@ export class NewProjectComponent implements OnInit, OnDestroy {
         snipCode,
         ministry
       }
-      console.log("🚀 ~ file: new-project.component.ts:160 ~ NewProjectComponent ~ openFormDrawer ~ project", this.project)
 
       this.checkProjectStore.dispatch(CREATE_CHECK_PROJECT({ checkProject: this.project }))
       this.checkProjectStore.dispatch(OPEN_DRAWER2({ width2, component2 }))
@@ -270,7 +269,7 @@ export class NewProjectComponent implements OnInit, OnDestroy {
     return;
   }
 
-  editProject(){
+  editProject() {
 
     const {
       process,
@@ -323,6 +322,13 @@ export class NewProjectComponent implements OnInit, OnDestroy {
     }
   }
 
+  printEpi(isEpi: boolean, track: ITrack): void {
+    console.log("🚀 ~ file: new-project.component.ts:300 ~ NewProjectComponent ~ printAdvisory ~ element:", track)
+    if (track.advisoryEpi) {
+      this.printDocumentService.advisoryEpi(isEpi, track);
+    }
+  }
+
   deleteProject() {
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -364,6 +370,57 @@ export class NewProjectComponent implements OnInit, OnDestroy {
 
     // this.checkProjectStore.dispatch(CLOSE_DRAWER1())
     // this.resetNewProject()
+  }
+
+  openDrawerEdit(trackSelected: ITrack) {
+    console.log("🚀 ~ file: new-project.component.ts:370 ~ NewProjectComponent ~ openDrawerEdit ~ track:", trackSelected)
+    if (trackSelected.activity == 'ASESORÍA AL DOCUMENTO') {
+      this.checkProjectStore.dispatch(SET_TRACK({
+        track: {
+          iapa: null,
+          iapb: null,
+          iapc: null,
+          activity: '',
+          reportDate: null
+        }
+      }))
+
+      this.checkProjectStore.dispatch(SET_TRACK({
+        track: { ...trackSelected }
+      }))
+      this.checkProjectStore.dispatch(OPEN_DRAWER2({ width2: '50%', component2: 'TRACK_DOCUMENT' }))
+    }
+    else if (trackSelected.activity == 'ASESORÍA A LA EPI') {
+      this.checkProjectStore.dispatch(SET_TRACK({
+        track: {
+          iapa: null,
+          iapb: null,
+          iapc: null,
+          activity: '',
+          reportDate: null
+        }
+      }))
+
+      this.checkProjectStore.dispatch(SET_TRACK({
+        track: { ...trackSelected }
+      }))
+      this.checkProjectStore.dispatch(OPEN_DRAWER2({ width2: '50%', component2: 'TRACK_EPI' }))
+    } else if (trackSelected.activity == 'VISITA DE CAMPO') {
+      this.checkProjectStore.dispatch(SET_TRACK({
+        track: {
+          iapa: null,
+          iapb: null,
+          iapc: null,
+          activity: '',
+          reportDate: null
+        }
+      }))
+
+      this.checkProjectStore.dispatch(SET_TRACK({
+        track: { ...trackSelected }
+      }))
+      this.checkProjectStore.dispatch(OPEN_DRAWER2({ width2: '50%', component2: 'TRACK_VISIT' }))
+    }
   }
 
 }

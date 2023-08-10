@@ -32,11 +32,14 @@ export class TrackDocumentComponent {
 
   @ViewChild('stepper') stepper: MatStepper
   track = new FormGroup({
-    iapa: new FormControl(2, Validators.required),
-    iapb: new FormControl(2, Validators.required),
-    iapc: new FormControl(2, Validators.required),
+    iapa: new FormControl(0, Validators.required),
+    iapb: new FormControl(0, Validators.required),
+    iapc: new FormControl(0, Validators.required),
     reportDate: new FormControl(moment(), Validators.required),
   })
+
+  isEditForm = false;
+  trackToEdit: ITrack;
 
   advisoryDoc = new FormGroup({
     goal: new FormControl(''),
@@ -62,15 +65,15 @@ export class TrackDocumentComponent {
   theme = new FormControl('')
   description = new FormControl('', [Validators.maxLength(200)])
   themeDoc = [
-    {value: 1, name: 'Diagnóstico'},
-    {value: 2, name: 'Identificación del proyecto'},
-    {value: 3, name: 'Estudio de mercado'},
-    {value: 4, name: 'Estudio técnico'},
-    {value: 5, name: 'Análisis ambiental (transversal)'},
-    {value: 6, name: 'Análisis de riesgo ante desastres naturales (transversal)'},
-    {value: 7, name: 'Estudio administrativo'},
-    {value: 8, name: 'Estudio legal'},
-    {value: 9, name: 'Estudio y evaluación financiera de proyectos de inversión pública'},
+    { value: 1, name: 'Diagnóstico' },
+    { value: 2, name: 'Identificación del proyecto' },
+    { value: 3, name: 'Estudio de mercado' },
+    { value: 4, name: 'Estudio técnico' },
+    { value: 5, name: 'Análisis ambiental (transversal)' },
+    { value: 6, name: 'Análisis de riesgo ante desastres naturales (transversal)' },
+    { value: 7, name: 'Estudio administrativo' },
+    { value: 8, name: 'Estudio legal' },
+    { value: 9, name: 'Estudio y evaluación financiera de proyectos de inversión pública' },
   ]
 
   checkProjectSubscription = new Subscription();
@@ -78,7 +81,7 @@ export class TrackDocumentComponent {
   entityStoreSubscription = new Subscription();
   sectors: ISectorAdvised[] = [];
   sectosStoreSubscription = new Subscription();
-  subSectors : IsbSector[] = [];
+  subSectors: IsbSector[] = [];
   isDisableSubSectorControl: boolean = true;
   currentActivity: string;
   project: IProject = null;
@@ -95,7 +98,7 @@ export class TrackDocumentComponent {
     private sectorStore: Store<SectorAdvisedStore>,
     public dialog: MatDialog,
     public store: Store<AppState>,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // this.advisoryDoc.controls.subSectorization.disable();
@@ -114,10 +117,9 @@ export class TrackDocumentComponent {
     this.entityStore.dispatch(READ_ENTITIES())
 
     this.sectosStoreSubscription = this.sectorStore.select('sectorAdvised')
-    .subscribe(state => {
-
-      this.sectors = state.sectorsAdvised;
-    })
+      .subscribe(state => {
+        this.sectors = state.sectorsAdvised;
+      })
     this.sectorStore.dispatch(READ_SECTORSADVISED())
 
     this.checkProjectSubscription = this.checkProjectStore.select('checkProject')
@@ -127,10 +129,14 @@ export class TrackDocumentComponent {
         }
         if (state.track) {
           this.currentActivity = 'ASESORÍA AL DOCUMENTO'
+          if (state.track.advisoryDoc) {
+            this.isEditForm = true;
+            this.loadValuesAdvisory(state.track)
+          }
         }
       })
 
-      this.advisoryDoc.valueChanges
+    this.advisoryDoc.valueChanges
       .pipe(startWith(this.advisoryDoc.value))
       .subscribe((value) => {
         const menAttended = value.menAttended;
@@ -144,14 +150,56 @@ export class TrackDocumentComponent {
       });
   }
 
+  loadValuesAdvisory(trackLoad: ITrack) {
+    this.trackToEdit = trackLoad;
+    // this.visitCard.controls["municip"].setValue(state.track.visitCard.municip)
+
+    console.log("🚀 ~ file: track-document.component.ts:154 ~ TrackDocumentComponent ~ loadValuesAdvisory ~ trackLoad:", trackLoad)
+    this.track.controls["iapa"].setValue(trackLoad.iapa ?? 0)
+    this.track.controls["iapb"].setValue(trackLoad.iapb ?? 0)
+    this.track.controls["iapc"].setValue(trackLoad.iapc ?? 0)
+    this.track.controls["reportDate"].setValue(moment(trackLoad.reportDate.toString()))
+
+    this.advisoryDoc.controls["action"].setValue(trackLoad.advisoryDoc.action ?? "")
+    this.advisoryDoc.controls["advDate"].setValue(trackLoad.advisoryDoc.advDate)
+    this.advisoryDoc.controls["advTheme"].setValue(trackLoad.advisoryDoc.advTheme ?? '')
+    this.advisoryDoc.controls["analysisDate"].setValue(trackLoad.advisoryDoc.analysisDate)
+    this.advisoryDoc.controls["assistant"].setValue(trackLoad.advisoryDoc.assistant ?? '')
+    this.advisoryDoc.controls["conclusions"].setValue(trackLoad.advisoryDoc.conclusions ?? '')
+    this.advisoryDoc.controls["counselingModality"].setValue(trackLoad.advisoryDoc.counselingModality ?? '')
+    this.advisoryDoc.controls["entity"].setValue(trackLoad.advisoryDoc.unitSpecific ?? '')
+    this.advisoryDoc.controls["goal"].setValue(trackLoad.advisoryDoc.goal ?? '')
+    this.advisoryDoc.controls["menAttended"].setValue(trackLoad.advisoryDoc.menAttended ?? 0)
+    this.advisoryDoc.controls["participant"].setValue(trackLoad.advisoryDoc.participant ?? '')
+    this.advisoryDoc.controls["projectName"].setValue(trackLoad.advisoryDoc.projectName ?? '')
+    this.advisoryDoc.controls["recomend"].setValue(trackLoad.advisoryDoc.recomend ?? '')
+    this.advisoryDoc.controls["sectorization"].setValue(trackLoad.advisoryDoc.sectorization ?? '')
+    this.advisoryDoc.controls["snipCode"].setValue(trackLoad.advisoryDoc.snipCode ?? '')
+    this.advisoryDoc.controls["subSectorization"].setValue(trackLoad.advisoryDoc.subSectorization ?? '')
+    this.advisoryDoc.controls["womenAttended"].setValue(trackLoad.advisoryDoc.womenAttended ?? 0)
+
+    if (trackLoad.advisoryDoc.comments.length > 0){
+      trackLoad.advisoryDoc.comments.forEach((advComment) => {
+        const comment: IComment = {
+          theme: advComment.theme,
+          description: advComment.description
+        }
+        this.comments.push(comment)
+        this.theme.setValue(null)
+        this.description.setValue(null)
+      })
+    }
+    
+  }
+
   ngOnDestroy(): void {
     this.entityStoreSubscription?.unsubscribe()
     this.checkProjectSubscription?.unsubscribe()
   }
 
   sectorSelected(event: MatSelectChange): void {
-    let SSECTOR: ISectorAdvised = this.sectors.find((sector:ISectorAdvised) => sector.name == event.value);
-    if (SSECTOR.subSectorizations && SSECTOR.subSectorizations.length>0) {
+    let SSECTOR: ISectorAdvised = this.sectors.find((sector: ISectorAdvised) => sector.name == event.value);
+    if (SSECTOR.subSectorizations && SSECTOR.subSectorizations.length > 0) {
       this.subSectors = SSECTOR.subSectorizations;
       this.isDisableSubSectorControl = false;
       this.advisoryDoc.controls.subSectorization.enable();
@@ -260,21 +308,42 @@ export class TrackDocumentComponent {
 
       NEW_TRACK.advisoryDoc = { ...NEW_ADVISORY_DOC }
 
+      if (!this.isEditForm){
+        this.checkProjectService.addTrack(NEW_TRACK, this.project.id)
+          .subscribe(project => {
+  
+            this.checkProjectStore.dispatch(SET_TRACKING({ tracking: project.tracking }))
+            this.checkProjectStore.dispatch(SET_EDIT_PROJECT({ checkProject: project }))
+  
+          })
+  
+        this.stepper.reset()
+        this.advisoryDoc.reset()
+        this.comments = []
+        this.checkProjectStore.dispatch(CLOSE_DRAWER2())
+  
+        return
+      } else {
+        NEW_TRACK.id = this.trackToEdit.id
+        NEW_TRACK.projectId = this.trackToEdit.projectId
+        NEW_TRACK.advisoryDoc.id = this.trackToEdit.advisoryDoc.id
+        NEW_TRACK.advisoryDoc.trackId = this.trackToEdit.advisoryDoc.trackId
+        this.checkProjectService.editTrack(NEW_TRACK, this.project.id)
+          .subscribe(project => {
+          console.log("🚀 ~ file: track-document.component.ts:328 ~ TrackDocumentComponent ~ onSubmit ~ project:", project)
 
-      this.checkProjectService.addTrack(NEW_TRACK, this.project.id)
-        .subscribe(project => {
+            // this.checkProjectStore.dispatch(SET_TRACKING({ tracking: project.tracking }))
+            // this.checkProjectStore.dispatch(SET_EDIT_PROJECT({ checkProject: project }))
 
-          this.checkProjectStore.dispatch(SET_TRACKING({ tracking: project.tracking }))
-          this.checkProjectStore.dispatch(SET_EDIT_PROJECT({ checkProject: project }))
+          })
 
-        })
+        this.stepper.reset()
+        this.advisoryDoc.reset()
+        this.comments = []
+        this.checkProjectStore.dispatch(CLOSE_DRAWER2())
+      }
 
-      this.stepper.reset()
-      this.advisoryDoc.reset()
-      this.comments = []
-      this.checkProjectStore.dispatch(CLOSE_DRAWER2())
 
-      return
     }
   }
 }

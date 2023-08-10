@@ -22,15 +22,18 @@ import { Departament } from 'src/app/core/models/adicionales';
   templateUrl: './track-visit.component.html',
   styleUrls: ['./track-visit.component.scss']
 })
-export class TrackVisitComponent implements OnInit, OnDestroy{
+export class TrackVisitComponent implements OnInit, OnDestroy {
 
   @ViewChild('stepper') stepper: MatStepper
   track = new FormGroup({
-    iapa: new FormControl(2, Validators.required),
-    iapb: new FormControl(2, Validators.required),
-    iapc: new FormControl(2, Validators.required),
+    iapa: new FormControl(0, Validators.required),
+    iapb: new FormControl(0, Validators.required),
+    iapc: new FormControl(0, Validators.required),
     reportDate: new FormControl(moment(), Validators.required),
   })
+
+  isEditForm = false;
+  trackToEdit: ITrack;
 
   visitCard = new FormGroup({
     codePreinv: new FormControl('', [Validators.required, Validators.maxLength(6)]),
@@ -422,7 +425,7 @@ export class TrackVisitComponent implements OnInit, OnDestroy{
     private sectorStore: Store<SectorAdvisedStore>,
     private geograficoStore: Store<GeograficoStore>,
     public dialog: MatDialog,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.checkProjectSubscription = this.checkProjectStore.select('checkProject')
@@ -432,6 +435,10 @@ export class TrackVisitComponent implements OnInit, OnDestroy{
         }
         if (state.track) {
           this.currentActivity = 'VISITA DE CAMPO'
+          if (state.track.visitCard) {
+            this.isEditForm = true;
+            this.loadValuesAdvisory(state.track)
+          }
         }
         // this.visitCard.controls["municip"].setValue(state.track.visitCard.municip)
       })
@@ -442,6 +449,108 @@ export class TrackVisitComponent implements OnInit, OnDestroy{
       })
 
   }
+
+  loadValuesAdvisory(trackLoad: ITrack) {
+    this.trackToEdit = trackLoad;
+    // this.visitCard.controls["municip"].setValue(state.track.visitCard.municip)
+    this.track.controls["iapa"].setValue(trackLoad.iapa ?? 0)
+    this.track.controls["iapb"].setValue(trackLoad.iapb ?? 0)
+    this.track.controls["iapc"].setValue(trackLoad.iapc ?? 0)
+    this.track.controls["reportDate"].setValue(moment(trackLoad.reportDate.toString()))
+
+    this.visitCard.controls["address"].setValue(trackLoad.visitCard.address ?? '')
+    this.visitCard.controls["appStatus"].setValue(trackLoad.visitCard.appStatus ?? '')
+    this.visitCard.controls["approximateSlope"].setValue(trackLoad.visitCard.approximateSlope ?? '')
+
+    const orgSelected = trackLoad.visitCard.availableOrg.map((service: any) => service.name)
+
+    this.visitCard.controls["availableOrg"].setValue(orgSelected ?? [])
+
+    this.visitCard.controls["avgTemperature"].setValue(trackLoad.visitCard.avgTemperature ?? '')
+    this.visitCard.controls["basicServRS"].setValue(trackLoad.visitCard.basicServRS ?? '')
+    this.visitCard.controls["catLocation"].setValue(trackLoad.visitCard.catLocation ?? '')
+    this.visitCard.controls["codePreinv"].setValue(trackLoad.visitCard.codePreinv ?? '')
+    this.visitCard.controls["depto"].setValue(trackLoad.visitCard.depto ?? '')
+    this.visitCard.controls["deptoDel"].setValue(trackLoad.visitCard.deptoDel ?? '')
+    this.visitCard.controls["desReqFinance"].setValue(trackLoad.visitCard.desReqFinance ?? '')
+    this.visitCard.controls["distanceKm"].setValue(trackLoad.visitCard.distanceKm ?? '')
+    this.visitCard.controls["eastBorder"].setValue(trackLoad.visitCard.eastBorder ?? '')
+    this.visitCard.controls["eastMeasure"].setValue(trackLoad.visitCard.eastMeasure ?? '')
+    this.visitCard.controls["elevation"].setValue(trackLoad.visitCard.elevation ?? '')
+    this.visitCard.controls["garbageDisposal"].setValue(trackLoad.visitCard.garbageDisposal ?? '')
+    this.visitCard.controls["garbageRS"].setValue(trackLoad.visitCard.garbageRS ?? '')
+    this.visitCard.controls["groundConditions"].setValue(trackLoad.visitCard.groundConditions ?? '')
+    this.visitCard.controls["gtmx"].setValue(trackLoad.visitCard.gtmx ?? '')
+    this.visitCard.controls["gtmy"].setValue(trackLoad.visitCard.gtmy ?? '')
+    // this.visitCard.controls["images"].setValue(trackLoad.visitCard.imgVisit ?? '')
+    this.visitCard.controls["infRealEstate"].setValue(trackLoad.visitCard.infRealEstate ?? '')
+    this.visitCard.controls["isDrainageNetwork"].setValue(trackLoad.visitCard.isDrainageNetwork ?? false)
+    this.visitCard.controls["isDrainageRS"].setValue(trackLoad.visitCard.isDrainageRS ?? false)
+    this.visitCard.controls["isDrinkableWhater"].setValue(trackLoad.visitCard.isDrinkableWhater ?? false)
+    this.visitCard.controls["isDrinkingWRS"].setValue(trackLoad.visitCard.isDrinkingWRS ?? false)
+    this.visitCard.controls["isDrinkingWater"].setValue(trackLoad.visitCard.isDrinkingWater ?? false)
+    this.visitCard.controls["isElectricity"].setValue(trackLoad.visitCard.isElectricity ?? false)
+    this.visitCard.controls["isElectricityRS"].setValue(trackLoad.visitCard.isElectricityRS ?? false)
+    this.visitCard.controls["isPhoneRS"].setValue(trackLoad.visitCard.isPhoneRS ?? false)
+    this.visitCard.controls["isPhoneService"].setValue(trackLoad.visitCard.isPhoneService ?? false)
+    this.visitCard.controls["isReqFinance"].setValue(trackLoad.visitCard.isReqFinance ?? false)
+    this.visitCard.controls["latitud"].setValue(trackLoad.visitCard.latitud ?? '')
+    this.visitCard.controls["legalSituation"].setValue(trackLoad.visitCard.legalSituation ?? '')
+    this.visitCard.controls["longitud"].setValue(trackLoad.visitCard.longitud ?? '')
+    this.visitCard.controls["mountAprox"].setValue(trackLoad.visitCard.mountAprox ?? '')
+    this.visitCard.controls["msnm"].setValue(trackLoad.visitCard.msnm ?? '')
+    this.visitCard.controls["municip"].setValue(trackLoad.visitCard.municip ?? '')
+    this.visitCard.controls["nameHeadboard"].setValue(trackLoad.visitCard.nameHeadboard ?? '')
+    this.visitCard.controls["northBorder"].setValue(trackLoad.visitCard.northBorder ?? '')
+    this.visitCard.controls["northMeasure"].setValue(trackLoad.visitCard.northMeasure ?? '')
+    this.visitCard.controls["observationsGeneral"].setValue(trackLoad.visitCard.observationsGeneral ?? '')
+    this.visitCard.controls["proposalName"].setValue(trackLoad.visitCard.proposalName ?? '')
+    this.visitCard.controls["realEstateArea"].setValue(trackLoad.visitCard.realEstateArea ?? '')
+    this.visitCard.controls["region"].setValue(trackLoad.visitCard.region ?? '')
+
+    const serviceInfSelected = trackLoad.visitCard.serviceInf.map((service: any) => service.name)
+    this.visitCard.controls["serviceInf"].setValue(serviceInfSelected ?? [])
+
+
+
+    this.visitCard.controls["soilType"].setValue(trackLoad.visitCard.soilType ?? '')
+    this.visitCard.controls["southBorder"].setValue(trackLoad.visitCard.southBorder ?? '')
+    this.visitCard.controls["southMeasure"].setValue(trackLoad.visitCard.southMeasure ?? '')
+    this.visitCard.controls["specialistName"].setValue(trackLoad.visitCard.specialistName ?? '')
+    this.visitCard.controls["specifyAnswer"].setValue(trackLoad.visitCard.specifyAnswer ?? '')
+    this.visitCard.controls["techNameEpi"].setValue(trackLoad.visitCard.techNameEpi ?? '')
+    this.visitCard.controls["techPosEpi"].setValue(trackLoad.visitCard.techPosEpi ?? '')
+    this.visitCard.controls["techProfEpi"].setValue(trackLoad.visitCard.techProfEpi ?? '')
+    this.visitCard.controls["theirAgree"].setValue(trackLoad.visitCard.theirAgree ?? false)
+    this.visitCard.controls["typeAddress"].setValue(trackLoad.visitCard.typeAddress ?? false)
+    this.visitCard.controls["typeClimate"].setValue(trackLoad.visitCard.typeClimate ?? '')
+    this.visitCard.controls["visitDate"].setValue(trackLoad.visitCard.visitDate ?? '')
+    this.visitCard.controls["westBorder"].setValue(trackLoad.visitCard.westBorder ?? '')
+    this.visitCard.controls["westMeasure"].setValue(trackLoad.visitCard.westMeasure ?? '')
+
+    const naturalsThreatArr = trackLoad.visitCard.threatTypes.filter((threat: any) => threat.type == 'Naturales')
+    const antropogenicasThreatArr = trackLoad.visitCard.threatTypes.filter((threat: any) => threat.type == 'Antropogenicas')
+    const optionsNaturals = naturalsThreatArr.map((threat: any) => {
+      return { name: threat.name, value: threat.value }
+
+    })
+    const optionsAntropogenicas = antropogenicasThreatArr.map((threat: any) => {
+      return { name: threat.name, value: threat.value }
+
+    })
+
+    this.threatTypes = [
+      {
+        name: 'Naturales',
+        options: [...optionsNaturals]
+      },
+      {
+        name: 'Antropogenicas',
+        options: [...optionsAntropogenicas]
+      },
+    ]
+  }
+
 
   ngOnDestroy(): void {
     this.checkProjectSubscription?.unsubscribe()
@@ -721,18 +830,39 @@ export class TrackVisitComponent implements OnInit, OnDestroy{
 
       NEW_TRACK.visitCard = { ...NEW_VISIT_CARD }
 
+      if (!this.isEditForm) {
 
-      this.checkProjectService.addTrack(NEW_TRACK, this.project.id)
-        .subscribe(project => {
+        this.checkProjectService.addTrack(NEW_TRACK, this.project.id)
+          .subscribe(project => {
 
-          this.checkProjectStore.dispatch(SET_TRACKING({ tracking: project.tracking }))
-          this.checkProjectStore.dispatch(SET_EDIT_PROJECT({ checkProject: project }))
+            this.checkProjectStore.dispatch(SET_TRACKING({ tracking: project.tracking }))
+            this.checkProjectStore.dispatch(SET_EDIT_PROJECT({ checkProject: project }))
 
-        })
+          })
 
-      this.stepper.reset()
-      this.disasters = []
-      this.checkProjectStore.dispatch(CLOSE_DRAWER2())
+        this.stepper.reset()
+        this.disasters = []
+        this.checkProjectStore.dispatch(CLOSE_DRAWER2())
+        return
+      } else {
+        NEW_TRACK.id = this.trackToEdit.id
+        NEW_TRACK.projectId = this.trackToEdit.projectId
+        NEW_TRACK.visitCard.id = this.trackToEdit.visitCard.id
+        NEW_TRACK.visitCard.trackId = this.trackToEdit.visitCard.trackId
+        this.checkProjectService.editTrack(NEW_TRACK, this.project.id)
+          .subscribe(project => {
+            console.log("🚀 ~ file: track-document.component.ts:328 ~ TrackDocumentComponent ~ onSubmit ~ project:", project)
+
+            // this.checkProjectStore.dispatch(SET_TRACKING({ tracking: project.tracking }))
+            // this.checkProjectStore.dispatch(SET_EDIT_PROJECT({ checkProject: project }))
+
+          })
+
+        this.stepper.reset()
+        this.visitCard.reset()
+        this.checkProjectStore.dispatch(CLOSE_DRAWER2())
+      }
+
     }
   }
 }

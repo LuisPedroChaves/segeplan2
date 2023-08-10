@@ -153,7 +153,7 @@
                     <mat-option value="virtual">Reunión virtual</mat-option>
                   </mat-select>
                   <mat-error *ngIf="advisoryDoc.get('counselingModality')?.hasError('required')">
-                    La Modalidad de la asesoría  es <strong>requerido</strong>
+                    La Modalidad de la asesoría es <strong>requerido</strong>
                   </mat-error>
                 </mat-form-field>
 
@@ -293,9 +293,13 @@
                     Restablecer
                     <mat-icon>settings_backup_restore</mat-icon>
                   </button>
-                  <button mat-raised-button color="accent" type="submit">
+                  <button *ngIf="!isEditForm" mat-raised-button color="accent" type="submit">
                     Finalizar
                     <mat-icon>task_alt</mat-icon>
+                  </button>
+                  <button *ngIf="isEditForm" mat-raised-button color="accent" type="submit">
+                    Editar
+                    <mat-icon>edit</mat-icon>
                   </button>
                 </div>
 

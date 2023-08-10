@@ -36,7 +36,7 @@ export const SET_PROJECT = createAction(
   props<{ checkProject: IProject }>()
 );
 
-export const SET_TRACKING = createAction(
+export const  SET_TRACKING = createAction(
   '[CHECK PROJECTS] Asignar seguimiento al proyecto actual',
   props<{ tracking: ITrack[] }>()
 );

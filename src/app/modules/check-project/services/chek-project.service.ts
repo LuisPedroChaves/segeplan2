@@ -139,6 +139,32 @@ export class ChekProjectService {
     );
   }
 
+  editTrack(track: ITrack, idProject: string): Observable<IProject> {
+    console.log("🚀 ~ file: chek-project.service.ts:77 ~ ChekProjectService ~ addTrack ~ track:", track)
+    const url = this.API_URL + this.url + 'project/track/' + idProject;
+    let snackBarRef = this.snackBarService.loading();
+
+    return this.http.put(url, track).pipe(
+      map((project: any) => {
+        //se cambio IProject por any
+        this.snackBarService.show(
+          'SUCCESS',
+          'Seguimiento editado con éxito',
+          1500
+        ); //cambio se elimino null
+        return project;
+      }),
+      catchError((err, caught) => {
+        this.snackBarService.show(
+          'DANGER',
+          err.error.message ? err.error.message : err.message,
+          5000
+        ); //cambio se elimino null
+        return throwError(() => new Error('err'));
+      })
+    );
+  }
+
   delete(idProject: string): Observable<any> {
     const url = this.API_URL + this.url + 'project/' + idProject;
     let snackBarRef = this.snackBarService.loading();
