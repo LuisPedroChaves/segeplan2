@@ -15,6 +15,7 @@ export class UploadService {
   ) { }
 
   uploadFile(file: File, type: string, id: string) {
+  console.log("🚀 ~ file: upload.service.ts:18 ~ UploadService ~ uploadFile ~ file:", file)
 
     return new Promise((resolve, reject) => {
 

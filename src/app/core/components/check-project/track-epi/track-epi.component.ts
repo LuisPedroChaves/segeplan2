@@ -19,6 +19,7 @@ import { AppState } from 'src/app/core/store/app.reducer';
 import { Entity } from 'src/app/core/models/sinafip';
 import { ISectorAdvised, IsbSector } from 'src/app/core/models/sinafip/sectorAdvised';
 import { MatSelectChange } from '@angular/material/select';
+import { UploadService } from '../../../services/upload.service';
 
 
 @Component({
@@ -82,6 +83,7 @@ export class TrackEpiComponent implements OnInit, OnDestroy {
     private checkProjectStore: Store<CheckProjectStore>,
     private checkProjectService: ChekProjectService,
     private sectorStore: Store<SectorAdvisedStore>,
+    private uploadService: UploadService,
     public dialog: MatDialog,
     public store: Store<AppState>,
 
@@ -182,6 +184,8 @@ export class TrackEpiComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     console.log('Hola onSubmit');
+    console.log("🚀 ~ file: track-epi.component.ts:65 ~ TrackEpiComponent ~ doc:", this.advisoryEpi.controls.doc)
+
 
     const {
       iapa,
@@ -255,7 +259,14 @@ export class TrackEpiComponent implements OnInit, OnDestroy {
 
         this.checkProjectService.addTrack(NEW_TRACK, this.project.id)
           .subscribe(project => {
-            console.log("🚀 ~ file: track-epi.component.ts:190 ~ TrackEpiComponent ~ onSubmit ~ project:", project)
+            const findTrack = project.tracking.find(trackProject => trackProject.advisoryEpi.action == NEW_TRACK.advisoryEpi.action && trackProject.advisoryEpi.devAdv == NEW_TRACK.advisoryEpi.devAdv)
+            if (findTrack) {
+              console.log("🚀 ~ file: track-epi.component.ts:260 ~ TrackEpiComponent ~ onSubmit ~ findTrack:", findTrack)
+              this.uploadService.uploadFile(NEW_TRACK.advisoryEpi.doc.files[0], 'advEpi', findTrack.advisoryEpi.id).then((res) => {
+                console.log("🚀 ~ file: track-epi.component.ts:266 ~ TrackEpiComponent ~ this.uploadService.uploadFile ~ res:", res)
+              })
+
+            }
             this.checkProjectStore.dispatch(SET_TRACKING({ tracking: project.tracking }))
             this.checkProjectStore.dispatch(SET_EDIT_PROJECT({ checkProject: project }))
           })

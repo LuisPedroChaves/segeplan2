@@ -96,7 +96,13 @@
               <br>
               <p> <b> Especialista de preinversión: </b> <label> {{epi.specialist}} </label> </p>
               <br>
-              <p> <b> Medios de verificación: </b> <label> {{epi.doc}} </label> </p>
+              <div *ngIf="epi.doc">
+                <p> <b> Medios de verificación: </b>
+                  <a mat-button color="accent" mat-line [href]="epi.doc" target="_blank">
+                    Abrir <mat-icon>launch</mat-icon>
+                  </a>
+                </p>
+              </div>
               <br>
             </div>
 

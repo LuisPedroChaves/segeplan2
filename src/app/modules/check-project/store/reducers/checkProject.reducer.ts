@@ -54,8 +54,6 @@ const _CHECK_REDUCER_REDUCER = createReducer(CHECK_PROJECT_STATE,
   on(actions.SET_EDIT_PROJECT, (state, { checkProject }) => ({
     ...state,
     projects: state.projects.map(p => {
-      console.log("🚀 ~ file: checkProject.reducer.ts:69 ~ on ~ checkProject:", checkProject)
-      console.log("🚀 ~ file: checkProject.reducer.ts:69 ~ on ~ p:", p)
       if (p.id === checkProject.id) {
         return {
           ...checkProject

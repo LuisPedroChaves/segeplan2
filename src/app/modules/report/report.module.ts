@@ -12,6 +12,11 @@ import { StoreModule } from '@ngrx/store';
 import * as reducers from './../idea-bank/store/reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { effectsArray } from '../idea-bank/store/effects';
+import { LastProjectComponent } from './pages/check-project/components/last-project/last-project.component';
+import { AllProjectsComponent } from './pages/check-project/components/all-projects/all-projects.component';
+import { CheckProjectReducer, EntityReducer } from '../check-project/store/reducers';
+import { ProjectTableComponent } from './pages/check-project/components/project-table/project-table.component';
+import { CheckProjectEffects } from '../check-project/store/effects';
 
 
 @NgModule({
@@ -19,7 +24,10 @@ import { effectsArray } from '../idea-bank/store/effects';
     IndexComponent,
     IdeaBankComponent,
     SinafipComponent,
-    CheckProjectComponent
+    CheckProjectComponent,
+    LastProjectComponent,
+    AllProjectsComponent,
+    ProjectTableComponent
   ],
   imports: [
     CommonModule,
@@ -29,6 +37,10 @@ import { effectsArray } from '../idea-bank/store/effects';
     StoreModule.forFeature('object', reducers.ObjectReducer),
     StoreModule.forFeature('preceso', reducers.ProcesoReducer),
     StoreModule.forFeature('proceso', reducers.ProcesoReducer),
+    StoreModule.forFeature('entity', EntityReducer),
+    StoreModule.forFeature('checkProject', CheckProjectReducer ),
+
+    EffectsModule.forFeature(CheckProjectEffects),
     EffectsModule.forFeature([...effectsArray]),
     
     // components

@@ -27,6 +27,7 @@ export class ChekProjectService {
   ) { }
 
   getAllProjects(filtros: IFiltroCheckProjects): Observable<any> {
+    console.log("🚀 ~ file: chek-project.service.ts:30 ~ ChekProjectService ~ getAllProjects ~ filtros:", filtros)
     const url = this.API_URL + this.url + 'project/get-all';
 
     let snackBarRef = this.snackBarService.loading();

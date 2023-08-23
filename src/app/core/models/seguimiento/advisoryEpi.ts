@@ -21,5 +21,5 @@ export interface IAdvisoryEpi {
     conclusions: string;
     commitments: string;
     specialist: string;
-    doc: string;
+    doc: any;
 }
