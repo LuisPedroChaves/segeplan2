@@ -192,7 +192,7 @@ export class AllProjectsComponent implements OnInit {
               t.activity,
               t.advisoryEpi?.sectorization,
               t.advisoryEpi?.subSectorization,
-              t.advisoryEpi?.unitSpecific,
+              p.ministry ? p.ministry : t.advisoryEpi?.unitSpecific,
               t.advisoryEpi?.advTheme,
               t.advisoryEpi?.menAttended,
               t.advisoryEpi?.womenAttended,
@@ -213,7 +213,7 @@ export class AllProjectsComponent implements OnInit {
               t.activity,
               t.advisoryDoc?.sectorization,
               t.advisoryDoc?.subSectorization,
-              t.advisoryDoc?.unitSpecific,
+              p.ministry ? p.ministry : t.advisoryDoc?.unitSpecific,
               t.advisoryDoc?.advTheme,
               t.advisoryDoc?.menAttended,
               t.advisoryDoc?.womenAttended,
@@ -267,11 +267,11 @@ export class AllProjectsComponent implements OnInit {
 
   convertToFormattedDate(inputDate: string): string {
     const date = new Date(inputDate);
-    
+
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear();
-  
+
     return `${day}/${month}/${year}`;
   }
 

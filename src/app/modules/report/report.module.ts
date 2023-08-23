@@ -16,7 +16,7 @@ import { LastProjectComponent } from './pages/check-project/components/last-proj
 import { AllProjectsComponent } from './pages/check-project/components/all-projects/all-projects.component';
 import { CheckProjectReducer, EntityReducer } from '../check-project/store/reducers';
 import { ProjectTableComponent } from './pages/check-project/components/project-table/project-table.component';
-import { CheckProjectEffects } from '../check-project/store/effects';
+import { CheckProjectEffects, EntityEffects } from '../check-project/store/effects';
 
 
 @NgModule({
@@ -41,6 +41,7 @@ import { CheckProjectEffects } from '../check-project/store/effects';
     StoreModule.forFeature('checkProject', CheckProjectReducer ),
 
     EffectsModule.forFeature(CheckProjectEffects),
+    EffectsModule.forFeature(EntityEffects),
     EffectsModule.forFeature([...effectsArray]),
     
     // components
