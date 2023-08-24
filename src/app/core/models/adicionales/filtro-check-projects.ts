@@ -6,4 +6,5 @@ export interface IFiltroCheckProjects {
   municipio?: string; 
   mes?: string;
   entidad?: string;
+  isLastTrack?: boolean;
 }
