@@ -402,9 +402,15 @@
               <br>
               <p> <b> Fotografías: </b> </p>
               <br>
-              <!-- <div class="img-content" fxLayout="row">
-                <img class="img-1" src="{{imgVisit.url}}" >
-              </div> -->
+              <div *ngIf="visit.imgVisit.length">
+                <div *ngFor="let item of visit.imgVisit">
+                  <p> <b> Fotografia: </b>
+                    <a mat-button color="accent" mat-line [href]="item.url" target="_blank">
+                      Abrir <mat-icon>launch</mat-icon>
+                    </a>
+                  </p>
+                </div>
+              </div>
               <br>
             </div>
 

@@ -1,0 +1,31 @@
+.body {
+  font-family: Lato;
+  margin: 20px
+}
+
+// .legend {
+//   height: 50px;
+// }
+
+ngx-charts-advanced-pie-chart {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  line-height: 1.4;
+  ngx-charts-count-up .total-label text{
+    line-height: 1;
+  }
+}
+
+.container-charts{
+  margin: 2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-d1{
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+}

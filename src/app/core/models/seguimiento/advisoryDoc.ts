@@ -21,5 +21,6 @@ export interface IAdvisoryDoc {
     assistant: string;
     conclusions: string;
     recomend: string;
+    doc: any;
     comments: IComment[];
 }

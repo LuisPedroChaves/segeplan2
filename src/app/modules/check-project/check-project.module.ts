@@ -14,6 +14,12 @@ import { CheckProjectReducer, EntityReducer, GeograficoReducer, SectorAdvisedRed
 import { EffectsModule } from '@ngrx/effects';
 import { CheckProjectEffects, EntityEffects } from './store/effects';
 import { SectorAdvisedEffects } from './store/effects/sectorAdvised.effects';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AdvancePieComponent } from './components/advance-pie/advance-pie.component';
+import { VerticalBarComponent } from './components/vertical-bar/vertical-bar.component';
+import { PieChartComponent } from './components/pie-chart/pie-chart.component';
+import { HorizontalBarComponent } from './components/horizontal-bar/horizontal-bar.component';
 
 
 
@@ -24,6 +30,10 @@ import { SectorAdvisedEffects } from './store/effects/sectorAdvised.effects';
     ProjectListComponent,
     DashboardComponent,
     ProjectTableComponent,
+    AdvancePieComponent,
+    VerticalBarComponent,
+    PieChartComponent,
+    HorizontalBarComponent
   ],
   imports: [
     CommonModule,
@@ -38,6 +48,7 @@ import { SectorAdvisedEffects } from './store/effects/sectorAdvised.effects';
     EffectsModule.forFeature(SectorAdvisedEffects),
     //components
     LogoComponent,
+    NgxChartsModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

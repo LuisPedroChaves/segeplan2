@@ -1,0 +1,17 @@
+<ngx-charts-bar-horizontal
+  [view]="view"
+  scheme="picnic"
+  [results]="single"
+  [gradient]="gradient"
+  [xAxis]="showXAxis"
+  [yAxis]="showYAxis"
+  [legend]="showLegend"
+  [showXAxisLabel]="showXAxisLabel"
+  [showYAxisLabel]="showYAxisLabel"
+  [xAxisLabel]="title"
+  [yAxisLabel]="yAxisLabel"
+  legendTitle=""
+  (select)="onSelect($event)"
+  (activate)="onActivate($event)"
+  (deactivate)="onDeactivate($event)">
+</ngx-charts-bar-horizontal>

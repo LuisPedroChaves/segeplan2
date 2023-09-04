@@ -20,6 +20,7 @@ import { MatStepper } from '@angular/material/stepper';
 import { AppState } from 'src/app/core/store/app.reducer';
 import { Entity } from 'src/app/core/models/sinafip';
 import { User } from 'src/app/core/models/adicionales';
+import { UploadService } from '../../../services/upload.service';
 
 @Component({
   selector: 'app-track-document',
@@ -59,6 +60,8 @@ export class TrackDocumentComponent {
     assistant: new FormControl(''),
     conclusions: new FormControl('', [Validators.maxLength(1000)]),
     recomend: new FormControl('', [Validators.maxLength(1000)]),
+    doc: new FormControl(null),
+
   })
 
   comments: IComment[] = []
@@ -98,6 +101,7 @@ export class TrackDocumentComponent {
     private sectorStore: Store<SectorAdvisedStore>,
     public dialog: MatDialog,
     public store: Store<AppState>,
+    private uploadService: UploadService,
   ) { }
 
   ngOnInit(): void {
@@ -177,6 +181,7 @@ export class TrackDocumentComponent {
     this.advisoryDoc.controls["snipCode"].setValue(trackLoad.advisoryDoc.snipCode ?? '')
     this.advisoryDoc.controls["subSectorization"].setValue(trackLoad.advisoryDoc.subSectorization ?? '')
     this.advisoryDoc.controls["womenAttended"].setValue(trackLoad.advisoryDoc.womenAttended ?? 0)
+    this.advisoryDoc.controls["doc"].setValue(trackLoad.advisoryDoc.doc ?? '')
 
     if (trackLoad.advisoryDoc.comments.length > 0){
       trackLoad.advisoryDoc.comments.forEach((advComment) => {
@@ -282,6 +287,7 @@ export class TrackDocumentComponent {
         assistant,
         conclusions,
         recomend,
+        doc,
       } = this.advisoryDoc.value
 
       const NEW_ADVISORY_DOC: IAdvisoryDoc = {
@@ -303,7 +309,8 @@ export class TrackDocumentComponent {
         assistant: this.usuario.name,
         conclusions,
         recomend,
-        comments: this.comments
+        comments: this.comments,
+        doc
       }
 
       NEW_TRACK.advisoryDoc = { ...NEW_ADVISORY_DOC }
@@ -311,9 +318,19 @@ export class TrackDocumentComponent {
       if (!this.isEditForm){
         this.checkProjectService.addTrack(NEW_TRACK, this.project.id)
           .subscribe(project => {
-  
+            const findTrack = project.tracking.find(trackProject => trackProject.advisoryDoc.action == NEW_TRACK.advisoryDoc.action && trackProject.advisoryDoc.advTheme == NEW_TRACK.advisoryDoc.advTheme)
+
+            if (findTrack) {
+              console.log("🚀 ~ file: track-epi.component.ts:260 ~ TrackEpiComponent ~ onSubmit ~ findTrack:", findTrack)
+              this.uploadService.uploadFile(NEW_TRACK.advisoryDoc.doc.files[0], 'advDoc', findTrack.advisoryDoc.id).then((res) => {
+                console.log("🚀 ~ file: track-epi.component.ts:266 ~ TrackEpiComponent ~ this.uploadService.uploadFile ~ res:", res)
+              })
+            }
+
             this.checkProjectStore.dispatch(SET_TRACKING({ tracking: project.tracking }))
             this.checkProjectStore.dispatch(SET_EDIT_PROJECT({ checkProject: project }))
+
+            
   
           })
   
@@ -331,7 +348,14 @@ export class TrackDocumentComponent {
         this.checkProjectService.editTrack(NEW_TRACK, this.project.id)
           .subscribe(project => {
           console.log("🚀 ~ file: track-document.component.ts:328 ~ TrackDocumentComponent ~ onSubmit ~ project:", project)
+          const findTrack = project.tracking.find(trackProject => trackProject.advisoryDoc.action == NEW_TRACK.advisoryDoc.action && trackProject.advisoryDoc.advTheme == NEW_TRACK.advisoryDoc.advTheme)
 
+          if (findTrack) {
+            console.log("🚀 ~ file: track-epi.component.ts:260 ~ TrackEpiComponent ~ onSubmit ~ findTrack:", findTrack)
+            this.uploadService.uploadFile(NEW_TRACK.advisoryDoc.doc.files[0], 'advDoc', findTrack.advisoryDoc.id).then((res) => {
+              console.log("🚀 ~ file: track-epi.component.ts:266 ~ TrackEpiComponent ~ this.uploadService.uploadFile ~ res:", res)
+            })
+          }
             // this.checkProjectStore.dispatch(SET_TRACKING({ tracking: project.tracking }))
             // this.checkProjectStore.dispatch(SET_EDIT_PROJECT({ checkProject: project }))
 

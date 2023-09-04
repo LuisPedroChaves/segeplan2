@@ -14,6 +14,7 @@ import { ModalGuideComponent } from '../modal-guide/modal-guide.component';
 import { CLOSE_DRAWER2 } from 'src/app/core/store/actions';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { Departament } from 'src/app/core/models/adicionales';
+import { UploadService } from '../../../services/upload.service';
 
 @Component({
   selector: 'app-track-visit',
@@ -425,6 +426,8 @@ export class TrackVisitComponent implements OnInit, OnDestroy {
     private sectorStore: Store<SectorAdvisedStore>,
     private geograficoStore: Store<GeograficoStore>,
     public dialog: MatDialog,
+    private uploadService: UploadService,
+
   ) { }
 
   ngOnInit(): void {
@@ -697,7 +700,10 @@ export class TrackVisitComponent implements OnInit, OnDestroy {
       /* #endregion */
 
       //TODO: completar subida de imagenes
-      console.log(this.visitCard.controls['images'].value);
+      // console.log(this.visitCard.controls['images'].value);
+      const imagesToUploadVisitCard: any = this.visitCard.controls['images'].value
+      console.log("🚀 ~ file: track-visit.component.ts:702 ~ TrackVisitComponent ~ onSubmit ~ imagesToUploadVisitCard:", imagesToUploadVisitCard)
+
 
       const {
         codePreinv,
@@ -829,11 +835,28 @@ export class TrackVisitComponent implements OnInit, OnDestroy {
       }
 
       NEW_TRACK.visitCard = { ...NEW_VISIT_CARD }
-
       if (!this.isEditForm) {
 
         this.checkProjectService.addTrack(NEW_TRACK, this.project.id)
           .subscribe(project => {
+
+            const findTrack = project.tracking.find(trackProject => trackProject.visitCard.nameHeadboard == NEW_TRACK.visitCard.nameHeadboard && trackProject.visitCard.depto == NEW_TRACK.visitCard.depto)
+            if (findTrack) {
+
+              if (imagesToUploadVisitCard) {
+                
+                if (imagesToUploadVisitCard.files.length > 0) {
+                  imagesToUploadVisitCard.files.map((file: any) => {
+
+                    this.uploadService.uploadFile(file, 'visitCard', findTrack.visitCard.id).then((res) => {
+                    console.log("🚀 ~ file: track-visit.component.ts:852 ~ TrackVisitComponent ~ this.uploadService.uploadFile ~ res:", res)
+                  })
+  
+                  })
+                }
+              }
+
+            }
 
             this.checkProjectStore.dispatch(SET_TRACKING({ tracking: project.tracking }))
             this.checkProjectStore.dispatch(SET_EDIT_PROJECT({ checkProject: project }))
@@ -852,6 +875,23 @@ export class TrackVisitComponent implements OnInit, OnDestroy {
         this.checkProjectService.editTrack(NEW_TRACK, this.project.id)
           .subscribe(project => {
             console.log("🚀 ~ file: track-document.component.ts:328 ~ TrackDocumentComponent ~ onSubmit ~ project:", project)
+            const findTrack = project.tracking.find(trackProject => trackProject.visitCard?.proposalName == NEW_TRACK.visitCard.proposalName && trackProject.visitCard?.depto == NEW_TRACK.visitCard.depto)
+            if (findTrack) {
+
+              if (imagesToUploadVisitCard) {
+                
+                if (imagesToUploadVisitCard.files.length > 0) {
+                  imagesToUploadVisitCard.files.map((file: any) => {
+
+                    this.uploadService.uploadFile(file, 'visitCard', findTrack.visitCard.id).then((res) => {
+                    console.log("🚀 ~ file: track-visit.component.ts:852 ~ TrackVisitComponent ~ this.uploadService.uploadFile ~ res:", res)
+                  })
+  
+                  })
+                }
+              }
+
+            }
 
             // this.checkProjectStore.dispatch(SET_TRACKING({ tracking: project.tracking }))
             // this.checkProjectStore.dispatch(SET_EDIT_PROJECT({ checkProject: project }))

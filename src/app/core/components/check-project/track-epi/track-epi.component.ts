@@ -287,7 +287,14 @@ export class TrackEpiComponent implements OnInit, OnDestroy {
         this.checkProjectService.editTrack(NEW_TRACK, this.project.id)
           .subscribe(project => {
             console.log("🚀 ~ file: track-document.component.ts:328 ~ TrackDocumentComponent ~ onSubmit ~ project:", project)
+            const findTrack = project.tracking.find(trackProject => trackProject.advisoryEpi.action == NEW_TRACK.advisoryEpi.action && trackProject.advisoryEpi.devAdv == NEW_TRACK.advisoryEpi.devAdv)
+            if (findTrack) {
+              console.log("🚀 ~ file: track-epi.component.ts:260 ~ TrackEpiComponent ~ onSubmit ~ findTrack:", findTrack)
+              this.uploadService.uploadFile(NEW_TRACK.advisoryEpi.doc.files[0], 'advEpi', findTrack.advisoryEpi.id).then((res) => {
+                console.log("🚀 ~ file: track-epi.component.ts:266 ~ TrackEpiComponent ~ this.uploadService.uploadFile ~ res:", res)
+              })
 
+            }
             // this.checkProjectStore.dispatch(SET_TRACKING({ tracking: project.tracking }))
             // this.checkProjectStore.dispatch(SET_EDIT_PROJECT({ checkProject: project }))
 
