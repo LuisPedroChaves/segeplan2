@@ -80,9 +80,9 @@
               <br>
               <p> <b> Puesto: </b> <label> {{epi.participantPosition}} </label> </p>
               <br>
-              <p> <b> Fecha de la asesoría: </b> <label> {{epi.advDate}} </label> </p>
+              <p> <b> Fecha de la asesoría: </b> <label> {{epi.advDate | date: 'dd/MM/YYYY'}} </label> </p>
               <br>
-              <p> <b> Fecha de entrega del informe: </b> <label> {{epi.reportDate}} </label> </p>
+              <p> <b> Fecha de entrega del informe: </b> <label> {{epi.reportDate | date: 'dd/MM/YYYY'}} </label> </p>
               <br>
               <p> <b> Lugar: </b> <label> {{epi.place}} </label> </p>
               <br>
@@ -138,9 +138,9 @@
               <br>
               <p> <b> Participante de la entidad: </b> <label> {{doc.participant}} </label> </p>
               <br>
-              <p> <b> Fecha de análisis de documento: </b> <label> {{doc.analysisDate}} </label> </p>
+              <p> <b> Fecha de análisis de documento: </b> <label> {{doc.analysisDate | date: 'dd/MM/YYYY'}} </label> </p>
               <br>
-              <p> <b> Fecha de asesoría: </b> <label> {{doc.advDate}} </label> </p>
+              <p> <b> Fecha de asesoría: </b> <label> {{doc.advDate | date: 'dd/MM/YYYY'}} </label> </p>
               <br>
               <p> <b> Atendido por: </b> <label> {{doc.assistant}} </label> </p>
               <br>
@@ -151,6 +151,14 @@
               <p> <b> Conclusiones: </b> <label> {{doc.conclusions}} </label> </p>
               <br>
               <p> <b> Recomendaciones: </b> <label> {{doc.recomend}} </label> </p>
+              <br>
+              <div *ngIf="doc.DOC">
+                <p> <b> Medios de verificación: </b>
+                  <a mat-button color="accent" mat-line [href]="doc.DOC" target="_blank">
+                    Abrir <mat-icon>launch</mat-icon>
+                  </a>
+                </p>
+              </div>
               <br>
               <mat-divider></mat-divider>
               <br>

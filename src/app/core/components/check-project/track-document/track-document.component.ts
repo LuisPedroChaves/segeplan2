@@ -181,7 +181,7 @@ export class TrackDocumentComponent {
     this.advisoryDoc.controls["snipCode"].setValue(trackLoad.advisoryDoc.snipCode ?? '')
     this.advisoryDoc.controls["subSectorization"].setValue(trackLoad.advisoryDoc.subSectorization ?? '')
     this.advisoryDoc.controls["womenAttended"].setValue(trackLoad.advisoryDoc.womenAttended ?? 0)
-    this.advisoryDoc.controls["doc"].setValue(trackLoad.advisoryDoc.doc ?? '')
+    this.advisoryDoc.controls["doc"].setValue(trackLoad.advisoryDoc.DOC ?? '')
 
     if (trackLoad.advisoryDoc.comments.length > 0){
       trackLoad.advisoryDoc.comments.forEach((advComment) => {
@@ -310,7 +310,7 @@ export class TrackDocumentComponent {
         conclusions,
         recomend,
         comments: this.comments,
-        doc
+        DOC: doc
       }
 
       NEW_TRACK.advisoryDoc = { ...NEW_ADVISORY_DOC }
@@ -322,7 +322,7 @@ export class TrackDocumentComponent {
 
             if (findTrack) {
               console.log("🚀 ~ file: track-epi.component.ts:260 ~ TrackEpiComponent ~ onSubmit ~ findTrack:", findTrack)
-              this.uploadService.uploadFile(NEW_TRACK.advisoryDoc.doc.files[0], 'advDoc', findTrack.advisoryDoc.id).then((res) => {
+              this.uploadService.uploadFile(NEW_TRACK.advisoryDoc.DOC.files[0], 'advDoc', findTrack.advisoryDoc.id).then((res) => {
                 console.log("🚀 ~ file: track-epi.component.ts:266 ~ TrackEpiComponent ~ this.uploadService.uploadFile ~ res:", res)
               })
             }
@@ -348,11 +348,11 @@ export class TrackDocumentComponent {
         this.checkProjectService.editTrack(NEW_TRACK, this.project.id)
           .subscribe(project => {
           console.log("🚀 ~ file: track-document.component.ts:328 ~ TrackDocumentComponent ~ onSubmit ~ project:", project)
-          const findTrack = project.tracking.find(trackProject => trackProject.advisoryDoc.action == NEW_TRACK.advisoryDoc.action && trackProject.advisoryDoc.advTheme == NEW_TRACK.advisoryDoc.advTheme)
+          const findTrack = project.tracking.find(trackProject => trackProject.advisoryDoc.conclusions == NEW_TRACK.advisoryDoc.conclusions && trackProject.advisoryDoc.advTheme == NEW_TRACK.advisoryDoc.advTheme)
 
           if (findTrack) {
             console.log("🚀 ~ file: track-epi.component.ts:260 ~ TrackEpiComponent ~ onSubmit ~ findTrack:", findTrack)
-            this.uploadService.uploadFile(NEW_TRACK.advisoryDoc.doc.files[0], 'advDoc', findTrack.advisoryDoc.id).then((res) => {
+            this.uploadService.uploadFile(NEW_TRACK.advisoryDoc.DOC.files[0], 'advDoc', findTrack.advisoryDoc.id).then((res) => {
               console.log("🚀 ~ file: track-epi.component.ts:266 ~ TrackEpiComponent ~ this.uploadService.uploadFile ~ res:", res)
             })
           }

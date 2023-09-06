@@ -89,6 +89,8 @@ export class DashboardComponent implements OnInit {
         this.countAdvanceMiddle()
         this.countSectorProjects()
         this.countAdvanceBySector()
+        this.countDataDepto()
+        this.countAdvanceMiddleDepto()
 
         console.log("🚀 ~ file: dashboard.component.ts:100 ~ DashboardComponent ~ .subscribe ~ this.projects:", this.projects)
       });
@@ -201,9 +203,89 @@ export class DashboardComponent implements OnInit {
   }
 
   countAdvanceMiddle() {
-    // if (!this.isMinistryState) {
-    //   return;
-    // }
+    if (!this.isMinistryState) {
+      return;
+    }
+    // Crear objetos para almacenar el avance total y la cantidad de proyectos por entidad
+    const avanceTotalPorEntidad: any = {};
+    const cantidadProyectosPorEntidad: any = {};
+
+    // Recorrer los proyectos y acumular avance y contar proyectos por entidad
+    this.projects.forEach(proyecto => {
+      const entidadName = proyecto.ministry;
+      const avance = proyecto.advance;
+
+      if (avanceTotalPorEntidad[entidadName]) {
+        avanceTotalPorEntidad[entidadName] += avance;
+        cantidadProyectosPorEntidad[entidadName]++;
+      } else {
+        avanceTotalPorEntidad[entidadName] = avance;
+        cantidadProyectosPorEntidad[entidadName] = 1;
+      }
+    });
+
+    // Calcular el avance promedio por entidad y almacenar en el formato deseado
+    const avancePromedioPorEntidad: any = {};
+    Object.keys(avanceTotalPorEntidad).forEach(entidadName => {
+      const avanceTotal = avanceTotalPorEntidad[entidadName];
+      const cantidadProyectos = cantidadProyectosPorEntidad[entidadName];
+      const avancePromedio = avanceTotal / cantidadProyectos;
+
+      avancePromedioPorEntidad[entidadName] = avancePromedio;
+    });
+
+    // Convertir el resultado en el formato deseado
+    const results = Object.keys(avancePromedioPorEntidad).map(entidadName => {
+      return {
+        "name": entidadName,
+        "value": avancePromedioPorEntidad[entidadName]
+      };
+    });
+
+    this.single2 = results
+
+    // Imprimir el resultado en el formato deseado
+    console.log(results);
+  }
+
+
+  countDataDepto(): void {
+    if (this.isMinistryState) {
+      return;
+    }
+    const conteoProyectosPorEntidad: any = {};
+
+    // Recorrer los proyectos y contar por entidad
+    this.projects.forEach(proyecto => {
+      const entidadName = proyecto.depto;
+      console.log("🚀 ~ file: dashboard.component.ts:146 ~ DashboardComponent ~ countDataEntities ~ entidadName:", entidadName)
+
+      if (conteoProyectosPorEntidad[entidadName]) {
+        conteoProyectosPorEntidad[entidadName]++;
+      } else {
+        conteoProyectosPorEntidad[entidadName] = 1;
+      }
+    });
+
+    // Imprimir el resultado
+    console.log({ conteoProyectosPorEntidad });
+    // Convertir el resultado en el formato deseado
+    const results = Object.keys(conteoProyectosPorEntidad).map(entidadName => {
+      return {
+        "name": entidadName,
+        "value": conteoProyectosPorEntidad[entidadName]
+      };
+    });
+    this.single = [...results]
+    console.log({ results });
+
+  }
+
+  countAdvanceMiddleDepto() {
+    console.log("🚀 ~ file: dashboard.component.ts:284 ~ DashboardComponent ~ countAdvanceMiddleDepto ~ this.isMinistryState:", this.isMinistryState)
+    if (this.isMinistryState) {
+      return;
+    }
     // Crear objetos para almacenar el avance total y la cantidad de proyectos por entidad
     const avanceTotalPorEntidad: any = {};
     const cantidadProyectosPorEntidad: any = {};
@@ -245,6 +327,7 @@ export class DashboardComponent implements OnInit {
     // Imprimir el resultado en el formato deseado
     console.log(results);
   }
+
 
 
   countSectorProjects() {

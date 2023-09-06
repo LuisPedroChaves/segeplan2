@@ -283,6 +283,16 @@
                     Máximo 1000 caracteres.
                   </mat-error>
                 </mat-form-field>
+                <mat-form-field fxFill appearance="outline">
+                  <mat-label>Medios de verificación</mat-label>
+                  <ngx-mat-file-input #removableInput formControlName="doc"
+                    placeholder="Seleccione un documento o imagen">
+                  </ngx-mat-file-input>
+                  <button mat-icon-button matSuffix *ngIf="!removableInput.empty"
+                    (click)="removableInput.clear($event)">
+                    <mat-icon>clear</mat-icon>
+                  </button>
+                </mat-form-field>
                 <br>
                 <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
                   <button mat-raised-button color="accent" matStepperPrevious>

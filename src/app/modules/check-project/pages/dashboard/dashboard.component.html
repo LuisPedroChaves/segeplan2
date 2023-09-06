@@ -71,14 +71,16 @@
 </ngx-simplebar>
 
 <div class="container-charts">
-  <section *ngIf="filtros.isMinistry" class="card-d1">
-    <p class="mat-headline-4">Proyectos por Unidad Ejecutora</p>
+  <section class="card-d1">
+    <p *ngIf="filtros.isMinistry" class="mat-headline-4">Proyectos por Unidad Ejecutora</p>
+    <p *ngIf="!filtros.isMinistry"  class="mat-headline-4">Proyectos por Departamento</p>
     <app-advance-pie [single]="single"></app-advance-pie>
   </section>
 
 
   <section class="card-d1">
-    <p class="mat-headline-4">Avance Promedio Departamento</p>
+    <p *ngIf="filtros.isMinistry"  class="mat-headline-4">Avance Promedio por Unidad Ejecutora</p>
+    <p *ngIf="!filtros.isMinistry" class="mat-headline-4">Avance Promedio por Departamento</p>
     <app-vertical-bar [single]="single2"></app-vertical-bar>
   </section>
 </div>
