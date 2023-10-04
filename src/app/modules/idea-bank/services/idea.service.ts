@@ -1,11 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, finalize, map, throwError } from 'rxjs';
+import { Observable, Subscription, catchError, finalize, map, throwError } from 'rxjs';
 import { FiltroIdeas } from 'src/app/core/models/adicionales';
 import { IdeaAlternative, IdeaAlternativeOne, IdeaAlternativeTwo, Qualification } from 'src/app/core/models/alternative';
 import { GeneralInformation } from 'src/app/core/models/informationGeneral';
 import { SnackBarService } from 'src/app/core/services/snack-bar.service';
 import { environment } from 'src/env/environment.prod';
+import { IdeaStore } from '../store/reducers';
+import { Store } from '@ngrx/store';
+import { SET_IDEA_ALTERNATIVES } from '../store/actions';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +20,18 @@ export class IdeaService {
   private urlIdeas = 'api/general/';
   private urlAlternative = 'api/alternative/';
 
+  private ideaStoreSubscription = new Subscription();
+  private currentIdea: GeneralInformation = null;
+
+
   constructor(
     private http: HttpClient,
-    private snackBarService: SnackBarService
-  ) { }
+    private snackBarService: SnackBarService,
+    private ideaStore: Store<IdeaStore>,
+
+  ) {
+    
+   }
 
   sendGeneralInformation(generalInformationSend: GeneralInformation): Observable<any> {
     const url = this.API_URL + this.urlGeneralInformation;
@@ -204,12 +215,27 @@ export class IdeaService {
   }
 
   getAlternativeById(idAlternative: string): Observable<any> {
+
+    this.ideaStoreSubscription = this.ideaStore.select('idea')
+    .subscribe(state => {
+      this.currentIdea = state.idea;
+    })
+
+
+    let alternatives: IdeaAlternative[] = this.currentIdea.alternatives ? [...this.currentIdea.alternatives] : [];
+
     const url = this.API_URL + this.urlAlternative + 'one/' +idAlternative;
     let snackBarRef = this.snackBarService.loading()
 
     return this.http.get(url).pipe(
       finalize(() => snackBarRef.dismiss()),
       map((res: any) => {
+        console.log("🚀 ~ file: idea.service.ts:213 ~ IdeaService ~ map ~ res:", res)
+        let alternativesFinalized: IdeaAlternative[] = []
+        alternativesFinalized = [{...res.data}, ...alternatives]
+
+        this.ideaStore.dispatch(SET_IDEA_ALTERNATIVES({ alternatives: alternativesFinalized }))
+
         return res.data;
       }),
       catchError((err, caught) => {

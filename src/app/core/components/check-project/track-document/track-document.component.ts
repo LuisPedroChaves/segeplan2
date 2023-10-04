@@ -183,7 +183,7 @@ export class TrackDocumentComponent {
     this.advisoryDoc.controls["womenAttended"].setValue(trackLoad.advisoryDoc.womenAttended ?? 0)
     this.advisoryDoc.controls["doc"].setValue(trackLoad.advisoryDoc.DOC ?? '')
 
-    if (trackLoad.advisoryDoc.comments.length > 0){
+    if (trackLoad.advisoryDoc.comments.length > 0) {
       trackLoad.advisoryDoc.comments.forEach((advComment) => {
         const comment: IComment = {
           theme: advComment.theme,
@@ -194,7 +194,7 @@ export class TrackDocumentComponent {
         this.description.setValue(null)
       })
     }
-    
+
   }
 
   ngOnDestroy(): void {
@@ -315,10 +315,18 @@ export class TrackDocumentComponent {
 
       NEW_TRACK.advisoryDoc = { ...NEW_ADVISORY_DOC }
 
-      if (!this.isEditForm){
+      if (!this.isEditForm) {
         this.checkProjectService.addTrack(NEW_TRACK, this.project.id)
           .subscribe(project => {
-            const findTrack = project.tracking.find(trackProject => trackProject.advisoryDoc.action == NEW_TRACK.advisoryDoc.action && trackProject.advisoryDoc.advTheme == NEW_TRACK.advisoryDoc.advTheme)
+            const findTrack = project.tracking.find(trackProject => {
+              if (trackProject.advisoryDoc) {
+                if (trackProject.advisoryDoc.action == NEW_TRACK.advisoryDoc.action && trackProject.advisoryDoc.advTheme == NEW_TRACK.advisoryDoc.advTheme) {
+                  return trackProject
+                }
+              }
+              return null;
+            })
+            console.log("🚀 ~ file: track-document.component.ts:328 ~ TrackDocumentComponent ~ findTrack ~ findTrack:", findTrack)
 
             if (findTrack) {
               console.log("🚀 ~ file: track-epi.component.ts:260 ~ TrackEpiComponent ~ onSubmit ~ findTrack:", findTrack)
@@ -330,15 +338,13 @@ export class TrackDocumentComponent {
             this.checkProjectStore.dispatch(SET_TRACKING({ tracking: project.tracking }))
             this.checkProjectStore.dispatch(SET_EDIT_PROJECT({ checkProject: project }))
 
-            
-  
           })
-  
+
         this.stepper.reset()
         this.advisoryDoc.reset()
         this.comments = []
         this.checkProjectStore.dispatch(CLOSE_DRAWER2())
-  
+
         return
       } else {
         NEW_TRACK.id = this.trackToEdit.id
@@ -347,15 +353,22 @@ export class TrackDocumentComponent {
         NEW_TRACK.advisoryDoc.trackId = this.trackToEdit.advisoryDoc.trackId
         this.checkProjectService.editTrack(NEW_TRACK, this.project.id)
           .subscribe(project => {
-          console.log("🚀 ~ file: track-document.component.ts:328 ~ TrackDocumentComponent ~ onSubmit ~ project:", project)
-          const findTrack = project.tracking.find(trackProject => trackProject.advisoryDoc.conclusions == NEW_TRACK.advisoryDoc.conclusions && trackProject.advisoryDoc.advTheme == NEW_TRACK.advisoryDoc.advTheme)
-
-          if (findTrack) {
-            console.log("🚀 ~ file: track-epi.component.ts:260 ~ TrackEpiComponent ~ onSubmit ~ findTrack:", findTrack)
-            this.uploadService.uploadFile(NEW_TRACK.advisoryDoc.DOC.files[0], 'advDoc', findTrack.advisoryDoc.id).then((res) => {
-              console.log("🚀 ~ file: track-epi.component.ts:266 ~ TrackEpiComponent ~ this.uploadService.uploadFile ~ res:", res)
+            console.log("🚀 ~ file: track-document.component.ts:328 ~ TrackDocumentComponent ~ onSubmit ~ project:", project)
+            const findTrack = project.tracking.find(trackProject => {
+              if (trackProject.advisoryDoc) {
+                if (trackProject.advisoryDoc.conclusions == NEW_TRACK.advisoryDoc.conclusions && trackProject.advisoryDoc.advTheme == NEW_TRACK.advisoryDoc.advTheme) {
+                  return trackProject
+                }
+              }
+              return null
             })
-          }
+
+            if (findTrack) {
+              console.log("🚀 ~ file: track-epi.component.ts:260 ~ TrackEpiComponent ~ onSubmit ~ findTrack:", findTrack)
+              this.uploadService.uploadFile(NEW_TRACK.advisoryDoc.DOC.files[0], 'advDoc', findTrack.advisoryDoc.id).then((res) => {
+                console.log("🚀 ~ file: track-epi.component.ts:266 ~ TrackEpiComponent ~ this.uploadService.uploadFile ~ res:", res)
+              })
+            }
             // this.checkProjectStore.dispatch(SET_TRACKING({ tracking: project.tracking }))
             // this.checkProjectStore.dispatch(SET_EDIT_PROJECT({ checkProject: project }))
 

@@ -147,7 +147,7 @@ export class NewAlternativeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.populationDelimitation.valueChanges.subscribe(values => {
-      this.totalGender = values.menQty + values.womenQty;
+      this.totalGender = +values.menQty + +values.womenQty;
     });
 
     // Disable input control name Epi
@@ -639,13 +639,15 @@ export class NewAlternativeComponent implements OnInit, OnDestroy {
                   this.uploadService.uploadFile(element.image, 'terrain', element.id).then((response) => {
                     contador++;
 
-
+                    let alternativesFinalized: IdeaAlternative[] = []
                     if (contador === this.terrainsWithImages.length) {
 
                       this.ideaService.getAlternativeById(alternative.codigo).subscribe(alternative => {
-                        alternatives.push({ ...alternative })
+                        console.log("🚀 ~ file: new-alternative.component.ts:648 ~ NewAlternativeComponent ~ this.ideaService.getAlternativeById ~ alternatives:", alternatives)
+                        console.log("🚀 ~ file: new-alternative.component.ts:647 ~ NewAlternativeComponent ~ this.ideaService.getAlternativeById ~ alternative:", alternative)
+                        alternativesFinalized = [{...alternative}, ...alternatives]
+                        console.log("🚀 ~ file: new-alternative.component.ts:650 ~ NewAlternativeComponent ~ this.ideaService.getAlternativeById ~ alternativesFinalized:", alternativesFinalized)
                       })
-                      this.ideaStore.dispatch(SET_IDEA_ALTERNATIVES({ alternatives }))
                       this.ideaStore.dispatch(CLOSE_DRAWER2())
                       // this.stepper.reset();
                     }
@@ -654,7 +656,7 @@ export class NewAlternativeComponent implements OnInit, OnDestroy {
               }
 
             } else {
-              alternatives.push(alternative)
+              alternatives.push({...alternative})
             }
 
           });
@@ -676,7 +678,7 @@ export class NewAlternativeComponent implements OnInit, OnDestroy {
   calculaCobertura(): void {
 
     if (this.populationDelimitation.controls['estimateBeneficiaries']) {
-      const EST_BENEFIC = this.populationDelimitation.controls['estimateBeneficiaries']
+      const EST_BENEFIC = this.populationDelimitation.controls['estimateBeneficiaries'].value
       const TPOP = this.totalGender
 
       const MULTCOV = (+EST_BENEFIC / TPOP);
