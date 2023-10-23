@@ -20,6 +20,12 @@ import { DoneIdeasComponent } from './pages/done-ideas/done-ideas.component';
 import { ResultIdeasComponent } from './pages/result-ideas/result-ideas.component';
 import { RevelanceMatrixComponent } from './pages/revelance-matrix/revelance-matrix.component';
 import { IdeaTableComponent } from './components/idea-table/idea-table.component';
+import { AdvancePieComponent } from './components/advance-pie/advance-pie.component';
+import { HorizontalBarComponent } from './components/horizontal-bar/horizontal-bar.component';
+import { PieChartComponent } from './components/pie-chart/pie-chart.component';
+import { VerticalBarComponent } from './components/vertical-bar/vertical-bar.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BarVerticalComponent } from './components/bar-vertical/bar-vertical.component';
 
 
 
@@ -32,7 +38,12 @@ import { IdeaTableComponent } from './components/idea-table/idea-table.component
     DoneIdeasComponent,
     ResultIdeasComponent,
     RevelanceMatrixComponent,
-    IdeaTableComponent
+    IdeaTableComponent,
+    AdvancePieComponent,
+    HorizontalBarComponent,
+    PieChartComponent,
+    VerticalBarComponent,
+    BarVerticalComponent
   ],
   imports: [
     CommonModule,
@@ -48,7 +59,8 @@ import { IdeaTableComponent } from './components/idea-table/idea-table.component
     StoreModule.forFeature('denomination', DenominationReducer),
     EffectsModule.forFeature([...effectsArray, ReferencePopulationEffects, DenominationsEffects]),
     // components
-    LogoComponent
+    LogoComponent,
+    NgxChartsModule,
   ]
 })
 export class IdeaBankModule { }

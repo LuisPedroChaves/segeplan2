@@ -40,8 +40,8 @@ export class ResultIdeasComponent implements OnInit, OnDestroy {
     this.ideaStoreSubscription = this.ideaStore.select('idea')
       .subscribe(state => {
         console.log(state.resultIdeas);
-
-        this.dataSource = new MatTableDataSource<IAlternativeResult>(state.resultIdeas)
+        const arregloSinDuplicados = this.eliminarDuplicados(state.resultIdeas);
+        this.dataSource = new MatTableDataSource<IAlternativeResult>(arregloSinDuplicados)
         setTimeout(() => this.dataSource.paginator = this.paginator)
       })
 
@@ -62,6 +62,20 @@ export class ResultIdeasComponent implements OnInit, OnDestroy {
   openDrawer1(width1: string, component1: string, alternative: any) {
     this.ideaStore.dispatch(SET_ALTERNATIVE({ alternative }))
     this.ideaStore.dispatch(OPEN_DRAWER1({ width1, component1 }))
+  }
+
+  eliminarDuplicados(arr: any[]) {
+    const uniqueCodes = new Set(); // Usamos un conjunto para realizar un seguimiento de los códigos únicos.
+    const result = [];
+  
+    for (const item of arr) {
+      if (!uniqueCodes.has(item.codigo)) {
+        result.push(item);
+        uniqueCodes.add(item.codigo);
+      }
+    }
+  
+    return result;
   }
 
   sendFilter(): void {

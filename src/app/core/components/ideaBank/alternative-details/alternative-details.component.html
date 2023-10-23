@@ -235,37 +235,37 @@
             <br>
             <h2><b> Resultados Matriz de Pertinencia: </b> {{ currentAlternative?.qualification?.result}}</h2>
             <br>
-            <p class="mat-body">
+            <p *ngIf="currentAlternative?.qualification?.descProblemComment" class="mat-body">
               <span class="mat-body-strong">Descripción de la problemática y el Indicador:
               </span>
-              {{ currentAlternative?.qualification?.descProblem}}
+              {{ currentAlternative?.qualification?.descProblemComment}}
             </p>
-            <p class="mat-body">
+            <p *ngIf="currentAlternative?.qualification?.generalObjctComment" class="mat-body">
               <span class="mat-body-strong">Objetivo General y resultado:</span>
-              {{ currentAlternative?.qualification?.generalObjct}}
+              {{ currentAlternative?.qualification?.generalObjctComment}}
             </p>
-            <p class="mat-body">
+            <p *ngIf="currentAlternative?.qualification?.anlysDelimitationComment" class="mat-body">
               <span class="mat-body-strong">Análisis de la delimitación preliminar de
                 beneficiarios:</span>
-              {{ currentAlternative?.qualification?.anlysDelimitation}}
+              {{ currentAlternative?.qualification?.anlysDelimitationComment}}
             </p>
-            <p class="mat-body">
+            <p *ngIf="currentAlternative?.qualification?.terrainIdentComment" class="mat-body">
               <span class="mat-body-strong">Identificación del terreno:</span>
-              {{ currentAlternative?.qualification?.terrainIdent}}
+              {{ currentAlternative?.qualification?.terrainIdentComment}}
             </p>
-            <p class="mat-body">
+            <p *ngIf="currentAlternative?.qualification?.legalSituationComment" class="mat-body">
               <span class="mat-body-strong">Situación legal del posible bien
                 inmueble:</span>
-              {{ currentAlternative?.qualification?.legalSituation}}
+              {{ currentAlternative?.qualification?.legalSituationComment}}
             </p>
-            <p class="mat-body">
+            <p *ngIf="currentAlternative?.qualification?.descAnlysComment" class="mat-body">
               <span class="mat-body-strong">Análisis de la descripción de la idea:</span>
-              {{ currentAlternative?.qualification?.descAnlys}}
+              {{ currentAlternative?.qualification?.descAnlysComment}}
             </p>
-            <p class="mat-body">
+            <!-- <p class="mat-body">
               <span class="mat-body-strong">Total:</span>
               {{ currentAlternative?.qualification?.total}}
-            </p>
+            </p> -->
           </div>
         </mat-tab>
 

@@ -540,7 +540,7 @@ export class NewRevelanceMatrixComponent implements OnInit, OnDestroy {
       ]
     }
 
-    const pdf = pdfMake.createPdf(pdfDefinition);
+    const pdf = pdfMake.createPdf(pdfDefinition, null, null, pdfFonts.pdfMake.vfs);
     pdf.open();
 
   }

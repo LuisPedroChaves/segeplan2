@@ -11,6 +11,7 @@ import { SET_IDEA } from '../../store/actions';
 import { OPEN_DRAWER1 } from 'src/app/core/store/actions';
 import { ConvertService } from 'src/app/core/services/convert.service';
 import { User } from 'src/app/core/models/adicionales';
+import { ReportIdeaService } from '../../services/report-idea.service';
 
 @Component({
   selector: 'app-idea-table',
@@ -39,7 +40,8 @@ export class IdeaTableComponent implements OnInit, OnDestroy {
   usuario: User;
 
   constructor(
-    private ideaStore: Store<IdeaStore>
+    private ideaStore: Store<IdeaStore>,
+    private reportIdeaService: ReportIdeaService
   ) { }
 
   ngOnInit(): void {
@@ -92,6 +94,10 @@ export class IdeaTableComponent implements OnInit, OnDestroy {
       let printf = ConvertService.createIdeaReportPertinence(idea, alternative);
     }
 
+  }
+
+  printIdea(idea: GeneralInformation){
+    this.reportIdeaService.reportIdeaPDF(idea).then()
   }
 
 }

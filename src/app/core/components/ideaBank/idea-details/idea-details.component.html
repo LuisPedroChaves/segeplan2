@@ -142,7 +142,7 @@
                       <span>Detalles</span>
                     </button>
 
-                    <button mat-menu-item *ngIf="element.state === 'CREADA'"
+                    <button mat-menu-item *ngIf="element.state === 'CREADA' && usuario.role == 'ADMIN_ROLE'"
                       (click)="openDrawer2('80%', 'NEW_ALTERNATIVE', element)">
                       <span>Editar</span>
                     </button>

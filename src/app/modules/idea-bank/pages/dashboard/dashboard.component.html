@@ -9,6 +9,21 @@
 
   <div fxLayout="row wrap" fxLayoutGap="16px grid">
 
+    <div class="container-charts">
+      <section class="card-d1">
+        <p class="mat-headline-4">Ideas Generadas</p>
+        <app-advance-pie [single]="single"></app-advance-pie>
+      </section>
+    </div>
+
+    <div class="container-charts">
+      <section class="card-d1">
+        <p class="mat-headline-4">Ideas Por Entidad</p>
+        <app-bar-vertical [multi]="multiEntidad" [legendTitle]="'Ideas'" [yAxisLabel]="'Cantidad de Ideas'" [xAxisLabel]="'Entidades'"></app-bar-vertical>
+      </section>
+    </div>
+
+
     <!-- <div *appShowForRoles="['USER_ROLE']">
       <mat-card (click)="openFullDrawer('Crear Idea', 'NEW_IDEA')" class="pointer mat-elevation-z2" [ngClass]="elevationNew" (mouseover)="newStyle($event)" (mouseout)="newStyle($event)">
         <mat-card-content fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="center center">

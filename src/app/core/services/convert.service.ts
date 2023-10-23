@@ -385,7 +385,7 @@ export class ConvertService {
       ]
     }
 
-    const pdf = pdfMake.createPdf(pdfDefinition);
+    const pdf = pdfMake.createPdf(pdfDefinition, null, null, pdfFonts.pdfMake.vfs);
     pdf.open();
 
   }
@@ -638,7 +638,7 @@ export class ConvertService {
       ]
     }
 
-    const pdf = pdfMake.createPdf(pdfDefinition);
+    const pdf = pdfMake.createPdf(pdfDefinition, null, null, pdfFonts.pdfMake.vfs);
     pdf.open();
 
   }

@@ -19,6 +19,25 @@
     padding-bottom: 8px;
   }
 .card2{
-height: 500px;
+height: 600px;
 margin: 10px;
+}
+
+.order-header{
+  display: flex;
+  flex-direction: row;
+  h1{
+    margin-left: 10px;
+    font-weight: bold;
+  }
+}
+
+h3 a {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+iframe {
+  margin: 5px;
 }
