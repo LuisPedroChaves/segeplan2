@@ -16,12 +16,15 @@ export class DashboardComponent implements OnInit {
   ideasAnalizedSource: GeneralInformation[] = [];
   ideasPertinent: GeneralInformation[] = [];
 
-  single: any[] = [];
+  ideasStatus: any[] = [];
+  ideasResult: any[] = [];
+
   multiEntidad: any[] = [];
+  resultEntidad: any[] = [];
 
 
   constructor(private ideasService: IdeaService) {
-    Object.assign(this, { single: this.single });
+    Object.assign(this, { single: this.ideasStatus });
   }
 
   ngOnInit(): void {
@@ -31,11 +34,12 @@ export class DashboardComponent implements OnInit {
   getIdeas(): void {
 
     const statesIdeas: { name: string, value: number }[] = []
+    const resultIdeas: { name: string, value: number }[] = []
 
 
     this.ideasService.getIdeas({}).subscribe(data => {
-      console.log("🚀 ~ file: dashboard.component.ts:22 ~ DashboardComponent ~ this.ideasService.getIdeas ~ data:", data)
       this.allIdeas = data;
+      console.log("🚀 ~ file: dashboard.component.ts:42 ~ DashboardComponent ~ this.ideasService.getIdeas ~ this.allIdeas:", this.allIdeas)
 
       if (this.allIdeas.length > 0) {
         // statesIdeas.push({ name: 'Registradas', value: this.allIdeas.length })
@@ -46,9 +50,14 @@ export class DashboardComponent implements OnInit {
         const ideasAnalizadas = this.allIdeas.filter((idea) => idea.state == "CALIFICADA");
         statesIdeas.push({ name: 'Analizadas', value: ideasAnalizadas.length })
 
-        const ideasPertinentes = this.allIdeas.filter((idea) => idea.result == "PERTINENTE");
-        statesIdeas.push({ name: 'Pertinentes', value: ideasPertinentes.length })
+        const ideasCreadas = this.allIdeas.filter((idea) => idea.state == "CREADA");
+        statesIdeas.push({ name: 'Registradas', value: ideasCreadas.length })
 
+        const ideasPertinentes = this.allIdeas.filter((idea) => idea.result == "PERTINENTE");
+        resultIdeas.push({ name: 'Pertinentes', value: ideasPertinentes.length })
+
+        const ideasNoPertinentes = this.allIdeas.filter((idea) => idea.result == "NO PERTINENTE");
+        resultIdeas.push({ name: 'No Pertinentes', value: ideasNoPertinentes.length })
 
         const uniqueEntities = [...new Set(this.allIdeas.map((idea) => idea.nameEntity))];
 
@@ -56,27 +65,42 @@ export class DashboardComponent implements OnInit {
         const ideasByEntity = uniqueEntities.map((entityName) => {
           const registeredIdeas = this.allIdeas.filter((idea) => idea.nameEntity === entityName);
           const analyzedIdeas = registeredIdeas.filter((idea) => idea.state == "CALIFICADA");
-          const pertinentIdeas = analyzedIdeas.filter((idea) => idea.result == "PERTINENTE");
           const sendedIdeas = registeredIdeas.filter((idea) => idea.state == "ENVIADA");
+          const createdIdeas = registeredIdeas.filter((idea) => idea.state == "CREADA");
+          // const pertinentIdeas = analyzedIdeas.filter((idea) => idea.result == "PERTINENTE");
 
           return {
             name: entityName,
             series: [
-              // { name: 'Registradas', value: registeredIdeas.length },
+              { name: 'Registradas', value: createdIdeas.length },
               { name: 'ENVIADAS', value: sendedIdeas.length },
               { name: 'Analizadas', value: analyzedIdeas.length },
-              { name: 'Pertinentes', value: pertinentIdeas.length },
+              // { name: 'Pertinentes', value: pertinentIdeas.length },
             ],
           };
         });
         this.multiEntidad = ideasByEntity
-        console.log("🚀 ~ file: dashboard.component.ts:70 ~ DashboardComponent ~ ideasByEntity ~ ideasByEntity:", ideasByEntity)
 
+        const ideasByEntityResult = uniqueEntities.map((entityName) => {
+          const registeredIdeas = this.allIdeas.filter((idea) => idea.nameEntity === entityName);
+          const analyzedIdeas = registeredIdeas.filter((idea) => idea.result == "PERTINENTE");
+          const sendedIdeas = registeredIdeas.filter((idea) => idea.result == "NO PERTINENTE");
+
+          return {
+            name: entityName,
+            series: [
+              { name: 'No Pertinentes', value: analyzedIdeas.length },
+              { name: 'Pertinentes', value: sendedIdeas.length },
+              // { name: 'Pertinentes', value: pertinentIdeas.length },
+            ],
+          };
+        });
+        this.resultEntidad = ideasByEntityResult
 
       }
 
-      this.single = statesIdeas
-      console.log("🚀 ~ file: dashboard.component.ts:46 ~ DashboardComponent ~ getIdeas ~ this.single = statesIdeas:", this.single = statesIdeas)
+      this.ideasStatus = statesIdeas
+      this.ideasResult = resultIdeas
     })
 
   }

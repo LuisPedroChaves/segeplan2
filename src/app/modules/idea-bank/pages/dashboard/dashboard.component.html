@@ -12,14 +12,28 @@
     <div class="container-charts">
       <section class="card-d1">
         <p class="mat-headline-4">Ideas Generadas</p>
-        <app-advance-pie [single]="single"></app-advance-pie>
+        <app-advance-pie [single]="ideasStatus"></app-advance-pie>
       </section>
     </div>
 
     <div class="container-charts">
       <section class="card-d1">
+        <p class="mat-headline-4">Resultado de Ideas </p>
+        <app-advance-pie [single]="ideasResult"></app-advance-pie>
+      </section>
+    </div>
+
+    <div class="container-charts-row">
+      <section class="card-d1">
         <p class="mat-headline-4">Ideas Por Entidad</p>
         <app-bar-vertical [multi]="multiEntidad" [legendTitle]="'Ideas'" [yAxisLabel]="'Cantidad de Ideas'" [xAxisLabel]="'Entidades'"></app-bar-vertical>
+      </section>
+    </div>
+
+    <div class="container-charts-row">
+      <section class="card-d1">
+        <p class="mat-headline-4">Resultado de Ideas por Entidad</p>
+        <app-bar-vertical [multi]="resultEntidad" [legendTitle]="'Ideas'" [yAxisLabel]="'Cantidad de Ideas'" [xAxisLabel]="'Entidades'"></app-bar-vertical>
       </section>
     </div>
 

@@ -6,7 +6,7 @@ import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { ConvertService } from '../../../core/services/convert.service';
 import { GeneralInformation, PossibleCause, PossibleEffect } from '../../../core/models/informationGeneral';
-import { IdeaAlternative } from '../../../core/models/alternative';
+import { DataGeo, IdeaAlternative } from '../../../core/models/alternative';
 
 // Register the fonts
 
@@ -626,6 +626,366 @@ export class ReportIdeaService {
     }
   }
 
+
+
+  getTerrainsInfo(terrains: DataGeo[]) {
+
+    if (terrains.length > 0) {
+      const arrTerrainsTable: any[] = [
+      ]
+
+      terrains.forEach((terrain: DataGeo, index: number) => {
+
+          arrTerrainsTable.push(
+            [
+              {
+                margin: [-15, 10, 0, 10], // Márgenes para separar la imagen del texto
+                text: `d.2`,
+                fontSize: 8, bold: true, alignment: 'center',
+                border: [false, false, false, false], // Elimina los bordes de la imagen										
+              },
+              {
+                text: `Situacion legal del posible bien inmueble`,
+                fontSize: 8, bold: true, alignment: 'left',
+                margin: [-15, 10, 0, 0], // Márgenes para separar la imagen del texto
+                border: [false, false, false, false], // Elimina los bordes de la imagen										
+                colSpan: 3
+              },
+              {
+                text: '',
+                border: [],
+              },
+              {
+                text: '',
+                border: [],
+              },
+              {
+                text: 'Terreno a nombre el Estado',
+                border: [], alignment: 'left'
+              }, {
+                text: `${terrain.governmentTerrain ? "SI" : 'NO'}`,
+                alignment: 'center'
+              },
+              {
+                text: 'se debe de inscribir el terreno a nombre del Estado',
+                border: [], alignment: 'left'
+              },
+              { 
+                text: `${terrain.registerGovernmentTerrain ? "SI" : 'NO'}`,
+              alignment: 'center' }
+            ],
+            [
+              {
+                margin: [-15, 10, 0, 10], // Márgenes para separar la imagen del texto
+                text: ``,
+                fontSize: 8, bold: true, alignment: 'center',
+                border: [false, false, false, false], // Elimina los bordes de la imagen										
+              },
+              {
+                text: `Observación`,
+                fontSize: 8, bold: true, alignment: 'left',
+                margin: [-15, 10, 0, 0], // Márgenes para separar la imagen del texto
+                border: [false, false, false, false], // Elimina los bordes de la imagen										
+              },
+              {
+                fillColor: '#F0F0F0',
+                text: `${terrain.description ? terrain.description : ''}`,
+                border: [true, true, true, true], // Elimina los bordes de la imagen										
+                colSpan: 6
+              },
+              {
+                text: '',
+                border: [],
+              },
+              {
+                text: '',
+                border: [],
+              }, {},
+              {
+                text: '',
+                border: [],
+              }, {},
+                            ],
+            [
+              {
+                margin: [-15, 10, 0, 10], // Márgenes para separar la imagen del texto
+                text: `d.3`,
+                fontSize: 8, bold: true, alignment: 'center',
+                border: [false, false, false, false], // Elimina los bordes de la imagen										
+              },
+              {
+                text: `Características del posible terreno`,
+                fontSize: 8, bold: true, alignment: 'left',
+                margin: [-15, 10, 0, 0], // Márgenes para separar la imagen del texto
+                border: [false, false, false, false], // Elimina los bordes de la imagen	
+                colSpan: 4
+              },
+              {
+                text: '',
+                border: [],
+              },
+              {
+                text: '',
+                border: [],
+              },
+              {
+                text: '',
+                border: [],
+              },
+              {
+                text: '',
+                border: [],
+              }, {
+                text: '',
+                border: [],
+              },
+              {
+                text: '',
+                border: [],
+              },
+                            ],
+            [
+              {
+                margin: [-15, 10, 0, 10], // Márgenes para separar la imagen del texto
+                text: ``,
+                fontSize: 8, bold: true, alignment: 'center',
+                border: [false, false, false, false], // Elimina los bordes de la imagen										
+              },
+              {
+                text: `Plano`,
+                fontSize: 8, bold: false, alignment: 'right',
+                margin: [-15, 10, 0, 0], // Márgenes para separar la imagen del texto
+                border: [false, false, false, false], // Elimina los bordes de la imagen										
+              }, {
+                text: `${terrain.plano ? "SI" : 'NO'}`,
+                alignment: 'center'
+              },
+              {
+                text: '',
+                border: [],
+              },
+              {
+                text: 'Inclinación leve',
+                border: [], alignment: 'right'
+              }, {
+                text: `${terrain.slightIncline ? "SI" : 'NO'}`,
+                alignment: 'center'
+              },
+              {
+                text: 'Quebrado',
+                border: [], alignment: 'right'
+              }, { 
+                text: `${terrain.broken ? "SI" : 'NO'}`,
+                alignment: 'center' },
+                            ],
+            [
+              {
+                margin: [-15, 10, 0, 10], // Márgenes para separar la imagen del texto
+                text: ``,
+                fontSize: 8, bold: true, alignment: 'center',
+                border: [false, false, false, false], // Elimina los bordes de la imagen										
+              },
+              {
+                text: `Subir imagen del terreno`,
+                fontSize: 8, bold: false, alignment: 'right',
+                margin: [-15, 10, 0, 0], // Márgenes para separar la imagen del texto
+                border: [false, false, false, false], // Elimina los bordes de la imagen										
+              }, {
+                text: `${terrain.imageUrl ? "SI" : 'NO'}`,
+                alignment: 'center'
+              },
+              {
+                text: 'Descripción del Terreno:',
+                border: [], alignment: 'left'
+              },
+              {
+                text: `${terrain.descriptionLocation ? terrain.descriptionLocation : ''}`,
+                border: [true, true, true, true], // Elimina los bordes de la imagen										
+                colSpan: 4
+              },
+              {
+                text: '',
+                border: [], alignment: 'right'
+              },
+              {
+                text: '',
+                border: [], alignment: 'right'
+              },
+              {
+                text: '',
+                border: [], alignment: 'right'
+              },
+                            ],
+            [
+              {
+                margin: [-15, 10, 0, 10], // Márgenes para separar la imagen del texto
+                text: `d.4`,
+                fontSize: 8, bold: true, alignment: 'center',
+                border: [false, false, false, false], // Elimina los bordes de la imagen										
+              },
+              {
+                text: `Servicios básicos del posible terreno`,
+                fontSize: 8, bold: false, alignment: 'right',
+                margin: [-15, 10, 0, 0], // Márgenes para separar la imagen del texto
+                border: [false, false, false, false], // Elimina los bordes de la imagen										
+              }, {
+                text: `${terrain.basicServices ? "SI" : 'NO'}`,
+                alignment: 'center'
+              },
+              {
+                text: 'Descripcion de los servicios básicos:',
+                border: [], alignment: 'left'
+              },
+              {
+                text: `${terrain.descriptionBasicServices ? terrain.descriptionBasicServices : ''}`,
+                border: [true, true, true, true], // Elimina los bordes de la imagen										
+                colSpan: 4
+              },
+              {
+                text: '',
+                border: [], alignment: 'right'
+              },
+              {
+                text: '',
+                border: [], alignment: 'right'
+              },
+              {
+                text: '',
+                border: [], alignment: 'right'
+              },
+                            ],
+            [
+              {
+                margin: [-15, 10, 0, 10], // Márgenes para separar la imagen del texto
+                text: `d.5`,
+                fontSize: 8, bold: true, alignment: 'center',
+                border: [false, false, false, false], // Elimina los bordes de la imagen										
+              },
+              {
+                text: `Coordenadas geográficas`,
+                fontSize: 8, bold: true, alignment: 'left',
+                margin: [-15, 10, 0, 0], // Márgenes para separar la imagen del texto
+                border: [false, false, false, false], // Elimina los bordes de la imagen										
+                colSpan: 7
+              },
+              {},
+              {},
+              {},
+              {}, {},
+              {},
+                            ], [
+              {
+                text: '', border: []
+              },
+              {
+                text: 'Terreno:',
+                border: [true, true, false, true], // Elimina los bordes de la imagen										
+              },
+              {
+                text: `Longitud: (x): ${terrain.degreesx}` ,
+                border: [false, true, false, true], // Elimina los bordes de la imagen										
+                colSpan: 2
+              },
+              {},
+              {
+                text: `Latitud: (y): ${terrain.degreesy}` ,
+                border: [false, true, false, true], // Elimina los bordes de la imagen										
+                colSpan: 2
+              },
+              {},
+              {
+                text: `Altitud: (msnm): ${terrain.secondsx}, ${terrain.secondsy}` ,
+                border: [false, true, true, true], // Elimina los bordes de la imagen										
+                colSpan: 2
+              }
+          
+            ],
+            // [
+            //   {
+            //     margin: [-15, 10, 0, 10], // Márgenes para separar la imagen del texto
+            //     text: `d.6`,
+            //     fontSize: 8, bold: true, alignment: 'center',
+            //     border: [false, false, false, false], // Elimina los bordes de la imagen										
+            //   },
+            //   {
+            //     text: `Breve descripción  de la posible ubicación`,
+            //     fontSize: 8, bold: true, alignment: 'left',
+            //     margin: [-15, 10, 0, 0], // Márgenes para separar la imagen del texto
+            //     border: [false, false, false, false], // Elimina los bordes de la imagen										
+            //     colSpan: 2
+            //   },
+            //   {
+            //   },
+            //   {
+            //     text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. I',
+            //     colSpan: 5,
+            //     border: [true, true, true, true], // Elimina los bordes de la imagen										
+            //   },
+            //   {
+            //     text: '',
+            //     border: [],
+            //   },
+            //   {
+            //     text: '',
+            //     border: [],
+            //   }, {
+            //     text: '',
+            //     border: [],
+            //   },
+            //   {
+            //     text: '',
+            //     border: [],
+            //   },
+            //                 ],
+          )
+        
+      })
+
+      return arrTerrainsTable
+
+
+    } else {
+      const arrTerrainTable = [
+[        {
+          text: ``,
+          border: [false, false, false, false], // Elimina los bordes de la imagen										
+        },
+        {
+          text: ``,
+          border: [false, false, false, false], // Elimina los bordes de la imagen										
+        },
+        {
+          text: ``,
+          border: [false, false, false, false], // Elimina los bordes de la imagen										
+        },
+        {
+          text: ``,
+          border: [false, false, false, false], // Elimina los bordes de la imagen										
+        },
+        {
+          text: ``,
+          border: [false, false, false, false], // Elimina los bordes de la imagen										
+        },
+        {
+          text: ``,
+          border: [false, false, false, false], // Elimina los bordes de la imagen										
+        },
+        {
+          text: ``,
+          border: [false, false, false, false], // Elimina los bordes de la imagen										
+        },
+        {
+          text: ``,
+          border: [false, false, false, false], // Elimina los bordes de la imagen										
+        }]
+      ]
+
+      return arrTerrainTable
+
+    }
+  }
+
+
   getCauses(causesArr: PossibleCause[]) {
 
     if (causesArr.length > 0) {
@@ -714,12 +1074,49 @@ export class ReportIdeaService {
     console.log("🚀 ~ file: report-idea.service.ts:714 ~ ReportIdeaService ~ getAlternatives ~ alternativesToPrint:", alternativesToPrint)
 
 
+
     if (alternativesToPrint.length > 0) {
       const arrTableAlternatives: any[] = [];
 
       alternativesToPrint.forEach((alternative: IdeaAlternative, index: number) => {
 
-
+        let terainsFormat = [
+[          {
+            text: ``,
+            border: [false, false, false, false], // Elimina los bordes de la imagen										
+          },
+          {
+            text: ``,
+            border: [false, false, false, false], // Elimina los bordes de la imagen										
+          },
+          {
+            text: ``,
+            border: [false, false, false, false], // Elimina los bordes de la imagen										
+          },
+          {
+            text: ``,
+            border: [false, false, false, false], // Elimina los bordes de la imagen										
+          },
+          {
+            text: ``,
+            border: [false, false, false, false], // Elimina los bordes de la imagen										
+          },
+          {
+            text: ``,
+            border: [false, false, false, false], // Elimina los bordes de la imagen										
+          },
+          {
+            text: ``,
+            border: [false, false, false, false], // Elimina los bordes de la imagen										
+          },
+          {
+            text: ``,
+            border: [false, false, false, false], // Elimina los bordes de la imagen										
+          }]
+        ]        
+        if (alternative.geoArea && alternative.geoArea.dataGeo){
+          terainsFormat = this.getTerrainsInfo(alternative.geoArea.dataGeo)
+        }
 
 
         arrTableAlternatives.push(
@@ -1076,391 +1473,101 @@ export class ReportIdeaService {
               },
             },
           ],
-          // [
-          //   {
-          //     fillColor: '#B7C5E4',
-          //     text: `D \t Delimitacion Preliminar del área geográfica`,
-          //     fontSize: 8, bold: true, alignment: 'left',
-          //     margin: [10, 0, 0, 0], // Márgenes para separar la imagen del texto
-          //     border: [true, false, true, false], // Elimina los bordes de la imagen										
-          //   },
-          // ],
-          // [
-          //   {
-          //     fontSize: 8, bold: false, alignment: 'left',
-          //     margin: [5, 5, 20, 0], // Márgenes para separar la imagen del texto
-          //     border: [true, false, true, false], // Elimina los bordes de la imagen										
-          //     table: {
-          //       widths: ['10%', '14%', '12.5%', '12.5%', '12.5%', '12.5%', '12.5%', '12.5%'], // Divide la página en 3 columnas
-          //       body: [
-          //         [
-          //           {
-          //             margin: [-15, 10, 0, 10], // Márgenes para separar la imagen del texto
-          //             text: `d.1`,
-          //             fontSize: 8, bold: true, alignment: 'center',
-          //             border: [false, false, false, false], // Elimina los bordes de la imagen										
-          //           },
-          //           {
-          //             text: `Identificación de terreno`,
-          //             fontSize: 8, bold: true, alignment: 'left',
-          //             margin: [-15, 10, 0, 0], // Márgenes para separar la imagen del texto
-          //             border: [false, false, false, false], // Elimina los bordes de la imagen										
-          //           },
-          //           {
-          //             text: '',
-          //             border: [],
-          //           },
-          //           {
-          //             text: '',
-          //             border: [],
-          //           },
-          //           {
-          //             text: '',
-          //             border: [],
-          //           },
-          //           {
-          //             text: '',
-          //             border: [],
-          //           }, {
-          //             text: '',
-          //             border: [],
-          //           },
-          //           {
-          //             text: '',
-          //             border: [],
-          //           },
-          //         ],
-          //         [
-          //           {
-          //             margin: [-15, 10, 0, 10], // Márgenes para separar la imagen del texto
-          //             text: ``,
-          //             fontSize: 8, bold: true, alignment: 'center',
-          //             border: [false, false, false, false], // Elimina los bordes de la imagen										
-          //           },
-          //           {
-          //             text: `Se identifican varios terrenos disponibles`,
-          //             fontSize: 8, bold: false, alignment: 'left',
-          //             margin: [-15, 10, 0, 0], // Márgenes para separar la imagen del texto
-          //             border: [false, false, false, false], // Elimina los bordes de la imagen										
-          //           },
-          //           {
-          //             text: 'SI',
-          //             alignment: 'center'
-          //           },
-          //           {
-          //             text: '',
-          //             border: [],
-          //           },
-          //           {
-          //             text: 'Se identifica un solo terreno disponible',
-          //             border: [], alignment: 'left'
-          //           }, {
-          //             text: 'Si',
-          //             alignment: 'center'
-          //           },
-          //           {
-          //             text: 'Es necesario invertir en la compra del terreno',
-          //             border: [], alignment: 'left'
-          //           }, {
-          //             text: 'SI',
-          //             alignment: 'center'
-          //           },
-          //         ],
-          //         [
-          //           {
-          //             margin: [-15, 10, 0, 10], // Márgenes para separar la imagen del texto
-          //             text: `d.2`,
-          //             fontSize: 8, bold: true, alignment: 'center',
-          //             border: [false, false, false, false], // Elimina los bordes de la imagen										
-          //           },
-          //           {
-          //             text: `Situacion legal del posible bien inmueble`,
-          //             fontSize: 8, bold: true, alignment: 'left',
-          //             margin: [-15, 10, 0, 0], // Márgenes para separar la imagen del texto
-          //             border: [false, false, false, false], // Elimina los bordes de la imagen										
-          //             colSpan: 3
-          //           },
-          //           {
-          //             text: '',
-          //             border: [],
-          //           },
-          //           {
-          //             text: '',
-          //             border: [],
-          //           },
-          //           {
-          //             text: 'Terreno a nombre el Estado',
-          //             border: [], alignment: 'left'
-          //           }, {
-          //             text: 'SI', alignment: 'center'
-          //           },
-          //           {
-          //             text: 'se debe de inscribir el terreno a nombre del Estado',
-          //             border: [], alignment: 'left'
-          //           },
-          //           { text: 'SI', alignment: 'center' }
-          //         ],
-          //         [
-          //           {
-          //             margin: [-15, 10, 0, 10], // Márgenes para separar la imagen del texto
-          //             text: ``,
-          //             fontSize: 8, bold: true, alignment: 'center',
-          //             border: [false, false, false, false], // Elimina los bordes de la imagen										
-          //           },
-          //           {
-          //             text: `Observación`,
-          //             fontSize: 8, bold: true, alignment: 'left',
-          //             margin: [-15, 10, 0, 0], // Márgenes para separar la imagen del texto
-          //             border: [false, false, false, false], // Elimina los bordes de la imagen										
-          //           },
-          //           {
-          //             fillColor: '#F0F0F0',
-          //             text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. I',
-          //             border: [true, true, true, true], // Elimina los bordes de la imagen										
-          //             colSpan: 6
-          //           },
-          //           {
-          //             text: '',
-          //             border: [],
-          //           },
-          //           {
-          //             text: '',
-          //             border: [],
-          //           }, {},
-          //           {
-          //             text: '',
-          //             border: [],
-          //           }, {},
-          //         ],
-          //         [
-          //           {
-          //             margin: [-15, 10, 0, 10], // Márgenes para separar la imagen del texto
-          //             text: `d.3`,
-          //             fontSize: 8, bold: true, alignment: 'center',
-          //             border: [false, false, false, false], // Elimina los bordes de la imagen										
-          //           },
-          //           {
-          //             text: `Características del posible terreno`,
-          //             fontSize: 8, bold: true, alignment: 'left',
-          //             margin: [-15, 10, 0, 0], // Márgenes para separar la imagen del texto
-          //             border: [false, false, false, false], // Elimina los bordes de la imagen	
-          //             colSpan: 4
-          //           },
-          //           {
-          //             text: '',
-          //             border: [],
-          //           },
-          //           {
-          //             text: '',
-          //             border: [],
-          //           },
-          //           {
-          //             text: '',
-          //             border: [],
-          //           },
-          //           {
-          //             text: '',
-          //             border: [],
-          //           }, {
-          //             text: '',
-          //             border: [],
-          //           },
-          //           {
-          //             text: '',
-          //             border: [],
-          //           },
-          //         ],
-          //         [
-          //           {
-          //             margin: [-15, 10, 0, 10], // Márgenes para separar la imagen del texto
-          //             text: ``,
-          //             fontSize: 8, bold: true, alignment: 'center',
-          //             border: [false, false, false, false], // Elimina los bordes de la imagen										
-          //           },
-          //           {
-          //             text: `Plano`,
-          //             fontSize: 8, bold: false, alignment: 'right',
-          //             margin: [-15, 10, 0, 0], // Márgenes para separar la imagen del texto
-          //             border: [false, false, false, false], // Elimina los bordes de la imagen										
-          //           }, {
-          //             text: 'Si', alignment: 'center'
-          //           },
-          //           {
-          //             text: '',
-          //             border: [],
-          //           },
-          //           {
-          //             text: 'Inclinación leve',
-          //             border: [], alignment: 'right'
-          //           }, {
-          //             text: 'SI', alignment: 'center'
-          //           },
-          //           {
-          //             text: 'Quebrado',
-          //             border: [], alignment: 'right'
-          //           }, { text: 'SI', alignment: 'center' },
-          //         ],
-          //         [
-          //           {
-          //             margin: [-15, 10, 0, 10], // Márgenes para separar la imagen del texto
-          //             text: ``,
-          //             fontSize: 8, bold: true, alignment: 'center',
-          //             border: [false, false, false, false], // Elimina los bordes de la imagen										
-          //           },
-          //           {
-          //             text: `Subir imagen del terreno`,
-          //             fontSize: 8, bold: false, alignment: 'right',
-          //             margin: [-15, 10, 0, 0], // Márgenes para separar la imagen del texto
-          //             border: [false, false, false, false], // Elimina los bordes de la imagen										
-          //           }, {
-          //             text: 'SI', alignment: 'center'
-          //           },
-          //           {
-          //             text: 'Descripción del Terreno:',
-          //             border: [], alignment: 'left'
-          //           },
-          //           {
-          //             text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. I',
-          //             border: [true, true, true, true], // Elimina los bordes de la imagen										
-          //             colSpan: 4
-          //           },
-          //           {
-          //             text: '',
-          //             border: [], alignment: 'right'
-          //           },
-          //           {
-          //             text: '',
-          //             border: [], alignment: 'right'
-          //           },
-          //           {
-          //             text: '',
-          //             border: [], alignment: 'right'
-          //           },
-          //         ],
-          //         [
-          //           {
-          //             margin: [-15, 10, 0, 10], // Márgenes para separar la imagen del texto
-          //             text: `d.4`,
-          //             fontSize: 8, bold: true, alignment: 'center',
-          //             border: [false, false, false, false], // Elimina los bordes de la imagen										
-          //           },
-          //           {
-          //             text: `Servicios básicos del posible terreno`,
-          //             fontSize: 8, bold: false, alignment: 'right',
-          //             margin: [-15, 10, 0, 0], // Márgenes para separar la imagen del texto
-          //             border: [false, false, false, false], // Elimina los bordes de la imagen										
-          //           }, {
-          //             text: 'SI', alignment: 'center'
-          //           },
-          //           {
-          //             text: 'Descripcion de los servicios básicos:',
-          //             border: [], alignment: 'left'
-          //           },
-          //           {
-          //             text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. I',
-          //             border: [true, true, true, true], // Elimina los bordes de la imagen										
-          //             colSpan: 4
-          //           },
-          //           {
-          //             text: '',
-          //             border: [], alignment: 'right'
-          //           },
-          //           {
-          //             text: '',
-          //             border: [], alignment: 'right'
-          //           },
-          //           {
-          //             text: '',
-          //             border: [], alignment: 'right'
-          //           },
-          //         ],
-          //         [
-          //           {
-          //             margin: [-15, 10, 0, 10], // Márgenes para separar la imagen del texto
-          //             text: `d.5`,
-          //             fontSize: 8, bold: true, alignment: 'center',
-          //             border: [false, false, false, false], // Elimina los bordes de la imagen										
-          //           },
-          //           {
-          //             text: `Coordenadas geográficas`,
-          //             fontSize: 8, bold: true, alignment: 'left',
-          //             margin: [-15, 10, 0, 0], // Márgenes para separar la imagen del texto
-          //             border: [false, false, false, false], // Elimina los bordes de la imagen										
-          //             colSpan: 7
-          //           },
-          //           {},
-          //           {},
-          //           {},
-          //           {}, {},
-          //           {},
-          //         ], [
-          //           {
-          //             text: '', border: []
-          //           },
-          //           {
-          //             text: 'Terreno:',
-          //             border: [true, true, false, true], // Elimina los bordes de la imagen										
-          //           },
-          //           {
-          //             text: 'Longitud: (x): ',
-          //             border: [false, true, false, true], // Elimina los bordes de la imagen										
-          //             colSpan: 2
-          //           },
-          //           {},
-          //           {
-          //             text: 'Longitud: (x): ',
-          //             border: [false, true, false, true], // Elimina los bordes de la imagen										
-          //             colSpan: 2
-          //           },
-          //           {},
-          //           {
-          //             text: 'Longitud: (x): ',
-          //             border: [false, true, true, true], // Elimina los bordes de la imagen										
-          //             colSpan: 2
-          //           }
-
-          //         ],
-          //         [
-          //           {
-          //             margin: [-15, 10, 0, 10], // Márgenes para separar la imagen del texto
-          //             text: `d.6`,
-          //             fontSize: 8, bold: true, alignment: 'center',
-          //             border: [false, false, false, false], // Elimina los bordes de la imagen										
-          //           },
-          //           {
-          //             text: `Breve descripción  de la posible ubicación`,
-          //             fontSize: 8, bold: true, alignment: 'left',
-          //             margin: [-15, 10, 0, 0], // Márgenes para separar la imagen del texto
-          //             border: [false, false, false, false], // Elimina los bordes de la imagen										
-          //             colSpan: 2
-          //           },
-          //           {
-          //           },
-          //           {
-          //             text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. I',
-          //             colSpan: 5,
-          //             border: [true, true, true, true], // Elimina los bordes de la imagen										
-          //           },
-          //           {
-          //             text: '',
-          //             border: [],
-          //           },
-          //           {
-          //             text: '',
-          //             border: [],
-          //           }, {
-          //             text: '',
-          //             border: [],
-          //           },
-          //           {
-          //             text: '',
-          //             border: [],
-          //           },
-          //         ],
-          //       ],
-          //     },
-          //   },
-          // ],
+          [
+            {
+              fillColor: '#B7C5E4',
+              text: `D \t Delimitacion Preliminar del área geográfica`,
+              fontSize: 8, bold: true, alignment: 'left',
+              margin: [10, 0, 0, 0], // Márgenes para separar la imagen del texto
+              border: [true, false, true, false], // Elimina los bordes de la imagen										
+            },
+          ],
+          [
+            {
+              fontSize: 8, bold: false, alignment: 'left',
+              margin: [5, 5, 20, 0], // Márgenes para separar la imagen del texto
+              border: [true, false, true, false], // Elimina los bordes de la imagen										
+              table: {
+                widths: ['10%', '14%', '12.5%', '12.5%', '12.5%', '12.5%', '12.5%', '12.5%'], // Divide la página en 3 columnas
+                body: [
+                  [
+                    {
+                      margin: [-15, 10, 0, 10], // Márgenes para separar la imagen del texto
+                      text: `d.1`,
+                      fontSize: 8, bold: true, alignment: 'center',
+                      border: [false, false, false, false], // Elimina los bordes de la imagen										
+                    },
+                    {
+                      text: `Identificación de terreno`,
+                      fontSize: 8, bold: true, alignment: 'left',
+                      margin: [-15, 10, 0, 0], // Márgenes para separar la imagen del texto
+                      border: [false, false, false, false], // Elimina los bordes de la imagen										
+                    },
+                    {
+                      text: '',
+                      border: [],
+                    },
+                    {
+                      text: '',
+                      border: [],
+                    },
+                    {
+                      text: '',
+                      border: [],
+                    },
+                    {
+                      text: '',
+                      border: [],
+                    }, {
+                      text: '',
+                      border: [],
+                    },
+                    {
+                      text: '',
+                      border: [],
+                    },
+                  ],
+                  [
+                    {
+                      margin: [-15, 10, 0, 10], // Márgenes para separar la imagen del texto
+                      text: ``,
+                      fontSize: 8, bold: true, alignment: 'center',
+                      border: [false, false, false, false], // Elimina los bordes de la imagen										
+                    },
+                    {
+                      text: `Se identifican varios terrenos disponibles`,
+                      fontSize: 8, bold: false, alignment: 'left',
+                      margin: [-15, 10, 0, 0], // Márgenes para separar la imagen del texto
+                      border: [false, false, false, false], // Elimina los bordes de la imagen										
+                    },
+                    {
+                      text: `${alternative.geoArea && alternative.geoArea.availableTerrain ? 'SI' : 'NO'}`,
+                      alignment: 'center'
+                    },
+                    {
+                      text: '',
+                      border: [],
+                    },
+                    {
+                      text: 'Se identifica un solo terreno disponible',
+                      border: [], alignment: 'left'
+                    }, {
+                      text: `${alternative.geoArea && alternative.geoArea.oneAvailableTerrain ? 'SI' : 'NO'}`,
+                      alignment: 'center'
+                    },
+                    {
+                      text: 'Es necesario invertir en la compra del terreno',
+                      border: [], alignment: 'left'
+                    }, {
+                      text: `${alternative.geoArea && alternative.geoArea.investPurchase ? 'SI' : 'NO'}`,
+                      alignment: 'center'
+                    },
+                  ],
+                  ...terainsFormat
+                ],
+              },
+            },
+          ],
           [
             {
               fillColor: '#B7C5E4',
