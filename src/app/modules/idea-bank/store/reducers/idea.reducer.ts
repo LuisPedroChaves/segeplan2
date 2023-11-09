@@ -74,6 +74,29 @@ const _IDEA_REDUCER = createReducer(IDEA_STATE,
       alternatives: [...alternatives]
     }
   })),
+  on(actions.SET_SEND_IDEA_ALTERNATIVES, (state, { alternatives }) => ({
+    ...state,
+    sendIdeas: state.sendIdeas.map(idea => {
+
+      const ALTERNATIVE = alternatives[alternatives.length - 1];
+
+      if (idea.codigo === ALTERNATIVE.sectionBIId) {
+        return {
+          ...idea,
+          alternatives: [...alternatives]
+        }
+      }
+
+      return {
+        ...idea
+      }
+
+    }),
+    idea: {
+      ...state.idea,
+      alternatives: [...alternatives]
+    }
+  })),
   on(actions.SET_SEND_IDEA, (state, { idea }) => ({
     ...state,
     ideas: state.ideas.filter(i => {

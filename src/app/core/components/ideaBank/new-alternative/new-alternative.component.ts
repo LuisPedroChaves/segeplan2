@@ -815,14 +815,39 @@ export class NewAlternativeComponent implements OnInit, OnDestroy {
                                 alternativesFinalized
                               );
                             });
-                          this.ideaStore.dispatch(CLOSE_DRAWER2());
-                          // this.stepper.reset();
                         }
                       });
                   }
                 }
+                console.log('OPCION 1');
+
+                this.ideaStore.dispatch(
+                  SET_IDEA_ALTERNATIVES({
+                    alternatives: [
+                      {
+                        ...alternative,
+                        state: 'CREADA',
+                      },
+                      ...alternatives,
+                    ],
+                  })
+                );
+                this.ideaStore.dispatch(CLOSE_DRAWER2());
               } else {
-                alternatives.push({ ...alternative });
+                console.log('OPCION 2');
+
+                this.ideaStore.dispatch(
+                  SET_IDEA_ALTERNATIVES({
+                    alternatives: [
+                      {
+                        ...alternative,
+                        state: 'CREADA',
+                      },
+                      ...alternatives,
+                    ],
+                  })
+                );
+                this.ideaStore.dispatch(CLOSE_DRAWER2());
               }
             });
         }
