@@ -51,6 +51,7 @@ import { BarVerticalComponent } from './components/bar-vertical/bar-vertical.com
     SharedModule,
     StoreModule.forFeature('idea', reducers.IdeaReducer),
     StoreModule.forFeature('alternative', reducers.AlternativeReducer),
+    StoreModule.forFeature('dataGeo', reducers.DataGeoReducer),
     StoreModule.forFeature('geografico', reducers.GeograficoReducer),
     StoreModule.forFeature('object', reducers.ObjectReducer),
     StoreModule.forFeature('preceso', reducers.ProcesoReducer),
