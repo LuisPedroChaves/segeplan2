@@ -77,6 +77,26 @@ export class IdeaDetailsComponent implements OnInit, OnDestroy {
     this.ideaStore.dispatch(OPEN_DRAWER2({ width2, component2 }))
   }
 
+
+  deleteAlternative(alternative: IdeaAlternative): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '250px',
+      data: { title: 'Eliminar Idea', description: '¿Está seguro que desea eliminar esta alternativa?', confimation: false }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      if (result){
+        this.ideaService.deleteAlternative(alternative).subscribe((data) => {
+          console.log("🚀 ~ file: idea-details.component.ts:84 ~ IdeaDetailsComponent ~ this.ideaService.deleteAlternative ~ data:", data)
+          
+        })
+      }
+    });
+
+
+  }
+
   printReport(alternative: any): void {
 
     if (alternative.qualification.result == 'PERTINENTE') {

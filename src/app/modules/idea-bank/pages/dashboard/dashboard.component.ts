@@ -19,6 +19,8 @@ export class DashboardComponent implements OnInit {
   ideasStatus: any[] = [];
   ideasResult: any[] = [];
 
+  alternativesResult: any[] = [];
+
   multiEntidad: any[] = [];
   resultEntidad: any[] = [];
 
@@ -35,6 +37,7 @@ export class DashboardComponent implements OnInit {
 
     const statesIdeas: { name: string, value: number }[] = []
     const resultIdeas: { name: string, value: number }[] = []
+    const resultAlter: { name: string, value: number }[] = []
 
 
     this.ideasService.getIdeas({}).subscribe(data => {
@@ -58,6 +61,31 @@ export class DashboardComponent implements OnInit {
 
         const ideasNoPertinentes = this.allIdeas.filter((idea) => idea.result == "NO PERTINENTE");
         resultIdeas.push({ name: 'No Pertinentes', value: ideasNoPertinentes.length })
+
+        let etapaPerfil = 0;
+        let etapaPref = 0;
+        let etapaFact = 0;
+
+        this.allIdeas.forEach((idea) => {
+          if (idea.alternatives && idea.alternatives.length > 0) {
+            idea.alternatives.forEach((alternativeFind) => {
+              if (alternativeFind.preInvestment) {
+                if (alternativeFind.preInvestment.etapaValor == 'PERFIL') {
+                  etapaPerfil++
+                } else if (alternativeFind.preInvestment.etapaValor == 'PREFACTIBILIDAD') {
+                  etapaPref++
+                } else if (alternativeFind.preInvestment.etapaValor == 'FACTIBILIDAD') {
+                  etapaFact++
+                }
+              }
+            })
+          }
+        })
+
+        resultAlter.push({ name: 'Perfil', value: etapaPerfil });
+        resultAlter.push({ name: 'Prefactibilidad', value: etapaPref });
+        resultAlter.push({ name: 'Factibilidad', value: etapaFact });
+
 
         const uniqueEntities = [...new Set(this.allIdeas.map((idea) => idea.nameEntity))];
 
@@ -96,11 +124,11 @@ export class DashboardComponent implements OnInit {
           };
         });
         this.resultEntidad = ideasByEntityResult
-
       }
 
       this.ideasStatus = statesIdeas
       this.ideasResult = resultIdeas
+      this.alternativesResult = resultAlter
     })
 
   }

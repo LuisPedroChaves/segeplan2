@@ -134,6 +134,23 @@ export class IdeaService {
     );
   }
 
+  deleteAlternative(alternative: IdeaAlternative): Observable<IdeaAlternative> {
+    const url = this.API_URL + this.urlAlternative;
+    let snackBarRef = this.snackBarService.loading()
+
+    return this.http.delete(`${url}/${alternative.codigo}`).pipe(
+      map((res: any) => {
+        this.snackBarService.show('SUCCESS', 'Alternativa eliminada con éxito', 1500)
+        return alternative;
+      }),
+      catchError((err, caught) => {
+        this.snackBarService.show('DANGER', err.error.message ? err.error.message : err.message, 5000)
+        return throwError(() => new Error('err'));
+      }),
+    );
+  }
+
+
   sendFirstPartAlternative(alternative: IdeaAlternativeOne): Observable<IdeaAlternative> {
     const url = this.API_URL + this.urlAlternative;
     let snackBarRef = this.snackBarService.loading()

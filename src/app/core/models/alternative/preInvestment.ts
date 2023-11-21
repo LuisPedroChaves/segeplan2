@@ -7,6 +7,6 @@ export interface preInvestment {
     estimacionResultado?: string;
     complejidadValor?: number;
     complejidadResultado?: string;
-    etapaValor?: number;
+    etapaValor?: string;
     etapaResultado?: string;
 }

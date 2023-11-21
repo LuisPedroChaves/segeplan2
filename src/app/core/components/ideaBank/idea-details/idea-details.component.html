@@ -142,10 +142,14 @@
                       <span>Detalles</span>
                     </button>
 
-                    <button mat-menu-item *ngIf="element.state === 'CREADA' && usuario.role == 'ADMIN_ROLE'"
+                    <button mat-menu-item *ngIf="element.state === 'CREADA' && usuario.role != 'ADMIN_ROLE'"
                       (click)="openDrawer2('80%', 'NEW_ALTERNATIVE', element)">
                       <span>Editar</span>
                     </button>
+                    <button mat-menu-item *ngIf="element.state === 'CREADA' && usuario.role != 'ADMIN_ROLE'"
+                    (click)="deleteAlternative(element)">
+                    <span>Eliminar</span>
+                  </button>
 
                     <button mat-menu-item *ngIf="usuario.role == 'ADMIN_ROLE' && element.state == 'CREADA' "
                       (click)="openDrawer2('80%', 'NEW_RELEVANCE_MATRIX', element)">

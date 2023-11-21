@@ -489,12 +489,12 @@ export class NewRevelanceMatrixComponent implements OnInit, OnDestroy {
           border: [false, false, false, false],
         },
         {
-          text: 'TOTAL OBTENIDO.',
+          text: `${this.relevanceMatrix.result.toUpperCase()}`,
           alignment: 'left',
           border: [false, false, false, false],
         },
         {
-          text: textDesc,
+          text: '',
           alignment: 'left',
           border: [false, false, false, false],
         },
@@ -502,7 +502,8 @@ export class NewRevelanceMatrixComponent implements OnInit, OnDestroy {
       rows.push(alt);
     }
 
-    let resultadoPre = this.preInvestment.etapa.resultado.toUpperCase();
+
+    let resultadoPre = this.preInvestment.etapa.valor.toString().toUpperCase();
     // this.currentAlternative.qualification.
 
     const pdfDefinition: any = {

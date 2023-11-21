@@ -46,7 +46,7 @@ export class ConvertService {
         { number: 8, name: 'Agosto' },
         { number: 9, name: 'Septiembre' },
         { number: 10, name: 'Octubre' },
-        { number: 11, name: 'Nomviembre' },
+        { number: 11, name: 'Noviembre' },
         { number: 12, name: 'Diciembre' },
       ]
 
@@ -283,7 +283,7 @@ export class ConvertService {
     }
 
 
-    let resultadoPre = currentAlternative.preInvestment.etapaResultado.toUpperCase();
+    let resultadoPre = currentAlternative.preInvestment.etapaValor.toUpperCase();
     // currentAlternative.qualification?.
 
 
@@ -307,7 +307,7 @@ export class ConvertService {
         },
         currentAlternative.resEntity.leaderName,
         'Presente\n\n\n\n',
-        'Estimado representante de la Secretaria de la Nación:\n\n',
+        'Estimado:\n\n',
         {
           text: [
             'Deseándoles éxitos en sus labores cotidianas, permítame infórmale con base en la información de la idea registrada en el Banco de Ideas de Proyectos denominada ',
@@ -566,12 +566,12 @@ export class ConvertService {
           border: [false, false, false, false],
         },
         {
-          text: 'TOTAL OBTENIDO.',
+          text: `${currentAlternative.qualification?.result.toUpperCase()}`,
           alignment: 'left',
           border: [false, false, false, false],
         },
         {
-          text: textDesc,
+          text: '',
           alignment: 'left',
           border: [false, false, false, false],
         },
