@@ -204,8 +204,10 @@
             <p><b>Complejidad: </b>{{currentAlternative?.projDesc?.complexity}}</p>
             <mat-divider></mat-divider>
             <br>
-            <p><b>Costo estimado de la Preinversión: </b>{{currentAlternative?.projDesc?.estimatedCost}}</p>
-            <p><b>Costo estimado de la Inversión: </b>{{currentAlternative?.projDesc?.investmentCost}}</p>
+            <p><b>Costo estimado de la Preinversión: </b>{{currentAlternative?.projDesc?.estimatedCost.toLocaleString("es-GT", {
+              style: "currency", currency:"GTQ"})}}</p>
+            <p><b>Costo estimado de la Inversión: </b>{{currentAlternative?.projDesc?.investmentCost.toLocaleString('es-GT', {style:
+              "currency", currency:"GTQ"})}}</p>
             <p><b>Posibles fuentes de financiamiento: </b>{{currentAlternative?.projDesc?.foundingSourcesName}}</p>
             <mat-divider></mat-divider>
             <br>

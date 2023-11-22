@@ -271,10 +271,10 @@
                 <label><b>Denominacion:</b> {{alternative?.denomination}}&emsp;&emsp;</label>
                 <label><b>Tipo de Proyecto:</b> {{alternative?.typeProjectFormulation}}&emsp;&emsp;</label>
                 <label><b>Complejidad:</b> {{alternative?.complexity}}&emsp;&emsp;</label>
-                <label><b>Costo de la Preinversión:</b> {{alternative?.investmentCost}}&emsp;&emsp;</label>
+                <label><b>Costo de la Preinversión:</b> {{alternative?.investmentCost.toLocaleString("es-GT", {style: "currency", currency: "GTQ"})}&emsp;&emsp;</label>
               </div>
               <div class="detail-column">
-                <label><b>Costo de la Inversión:</b> {{alternative?.estimatedCost}}&emsp;&emsp;</label>
+                <label><b>Costo de la Inversión:</b> {{alternative?.estimatedCost.toLocaleString("es-GT", {style: "currency", currency: "GTQ"})}&emsp;&emsp;</label>
                 <label><b>Fuente de Financiamiento:</b> {{alternative?.foundingSourcesName}}&emsp;&emsp;</label>
                 <label><b>Fecha Inicio Ejecución:</b>
                   {{alternative?.executionDateMonth}}/20{{alternative?.executionDateYear}}&emsp;&emsp;</label>

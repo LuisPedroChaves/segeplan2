@@ -81,12 +81,12 @@
 
               <ng-container matColumnDef="estimatedCost">
                 <th mat-header-cell *matHeaderCellDef> COSTO DE LA PREINVERSIÓN</th>
-                <td mat-cell *matCellDef="let element"> {{element.projDesc?.estimatedCost}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.projDesc?.estimatedCost.toLocaleString("es-GT", {style: "currency", currency: 'GTQ'})} </td>
               </ng-container>
 
               <ng-container matColumnDef="investmentCost">
                 <th mat-header-cell *matHeaderCellDef> COSTO DE LA INVERSIÓN </th>
-                <td mat-cell *matCellDef="let element"> {{element.projDesc?.investmentCost }} </td>
+                <td mat-cell *matCellDef="let element"> {{element.projDesc?.investmentCost.toLocaleString("es-GT", {style: "currency", currency: "GTQ"}) }} </td>
               </ng-container>
 
               <ng-container matColumnDef="complexity">

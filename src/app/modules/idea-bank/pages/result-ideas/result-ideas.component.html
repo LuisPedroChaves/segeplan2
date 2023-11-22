@@ -65,7 +65,7 @@
 
       <ng-container matColumnDef="estimatedCost">
         <th mat-header-cell *matHeaderCellDef> Costo Estimado </th>
-        <td mat-cell *matCellDef="let element"> {{element.estimatedCost}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.estimatedCost.toLocaleString("es-GT", {style: "currency", currency: "GTQ"})} </td>
       </ng-container>
 
       <ng-container matColumnDef="startPreinvertion">
