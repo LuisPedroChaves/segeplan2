@@ -6,15 +6,15 @@ import { IAlternativeResult } from 'src/app/core/models/informationGeneral/Alter
 import { AppState } from 'src/app/core/store/app.reducer';
 
 export interface IdeaState {
-  ideas: GeneralInformation[],
-  sendIdeas: GeneralInformation[],
-  doneIdeas: GeneralInformation[],
-  resultIdeas: IAlternativeResult[],
-  idea: GeneralInformation
+  ideas: GeneralInformation[];
+  sendIdeas: GeneralInformation[];
+  doneIdeas: GeneralInformation[];
+  resultIdeas: IAlternativeResult[];
+  idea: GeneralInformation;
 }
 
 export interface IdeaStore extends AppState {
-  idea: IdeaState
+  idea: IdeaState;
 }
 
 export const IDEA_STATE: IdeaState = {
@@ -22,10 +22,11 @@ export const IDEA_STATE: IdeaState = {
   sendIdeas: [],
   doneIdeas: [],
   resultIdeas: [],
-  idea: null!
-}
+  idea: null!,
+};
 
-const _IDEA_REDUCER = createReducer(IDEA_STATE,
+const _IDEA_REDUCER = createReducer(
+  IDEA_STATE,
   on(actions.SET_IDEAS, (state, { ideas }) => ({
     ...state,
     ideas: [...ideas],
@@ -45,74 +46,94 @@ const _IDEA_REDUCER = createReducer(IDEA_STATE,
   on(actions.SET_NEW_IDEA, (state, { idea }) => ({
     ...state,
     ideas: [...state.ideas, idea],
-    idea: { ...idea }
+    idea: { ...idea },
   })),
   on(actions.SET_IDEA, (state, { idea }) => ({
     ...state,
-    idea: { ...idea }
+    idea: { ...idea },
   })),
   on(actions.SET_IDEA_ALTERNATIVES, (state, { alternatives }) => ({
     ...state,
-    ideas: state.ideas.map(idea => {
-
+    ideas: state.ideas.map((idea) => {
       const ALTERNATIVE = alternatives[alternatives.length - 1];
 
       if (idea.codigo === ALTERNATIVE.sectionBIId) {
         return {
           ...idea,
-          alternatives: [...alternatives]
-        }
+          alternatives: [...alternatives],
+        };
       }
 
       return {
-        ...idea
-      }
-
+        ...idea,
+      };
     }),
     idea: {
       ...state.idea,
-      alternatives: [...alternatives]
-    }
+      alternatives: [...alternatives],
+    },
   })),
   on(actions.SET_SEND_IDEA_ALTERNATIVES, (state, { alternatives }) => ({
     ...state,
-    sendIdeas: state.sendIdeas.map(idea => {
-
+    sendIdeas: state.sendIdeas.map((idea) => {
       const ALTERNATIVE = alternatives[alternatives.length - 1];
 
       if (idea.codigo === ALTERNATIVE.sectionBIId) {
         return {
           ...idea,
-          alternatives: [...alternatives]
-        }
+          alternatives: [...alternatives],
+        };
       }
 
       return {
-        ...idea
-      }
-
+        ...idea,
+      };
     }),
     idea: {
       ...state.idea,
-      alternatives: [...alternatives]
-    }
+      alternatives: [...alternatives],
+    },
   })),
   on(actions.SET_SEND_IDEA, (state, { idea }) => ({
     ...state,
-    ideas: state.ideas.filter(i => {
-      return i.codigo !== idea.codigo
+    ideas: state.ideas.filter((i) => {
+      return i.codigo !== idea.codigo;
     }),
-    sendIdeas: [...state.sendIdeas, idea]
+    sendIdeas: [...state.sendIdeas, idea],
   })),
   on(actions.SET_DONE_IDEA, (state, { idea }) => ({
     ...state,
-    sendIdeas: state.sendIdeas.filter(i => {
-      return i.codigo !== idea.codigo
+    sendIdeas: state.sendIdeas.filter((i) => {
+      return i.codigo !== idea.codigo;
     }),
-    doneIdeas: [...state.doneIdeas, idea]
+    doneIdeas: [...state.doneIdeas, idea],
   })),
-)
+  on(actions.REMOVE_ALTERNATIVE, (state, { alternative, index }) => ({
+    ...state,
+    ideas: state.ideas.map((idea) => {
+
+      if (idea.codigo === alternative.sectionBIId) {
+        return {
+          ...idea,
+          alternatives: idea.alternatives.filter(
+            (a) => a.codigo !== alternative.codigo
+          ),
+        };
+      }
+
+      return {
+        ...idea,
+      };
+    }),
+    idea: {
+      ...state.idea,
+      alternatives: state.idea.alternatives.filter(
+        (a) => a.codigo !== alternative.codigo
+      ),
+    },
+  }))
+);
 
 export function IdeaReducer(state: IdeaState, action: Action) {
-  return _IDEA_REDUCER(state, action)
+  return _IDEA_REDUCER(state, action);
 }

@@ -93,3 +93,13 @@ export const SET_DONE_IDEA = createAction(
   '[IDEA] Asignar idea editada',
   props<{ idea: GeneralInformation }>()
 );
+
+export const DELETE_ALTERNATIVE = createAction(
+  '[IDEA] Eliminar alternativa',
+  props<{ alternative: IdeaAlternative; index: number }>()
+);
+
+export const REMOVE_ALTERNATIVE = createAction(
+  '[IDEA] Quitar alternativa',
+  props<{ alternative: IdeaAlternative; index: number }>()
+);
