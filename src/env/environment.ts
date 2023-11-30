@@ -4,7 +4,7 @@ export const environment = {
   production: false,
 
   /* API Services Config */
-  root: 'http://192.168.6.97/',
+  root: 'https://api.preinversion.snip.gt:8080/',
 
   /* Version Config */
   version: '1.0',
